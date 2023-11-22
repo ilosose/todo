@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100;9..40,200;9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800;9..40,900;9..40,1000&display=swap');
 @import './component/_header.css';
 @import './component/_kanban.css';
+@import './component/_task.css';
 @import './_media.css';
 
 
@@ -17,7 +18,7 @@
 
 body {
   font-family: 'Arial', sans-serif;
-  background-color: white;
+  background-color: #2d41a7;
   color: white;
   display: flex;
   flex-direction: column;
@@ -26,9 +27,9 @@ body {
 
 header,
 footer {
-  background-color: green;
+  background-color: #282389;
   text-align: center;
-  padding: 10px 0;
+  padding: 5px 0;
 }
 
 .header__title,
@@ -39,9 +40,11 @@ footer {
 
 .container {
   width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
+  padding-right: 150px;
+  padding-left: 150px;
   margin-right: auto;
   margin-left: auto;
 }
+
+
 
