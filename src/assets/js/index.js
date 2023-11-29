@@ -16,6 +16,52 @@ document.addEventListener("DOMContentLoaded", () => {
     const dueDate = form.elements["date"].value;
 
     // Вставить код для создания задачи
+    if (title && description && dueDate) {
+      function getComplexityClass () {
+        const currentDate = new Date();
+        const inputTime = new Date(dueDate);
+        const timeDiff = inputTime.getTime() - currentDate.getTime();
+        const daysDiff = Math.ceil(timeDiff / (1000 * 3000 * 14)); 
+
+        if (daysDiff <= 7) {
+          return "high"
+        };
+        if (daysDiff <= 14) {
+          return "medium"
+        };
+        if (daysDiff) {
+          return "low"
+        };
+      };
+   
+      const taskForm = {
+        id: tasks.length + 1,
+        title: title,
+        description: description,
+        complexity: getComplexityClass(dueDate),
+        dueDate: dueDate,
+        columnId: "to-do"
+      };
+
+      tasks = []
+      columns[0].tasks = []
+
+      tasks.push(taskForm);
+      columns[0].tasks.push(taskForm.id)
+
+      columns.forEach((column) => {
+        const taskList = document.querySelector(".kanban__list")
+        column.tasks.forEach((taskId) => {
+          const task = tasks.find((task) => task.id === taskId)
+          if (task) {
+            taskList.appendChild(renderTaskElement(task))
+          }
+        })
+      })
+        
+      modal.style.display = "none";
+      
+    };
   });
   // =========================================================================
 
@@ -36,9 +82,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 // =========================================================================
-function renderTaskElement() {
+function renderTaskElement(task) {
   // Вставить код рендера задачи
-}
+  const taskItem = document.createElement("div");
+  taskItem.className = `task-item`;
+  taskItem.innerHTML = `
+      <h3 class="task-item__title">${task.title}</h3>
+      <p class="task-item__description">${task.description}</p>
+      <div class="task-item__info">
+        <div class="task-item__complexity">
+          <div class="complexity__dot complexity__dot--${task.complexity}"></div>
+          <div class="complexity__dot complexity__dot--${task.complexity}"></div>
+          <div class="complexity__dot complexity__dot--${task.complexity}"></div>
+        </div>
+        <div class="task-item__client">${task.dueDate}</div>
+      </div>
+    `;
+  return taskItem;
+};
 // =========================================================================
 
 function renderKanban() {
@@ -62,7 +123,7 @@ function renderKanban() {
     column.tasks.forEach((taskId) => {
       const task = tasks.find((task) => task.id === taskId);
       if (task) {
-        // listContainer.appendChild(renderTaskElement(task));
+        listContainer.appendChild(renderTaskElement(task));
       }
     });
 
