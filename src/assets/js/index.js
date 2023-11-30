@@ -1,4 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
+  localStorage.setItem("authToken", 32131)
+  const authToken = localStorage.getItem("authToken")
+  console.log(authToken)
   renderKanban();
 
   const addTaskButtons = document.querySelectorAll(".kanban__icon--add");

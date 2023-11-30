@@ -29,3 +29,8 @@ let tasks = [
     columnId: "to-do"
   },
 ];
+
+const user = {
+  login: 'a',
+  password: '1'
+}
