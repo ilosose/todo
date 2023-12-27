@@ -45,18 +45,21 @@ export default {
     ]),
 
     async submit() {
-      const formData = {
+      if(this.formRegistration.name != '' && this.formRegistration.email != '' && this.formRegistration.email != '', this.formRegistration.password != '' && this.formRegistration.confermPassword != '') {
+        const formData = {
         formData: {
           ...this.formRegistration
-        },
+          },
+        };
+
+        await signup(formData);
+
+        await this.resetForm();
+
+        await router.push('/auth');
       };
-
-      await signup(formData);
-
-      await this.resetForm();
-
-      await router.push('/auth');
     },
+      
 
     resetForm() {
       this.formRegistration = { name: '', email: '', password: '', confermPassword: '' };

@@ -5,6 +5,9 @@
   <button @click.prevent="resetLocalStorageButton">
     <RouterLink to="/registration">Выйти</RouterLink>
   </button>
+  <button @click.prevent="resetLocalStorageBoardButton">
+    <RouterLink to="/boards">Страница досок</RouterLink>
+  </button>
 
   <div class="kanban">
     <kanban-column 
@@ -29,7 +32,7 @@
 <script>
 import TheHeader from '../components/TheHeader.vue';
 import TheFooter from '../components/TheFooter.vue';
-import TheModal from '../components/todo/TheModal.vue'
+import TheModal from '../components/todo/TheModal.vue';
 import KanbanColumn from '../components/todo/TheColumn.vue';
 import { RouterLink } from 'vue-router';
 import { mapActions, mapGetters } from 'vuex';
@@ -46,6 +49,7 @@ export default {
   computed: {
     ...mapGetters([
       'tasks',
+      'curentBoardId',
       'isModalOpen',
     ]),
   },
@@ -56,11 +60,16 @@ export default {
       'openModal',
       'closeModal',
       'resetLocalStorage',
+      'resetLocalStorageBoard',
     ]),
 
     async resetLocalStorageButton() {
-      await this.resetLocalStorage()
+      await this.resetLocalStorage();
     },
+
+    async resetLocalStorageBoardButton() {
+      await this.resetLocalStorageBoard();
+    }
   },
 
   async mounted() {

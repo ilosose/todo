@@ -2,7 +2,7 @@
 
   <section class="board-item">
     <div class="board-item__header">
-      <h2 class="board-item__title">{{ board.name }}</h2>
+      <h2 class="board-item__title" @click.prevent="openColumns(board.id)">{{ board.name }}</h2>
     </div>
     <div class="board-item__description">
       <p>{{ board.description }}</p>
@@ -19,6 +19,8 @@
 
 </template>
 <script>
+import router from '@/router';
+import { mapActions } from 'vuex';
 export default {
   props: {
     board: {
@@ -26,6 +28,20 @@ export default {
       default: {}
     },
   },
+
+
+  methods: {
+    ...mapActions([
+      'openColumnsByBoard',
+      'getTasks'
+    ]),
+
+   async openColumns(boardId) {
+      await this.openColumnsByBoard(boardId);
+      await router.push('/');
+    },
+  },
+  
 }
 </script>
 <style scope>

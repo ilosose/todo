@@ -28,15 +28,20 @@ const store = createStore({
     closeModal: (state) => {
       state.isModalOpen = false;
     },
+
   },
 
   actions: {
-    openModal({commit}, columnId) {
-      return commit('openModal', columnId)
+    openModal({ commit }, columnId) {
+      commit('openModal', columnId);
     },
 
-    closeModal({commit}) {
-      return commit('closeModal')
+    closeModal({ commit }) {
+      commit('closeModal');
+    },
+
+    openColumnsByBoard(_, boardId) {
+      localStorage.setItem('boardId', boardId);
     },
 
     getComplexityDot(_, createdAt) {
@@ -66,6 +71,12 @@ const store = createStore({
     resetLocalStorage() {
       localStorage.removeItem('token');
       localStorage.removeItem('userEmail');
+      localStorage.removeItem('boardId');
+      localStorage.removeItem('userId');
+    },
+
+    resetLocalStorageBoard() {
+      localStorage.removeItem('boardId');
     },
 
     signin(_, formData) {
@@ -110,7 +121,6 @@ const store = createStore({
       return axios
         .get(`user/${userId}/boards`)
         .then((boards) => {
-          console.log(boards.data);
           const boardsData = boards.data;
           commit('setBoards', boardsData);
         })
@@ -120,15 +130,15 @@ const store = createStore({
     },
 
     getTasks({ commit }) {
+      const boardId = localStorage.getItem('boardId');
       return axios
-        .get('boards/21/tasks')
+        .get(`boards/${boardId}/tasks`)
         .then((tasks) => {
-          console.log(tasks.data)
-          const tasksData = tasks.data
-          commit('setTasks', tasksData)       
+          const tasksData = tasks.data;
+          commit('setTasks', tasksData);     
         })
         .catch((err) => {
-          console.log(err)
+          console.log(err);
         })
     },
   },

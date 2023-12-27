@@ -1,5 +1,8 @@
 <template>
   <the-header />
+  <button @click.prevent="resetLocalStorageButton">
+    <RouterLink to="/registration">Выйти</RouterLink>
+  </button>
   <div class="board">
     <column-board
       v-for="board in boards"
@@ -12,6 +15,7 @@
 </template>
 <script>
 import router from '@/router';
+import { RouterLink } from 'vue-router';
 import ColumnBoard from '../components/boards/TheBoard.vue';
 import TheHeader from '../components/TheHeader.vue';
 import TheFooter from '../components/TheFooter.vue';
@@ -33,12 +37,17 @@ export default {
     ...mapActions([
       'getUserId',
       'getBoards',
+      'resetLocalStorage',
     ]),
+
+    async resetLocalStorageButton() {
+      await this.resetLocalStorage();
+    },
   },
   
   async mounted() {
     if (!localStorage.getItem('token')) {
-      await router.push('/auth')
+      await router.push('/auth');
     } else {
       await this.getUserId();
       await this.getBoards();
