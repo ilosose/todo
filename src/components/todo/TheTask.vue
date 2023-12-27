@@ -11,7 +11,7 @@
       <div class="task-item__info">
         <div class="task-item__complexity complexity">
           <span
-            v-for="dot in getComplexityDot(task.createdAt)" 
+            v-for="dot in this.getComplexityDot(task.createdAt)" 
             :class="dot.tag"
             :key="dot.id"
             class="complexity__dot"
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
   export default {
     props: {
       task: {
@@ -30,30 +31,11 @@
         default: {},
       },
     },
+    
     methods: {
-      getComplexityDot(taskDate) {
-        const currentDate = new Date();
-        const inputTime = new Date(taskDate);
-        const timeDiff = inputTime.getTime() - currentDate.getTime();
-        const daysDiff = Math.ceil(timeDiff / (1000 * 3000 * 14));
-
-        if (daysDiff <= 7) {
-          return [
-            { tag: 'complexity__dot--high' },
-            { tag: 'complexity__dot--high' },
-            { tag: 'complexity__dot--high' }
-          ];
-        } else if (daysDiff <= 14) {
-          return [
-            { tag: 'complexity__dot--medium' },
-            { tag: 'complexity__dot--medium' }
-          ];
-        } else {
-          return [
-            { tag: 'complexity__dot--low' }
-          ];
-        }
-      },
+      ...mapActions([
+        'getComplexityDot',
+      ]),
       
       startDrag(event) {
         console.log(event);

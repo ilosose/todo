@@ -1,7 +1,4 @@
 <template>
-  <button>
-    <RouterLink to="/registration">Регистрация</RouterLink>
-  </button>
   <div class="auth container">
     <h1 class="auth__title">Авторизация</h1>
     <form class="auth-form" @submit.prevent="submit">
@@ -19,8 +16,8 @@
       </div>
       <button class="auth-form__submit" type="submit">Войти</button>
     </form>
+    <button class="auth-form__submit-redirect" ><RouterLink to="/registration">Регистрация</RouterLink></button>
   </div>
-  <img class="wave" src="../assets/img/auth/wave.svg">
 </template>
 
 <script>
@@ -43,6 +40,7 @@ import router from '@/router';
       ]),
 
       async submit() {
+        console.log('go')
         const formData = {
           formData: {
             ...this.formAuth
@@ -52,7 +50,7 @@ import router from '@/router';
         await this.signin(formData);
         await this.resetForm();
         
-        await router.push('/');
+        await router.push('/boards');
       },
 
       resetForm() {
@@ -64,15 +62,15 @@ import router from '@/router';
 
 <style scoped>
   .auth {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
-  width: 100vw;
-  height: 100vh;
+    width: 100vw;
+    height: 100vh;
 
-  background: #2B1887;
+    background: #2B1887;
 
   }
   .auth__title {
@@ -150,17 +148,16 @@ import router from '@/router';
   .auth-form__submit {
     width: 100%;
     height: 45px;
+    margin-bottom: 10px;
     border: none;
     border-radius: 10px;
     background: #5D5FEF;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.30);
     color: #f4f2ff;
   }
-
-  .wave {
-    position: absolute;
-    bottom: 0px;
-    width: 100%;
+  .auth-form__submit:hover {
+    background: #13c4bb;
+    cursor: pointer;
   }
 
 </style>

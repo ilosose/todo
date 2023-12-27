@@ -2,11 +2,8 @@
  
   <the-header />
 
-  <button>
-    <RouterLink to="/registration">Страница регистрации</RouterLink>
-  </button>
-  <button>
-    <RouterLink to="/auth">Страница авторизации</RouterLink>
+  <button @click.prevent="resetLocalStorageButton">
+    <RouterLink to="/registration">Выйти</RouterLink>
   </button>
 
   <div class="kanban">
@@ -58,14 +55,20 @@ export default {
       'getTasks',
       'openModal',
       'closeModal',
+      'resetLocalStorage',
     ]),
+
+    async resetLocalStorageButton() {
+      await this.resetLocalStorage()
+    },
   },
 
   async mounted() {
     if (!localStorage.getItem('token')) {
       await router.push('/auth');
+    } else {
+      await this.getTasks();
     };
-    await this.getTasks();
   },
 };
 </script>

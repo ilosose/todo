@@ -1,17 +1,26 @@
 <template>
   <div class="registration container">
-    <button><RouterLink to="/auth">Авторизация</RouterLink></button>
+    <h1 class="registration__title">Регистрация</h1>
     <form @submit.prevent="submit" class="registration-form">
-      <label class="registration-form__label" for="password">Имя</label>
-      <input type="text" placeholder="Имя" class="registration-form__input">
-      <label class="registration-form__label" for="password">Почта</label>
-      <input type="text" placeholder="email@inbox.com" class="registration-form__input">
-      <label class="registration-form__label" for="password">Пароль</label>
-      <input type="password" placeholder="Пароль" class="registration-form__input">
-      <label class="registration-form__label" for="password">Повторить пароль</label>
-      <input type="password" placeholder="Повторить пароль" class="registration-form__input">
-      <button type="submit">Зарегистрароваться</button>
+      <div class="registration-form__field">
+        <label class="registration-form__label" for="password">Имя</label>
+        <input type="text" placeholder="Имя" class="registration-form__input">
+      </div>
+      <div class="registration-form__field">
+        <label class="registration-form__label" for="password">Почта</label>
+        <input type="text" placeholder="email@inbox.com" class="registration-form__input">
+      </div>
+      <div class="registration-form__field">
+        <label class="registration-form__label" for="password">Пароль</label>
+        <input type="password" placeholder="Пароль" class="registration-form__input">
+      </div>
+      <div class="registration-form__field">
+        <label class="registration-form__label" for="password">Повторить пароль</label>
+        <input type="password" placeholder="Повторить пароль" class="registration-form__input">
+      </div>
+      <button type="submit" class="registration-form__submit">Зарегистрароваться</button>
     </form>
+    <button class="registration-form__submit-redirect"><RouterLink to="/auth">Авторизация</RouterLink></button>
   </div>
 </template>
 
@@ -57,17 +66,67 @@ export default {
 </script>
 <style scope>
   .registration {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 100vw;
+  height: 100vh;
+
+  background: #2B1887;
+
+  }
+
+  .registration__title {
+  color: #f4f2ff;
+
+  text-align: center;
+  font-size: 50px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  }
+
+  .registration-form__field {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100vw;
-    height: 100vh;
+    justify-content: flex-start;
+    gap: 5px;
+    margin: 15px 0;
   }
+
+  .registration-form__label {
+    color: #f4f2ff;
+    margin-left: 15px;
+    text-align: start;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+  }
+
   .registration-form__input {
-    padding: 10px;
-    margin-left: 5px;
+    border-radius: 10px;
+    background: #D5CCFF;
     border: none;
-    border-radius: 5px;
+    padding: 10px 25px;
+    width: 100%;
+    height: 45px;
+    flex-shrink: 0;
+  }
+
+  .registration-form__submit {
+    width: 100%;
+    height: 45px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 10px;
+    background: #5D5FEF;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.30);
+    color: #f4f2ff;
+  }
+  .registration-form__submit:hover {
+    background: #13c4bb;
+    cursor: pointer;
   }
 </style>

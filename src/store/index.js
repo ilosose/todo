@@ -5,6 +5,7 @@ const store = createStore({
   state() {
     return {
       tasks: [],
+      boards: [],
       isModalOpen: false,
       curentColumnId: null,
     }
@@ -13,6 +14,10 @@ const store = createStore({
   mutations: {
     setTasks: (state, tasksData) => {
       state.tasks = tasksData;
+    },
+
+    setBoards: (state, boardsData) => {
+      state.boards = boardsData;
     },
 
     openModal: (state, columnId) => {
@@ -34,19 +39,61 @@ const store = createStore({
       return commit('closeModal')
     },
 
+    getComplexityDot(_, createdAt) {
+      const currentDate = new Date();
+      const inputTime = new Date(createdAt);
+      const timeDiff = inputTime.getTime() - currentDate.getTime();
+      const daysDiff = Math.ceil(timeDiff / (1000 * 3000 * 14));
+
+      if (daysDiff <= 7) {
+        return [
+          { tag: 'complexity__dot--high', id: 1 },
+          { tag: 'complexity__dot--high', id: 2 },
+          { tag: 'complexity__dot--high', id: 3 }
+        ];
+      } else if (daysDiff <= 14) {
+        return [
+          { tag: 'complexity__dot--medium', id: 4 },
+          { tag: 'complexity__dot--medium', id: 5 }
+        ];
+      } else {
+        return [
+          { tag: 'complexity__dot--low', id: 6 }
+        ];
+      };
+    },
+
+    resetLocalStorage() {
+      localStorage.removeItem('token');
+      localStorage.removeItem('userEmail');
+    },
+
     signin(_, formData) {
       return axios
         .post('auth/signin', formData)
         .then((res) => {
-          localStorage.setItem('token', res.data.token)
-          localStorage.setItem('email', formData.formData.email)
-          console.log('Получилось!')
+          localStorage.setItem('token', res.data.token);
+          localStorage.setItem('userEmail', formData.formData.email);
+          console.log('Получилось!');
         })
         .catch((err) => {
-          console.log(err)
+          console.log(err);
         })
     },
-    
+
+    getUserId() {
+      const emailLocalStorage = localStorage.getItem('userEmail');
+      return axios
+        .get(`users/match?email=${emailLocalStorage}`)
+        .then((res) => {
+          const userId = res.data.items[0].id;
+          localStorage.setItem('userId', userId);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    },
+
     signup(_, formData) {
       return axios
         .put('auth/signup', formData)
@@ -56,6 +103,20 @@ const store = createStore({
         .catch((err) => {
           console.log(err);
         })
+    },
+
+    getBoards({ commit }) {
+      const userId = localStorage.getItem('userId')
+      return axios
+        .get(`user/${userId}/boards`)
+        .then((boards) => {
+          console.log(boards.data);
+          const boardsData = boards.data;
+          commit('setBoards', boardsData);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
 
     getTasks({ commit }) {
@@ -69,12 +130,16 @@ const store = createStore({
         .catch((err) => {
           console.log(err)
         })
-    }
+    },
   },
   
   getters: {
     tasks(state) {
       return state.tasks;
+    },
+
+    boards(state) {
+      return state.boards;
     },
 
     isModalOpen(state) {
