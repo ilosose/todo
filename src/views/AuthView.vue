@@ -4,14 +4,14 @@
   </button>
   <div class="auth container">
     <h1 class="auth__title">Авторизация</h1>
-    <form class="auth-form" @submit.prevent="signIn">
+    <form class="auth-form" @submit.prevent="submit">
       <div class="auth-form__field">
         <label class="auth-form__label" for="login">Почта</label>
-        <input class="auth-form__input" type="text">
+        <input class="auth-form__input" type="text" v-model="formAuth.email">
       </div>
       <div class="auth-form__field">
         <label class="auth-form__label" for="password">Пароль</label>
-        <input class="auth-form__input" type="password">
+        <input class="auth-form__input" type="password" v-model="formAuth.password">
       </div>
       <div class="auth-form__field auth-form__field--remember-me">
         <input class="auth-form__checkbox" type="checkbox" id="remember-me">
@@ -25,27 +25,41 @@
 
 <script>
 import { RouterLink } from 'vue-router';
+import { mapActions } from 'vuex';
+import router from '@/router';
   export default {
     data() {
       return {
         formAuth: {
           email: '',
           password: '',
-        }
-      }
+        },
+      };
     },
 
     methods: {
-      signIn() {
-        this.$emit('auth', { ...this.formAuth })
-        this.resetForm()
+      ...mapActions([
+        'signin',
+      ]),
+
+      async submit() {
+        const formData = {
+          formData: {
+            ...this.formAuth
+          },
+        };
+        
+        await this.signin(formData);
+        await this.resetForm();
+        
+        await router.push('/');
       },
 
       resetForm() {
-        this.formAuth = { email: '', password: ''}
-      }
-    }
-  }
+        this.formAuth = { email: '', password: '' };
+      },
+    },
+  };
 </script>
 
 <style scoped>

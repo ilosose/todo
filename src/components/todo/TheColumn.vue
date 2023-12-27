@@ -64,39 +64,11 @@ import KanbanTask from './TheTask.vue';
         const taskId = event.dataTransfer.getData('text/plain');
         this.$emit('task-droped', Number(taskId), this.column.id);
       },
-    },
-
-    watch: {
-      tasks(newTasks) {
-        this.localTask = newTasks;
-      },
-    },
+    }
   }
 </script>
 
-<style>
-  .kanban {
-    display: flex;
-    padding: 40px;
-    align-items: flex-start;
-    gap: 40px;
-    margin: 10px 0;
-  }
-
-  .kanban__column {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
-      gap: 24px;
-      flex: 1 0 0;
-
-      padding: 14px;
-
-      border-radius: 12px;
-      background-color: #D5CCFF;
-  }
-
+<style scoped>
   .kanban__header {
       display: flex;
       align-items: center;

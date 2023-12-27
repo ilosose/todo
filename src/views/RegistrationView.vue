@@ -1,7 +1,7 @@
 <template>
   <div class="registration container">
     <button><RouterLink to="/auth">Авторизация</RouterLink></button>
-    <form @submit.prevent="signUp" class="registration-form">
+    <form @submit.prevent="submit" class="registration-form">
       <label class="registration-form__label" for="password">Имя</label>
       <input type="text" placeholder="Имя" class="registration-form__input">
       <label class="registration-form__label" for="password">Почта</label>
@@ -14,8 +14,10 @@
     </form>
   </div>
 </template>
+
 <script>
-import { RouterLink } from 'vue-router'
+import { RouterLink } from 'vue-router';
+import { mapActions } from 'vuex';
 export default {
   data() {
     return {
@@ -23,22 +25,35 @@ export default {
         name: '',
         email: '',
         password: '',
-        confermPassword: ''
+        confermPassword: '',
       }
     }
   },
 
   methods: {
-    signUp() {
-      this.$emit('reg', { ...this.formRegistration })
-      this.resetForm()
+    ...mapActions([
+      'signup',
+    ]),
+
+    async submit() {
+      const formData = {
+        formData: {
+          ...this.formRegistration
+        },
+      };
+
+      await signup(formData);
+
+      await this.resetForm();
+
+      await router.push('/auth');
     },
 
     resetForm() {
-      this.formRegistration = { name: '', email: '', password: '', confermPassword: '' }
-    }
-  } 
-}
+      this.formRegistration = { name: '', email: '', password: '', confermPassword: '' };
+    },
+  }, 
+};
 </script>
 <style scope>
   .registration {

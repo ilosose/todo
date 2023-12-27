@@ -6,7 +6,6 @@
 import { RouterView } from 'vue-router';
 </script>
 
-
 <style>
   * {
     font-family: 'Montserrat', sans-serif;
