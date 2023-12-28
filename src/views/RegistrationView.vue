@@ -20,7 +20,7 @@
       </div>
       <button type="submit" class="registration-form__submit">Зарегистрароваться</button>
     </form>
-    <button class="registration-form__submit-redirect"><RouterLink to="/auth">Авторизация</RouterLink></button>
+    <button class="registration-form__redirect"><RouterLink to="/auth">Авторизация</RouterLink></button>
   </div>
 </template>
 
@@ -129,6 +129,16 @@ export default {
     color: #f4f2ff;
   }
   .registration-form__submit:hover {
+    background: #13c4bb;
+    cursor: pointer;
+  }
+  .registration-form__redirect {
+    padding-inline: 70px;
+    padding-block: 12px;
+    border-radius: 10px;
+    background: #5D5FEF;
+  }
+  .registration-form__redirect:hover {
     background: #13c4bb;
     cursor: pointer;
   }

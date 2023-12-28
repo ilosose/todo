@@ -1,15 +1,16 @@
 <template>
  
   <the-header />
+  <div class="nav">
+    <button @click.prevent="resetLocalStorageButton" class="nav__exit">
+      <RouterLink to="/registration">Выйти</RouterLink>
+    </button>
+    <button @click.prevent="resetLocalStorageBoardButton" class="nav__go-back">
+      <RouterLink to="/boards">Страница досок</RouterLink>
+    </button>
+  </div>
 
-  <button @click.prevent="resetLocalStorageButton">
-    <RouterLink to="/registration">Выйти</RouterLink>
-  </button>
-  <button @click.prevent="resetLocalStorageBoardButton">
-    <RouterLink to="/boards">Страница досок</RouterLink>
-  </button>
-
-  <div class="kanban">
+  <div class="kanban" v-if="tasks">
     <kanban-column 
       v-for="column in tasks"
       class="kanban__column"
@@ -26,6 +27,7 @@
   <the-modal 
     v-if="isModalOpen"
     @close-modal="closeModal"
+    @add-task="addTaskData"
   />
 
 </template>
@@ -35,7 +37,7 @@ import TheFooter from '../components/TheFooter.vue';
 import TheModal from '../components/todo/TheModal.vue';
 import KanbanColumn from '../components/todo/TheColumn.vue';
 import { RouterLink } from 'vue-router';
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapMutations } from 'vuex';
 import router from '@/router';
 
 export default {
@@ -50,6 +52,7 @@ export default {
     ...mapGetters([
       'tasks',
       'curentBoardId',
+      'curentColumnId',
       'isModalOpen',
     ]),
   },
@@ -61,14 +64,29 @@ export default {
       'closeModal',
       'resetLocalStorage',
       'resetLocalStorageBoard',
+      'addTask',
     ]),
-
+  
     async resetLocalStorageButton() {
       await this.resetLocalStorage();
     },
 
     async resetLocalStorageBoardButton() {
       await this.resetLocalStorageBoard();
+    },
+
+    async addTaskData(newTask) {
+      const statusId = this.curentColumnId;
+      const formData = {
+        formData: {
+          ...newTask,
+          statusId: statusId
+        }
+      };
+      console.log(formData)
+      this.closeModal();
+      await this.addTask(formData);
+      await this.getTasks();
     }
   },
 
@@ -98,10 +116,37 @@ export default {
     align-items: flex-start;
     gap: 24px;
     flex: 1 0 0;
-
     padding: 14px;
-
     border-radius: 12px;
     background-color: #D5CCFF;
   }
+  .nav {
+    display: flex;
+    justify-content: end;
+    margin-top: 10px;
+    margin-right: 40px;
+    padding: 5px;
+  }
+
+  .nav__exit {
+    padding: 5px;
+    padding-inline: 10px;
+    margin-right: 15px;
+    background: #D5CCFF;
+    border-radius: 5px;
+  }
+
+  .nav__go-back {
+    padding: 5px;
+    padding-inline: 10px;
+    background: #D5CCFF;
+    border-radius: 5px;
+  }
+
+  .nav__exit:hover,
+  .nav__go-back:hover {
+    background: #13c4bb;
+    cursor: pointer;
+  }
+
 </style>

@@ -3,9 +3,9 @@
     <div class="modal__container">
       <a href="#" class="close-modal" @click="closeModal">✖</a> 
       <form @submit.prevent="submitTask">
-        <input type="text" v-model="newTask.title" placeholder="Введите заголовок задачи"/>
+        <input type="text" v-model="newTask.name" placeholder="Введите заголовок задачи"/>
         <textarea v-model="newTask.description" placeholder="Введите описание задачи"></textarea>
-        <input type="date" v-model="newTask.dueDate" placeholder="Выберите дату"/>
+        <input type="date" v-model="newTask.plannedCompletionAt" placeholder="Выберите дату"/>
         <button type="submit">Отправить</button>
         <button type="button" class="cancel-button" @click="closeModal">Отмена</button> 
       </form>
@@ -18,10 +18,10 @@
     data() {
       return {
         newTask: {
-          title: '',
+          name: '',
           description: '',
-          dueDate: '',
-        },
+          plannedCompletionAt: ''
+        }
       }
     },
     

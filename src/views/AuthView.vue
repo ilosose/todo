@@ -16,7 +16,7 @@
       </div>
       <button class="auth-form__submit" type="submit">Войти</button>
     </form>
-    <button class="auth-form__submit-redirect" ><RouterLink to="/registration">Регистрация</RouterLink></button>
+    <button class="auth-form__redirect" ><RouterLink to="/registration">Регистрация</RouterLink></button>
   </div>
 </template>
 
@@ -74,13 +74,13 @@ import router from '@/router';
 
   }
   .auth__title {
-  color: #f4f2ff;
+    color: #f4f2ff;
 
-  text-align: center;
-  font-size: 50px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
+    text-align: center;
+    font-size: 50px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
   }
 
   .auth-form__field {
@@ -160,4 +160,15 @@ import router from '@/router';
     cursor: pointer;
   }
 
+  .auth-form__redirect {
+    padding-inline: 70px;
+    padding-block: 12px;
+    border-radius: 10px;
+    background: #5D5FEF;
+  }
+
+  .auth-form__redirect:hover {
+    background: #13c4bb;
+    cursor: pointer;
+  }
 </style>

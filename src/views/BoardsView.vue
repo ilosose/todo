@@ -1,9 +1,9 @@
 <template>
   <the-header />
-  <button @click.prevent="resetLocalStorageButton">
+  <button @click.prevent="resetLocalStorageButton" class="exit">
     <RouterLink to="/registration">Выйти</RouterLink>
   </button>
-  <div class="board">
+  <div class="board" v-if="boards">
     <column-board
       v-for="board in boards"
       class="board__box"
@@ -68,5 +68,17 @@ export default {
 
       border-radius: 12px;
       background-color: #D5CCFF;
+    }
+    .exit {
+      justify-content: end;
+      margin-left: auto;
+      margin-right: 12px;
+      padding: 15px;
+      border-radius: 12px;
+      background-color: #D5CCFF;
+    }
+    .exit:hover {
+      background: #13c4bb;
+      cursor: pointer;
     }
 </style>

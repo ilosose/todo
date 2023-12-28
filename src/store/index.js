@@ -28,7 +28,6 @@ const store = createStore({
     closeModal: (state) => {
       state.isModalOpen = false;
     },
-
   },
 
   actions: {
@@ -135,10 +134,23 @@ const store = createStore({
         .get(`boards/${boardId}/tasks`)
         .then((tasks) => {
           const tasksData = tasks.data;
+          console.log(tasksData)
           commit('setTasks', tasksData);     
         })
         .catch((err) => {
           console.log(err);
+        })
+    },
+
+    addTask(_, newTask) {
+      const boardId = localStorage.getItem('boardId')
+      return axios
+        .post(`boards/${boardId}/tasks`, newTask)
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((err) => {
+          console.log(err)
         })
     },
   },
@@ -154,6 +166,9 @@ const store = createStore({
 
     isModalOpen(state) {
       return state.isModalOpen;
+    },
+    curentColumnId(state) {
+      return state.curentColumnId;
     },
   },
 })
