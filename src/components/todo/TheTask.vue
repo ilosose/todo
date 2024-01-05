@@ -23,7 +23,6 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
   export default {
     props: {
       task: {
@@ -33,9 +32,29 @@ import { mapActions } from 'vuex';
     },
     
     methods: {
-      ...mapActions([
-        'getComplexityDot',
-      ]),
+      getComplexityDot(createdAt) {
+        const currentDate = new Date();
+        const inputTime = new Date(createdAt);
+        const timeDiff = inputTime.getTime() - currentDate.getTime();
+        const daysDiff = Math.ceil(timeDiff / (1000 * 3000 * 14));
+
+        if (daysDiff <= 7) {
+          return [
+            { tag: 'complexity__dot--high', id: 1 },
+            { tag: 'complexity__dot--high', id: 2 },
+            { tag: 'complexity__dot--high', id: 3 }
+          ];
+        } else if (daysDiff <= 14) {
+          return [
+            { tag: 'complexity__dot--medium', id: 4 },
+            { tag: 'complexity__dot--medium', id: 5 }
+          ];
+        } else {
+          return [
+            { tag: 'complexity__dot--low', id: 6 }
+          ];
+        };
+      },
       
       startDrag(event) {
         console.log(event);

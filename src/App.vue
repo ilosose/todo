@@ -1,9 +1,28 @@
 <template>
+  <the-header />
   <RouterView />
+  <the-footer />
 </template>
 
 <script >
 import { RouterView } from 'vue-router';
+import TheHeader from '@/components/TheHeader.vue';
+import TheFooter from '@/components/TheFooter.vue';
+import router from './router';
+export default {
+  components: {
+    TheHeader,
+    TheFooter,
+  },
+
+  created() {
+    if (!localStorage.getItem('token')) {
+      router.push('/registration')
+    };
+    router.push('/boards')
+  }
+
+}
 </script>
 
 <style>
@@ -20,8 +39,6 @@ import { RouterView } from 'vue-router';
           max-width: 540px;
       }
   }
-
-
 
   @media screen and (min-width: 768px) {
       .container {

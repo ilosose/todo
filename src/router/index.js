@@ -4,9 +4,9 @@ const router = createRouter({
   history: createWebHistory(''),
   routes: [
     {
-      path: '/',
-      name: 'home',
-      component: () => import('../views/HomeView.vue')
+      path: '/todo',
+      name: 'todo',
+      component: () => import('../views/TodoView.vue')
     },
     {
       path: '/auth',

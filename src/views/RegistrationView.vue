@@ -3,12 +3,12 @@
     <h1 class="registration__title">Регистрация</h1>
     <form @submit.prevent="submit" class="registration-form">
       <div class="registration-form__field">
-        <label class="registration-form__label" for="password">Имя</label>
+        <label class="registration-form__label" for="name">Имя</label>
         <input type="text" placeholder="Имя" class="registration-form__input">
       </div>
       <div class="registration-form__field">
-        <label class="registration-form__label" for="password">Почта</label>
-        <input type="text" placeholder="email@inbox.com" class="registration-form__input">
+        <label class="registration-form__label" for="email">Почта</label>
+        <input type="email" placeholder="email@inbox.com" class="registration-form__input">
       </div>
       <div class="registration-form__field">
         <label class="registration-form__label" for="password">Пароль</label>
@@ -60,7 +60,6 @@ export default {
       };
     },
       
-
     resetForm() {
       this.formRegistration = { name: '', email: '', password: '', confermPassword: '' };
     },

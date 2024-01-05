@@ -9,10 +9,10 @@
     </div>
     <div class="board-item__info">
         <div class="board-item__createAt">
-          {{ board.createdAt }}
+          <h3>Создана: {{ board.createdAt }}</h3>
         </div>
         <div class="board-item__updateAt">
-          {{ board.updatedAt }}
+          <h3>Обновлена: {{ board.updatedAt }}</h3>
         </div>  
     </div>
   </section>
@@ -29,7 +29,6 @@ export default {
     },
   },
 
-
   methods: {
     ...mapActions([
       'openColumnsByBoard',
@@ -38,7 +37,7 @@ export default {
 
    async openColumns(boardId) {
       await this.openColumnsByBoard(boardId);
-      await router.push('/');
+      await router.push('/todo');
     },
   },
   

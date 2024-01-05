@@ -43,30 +43,6 @@ const store = createStore({
       localStorage.setItem('boardId', boardId);
     },
 
-    getComplexityDot(_, createdAt) {
-      const currentDate = new Date();
-      const inputTime = new Date(createdAt);
-      const timeDiff = inputTime.getTime() - currentDate.getTime();
-      const daysDiff = Math.ceil(timeDiff / (1000 * 3000 * 14));
-
-      if (daysDiff <= 7) {
-        return [
-          { tag: 'complexity__dot--high', id: 1 },
-          { tag: 'complexity__dot--high', id: 2 },
-          { tag: 'complexity__dot--high', id: 3 }
-        ];
-      } else if (daysDiff <= 14) {
-        return [
-          { tag: 'complexity__dot--medium', id: 4 },
-          { tag: 'complexity__dot--medium', id: 5 }
-        ];
-      } else {
-        return [
-          { tag: 'complexity__dot--low', id: 6 }
-        ];
-      };
-    },
-
     resetLocalStorage() {
       localStorage.removeItem('token');
       localStorage.removeItem('userEmail');
@@ -83,21 +59,8 @@ const store = createStore({
         .post('auth/signin', formData)
         .then((res) => {
           localStorage.setItem('token', res.data.token);
+          localStorage.setItem('userId', res.data.userId);
           localStorage.setItem('userEmail', formData.formData.email);
-          console.log('Получилось!');
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-    },
-
-    getUserId() {
-      const emailLocalStorage = localStorage.getItem('userEmail');
-      return axios
-        .get(`users/match?email=${emailLocalStorage}`)
-        .then((res) => {
-          const userId = res.data.items[0].id;
-          localStorage.setItem('userId', userId);
         })
         .catch((err) => {
           console.log(err);
@@ -167,6 +130,7 @@ const store = createStore({
     isModalOpen(state) {
       return state.isModalOpen;
     },
+    
     curentColumnId(state) {
       return state.curentColumnId;
     },

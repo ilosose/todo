@@ -1,6 +1,5 @@
 <template>
  
-  <the-header />
   <div class="nav">
     <button @click.prevent="resetLocalStorageButton" class="nav__exit">
       <RouterLink to="/registration">Выйти</RouterLink>
@@ -22,8 +21,7 @@
     />
   </div>
 
-  <the-footer />
-
+  
   <the-modal 
     v-if="isModalOpen"
     @close-modal="closeModal"
@@ -32,18 +30,15 @@
 
 </template>
 <script>
-import TheHeader from '../components/TheHeader.vue';
-import TheFooter from '../components/TheFooter.vue';
+
+
 import TheModal from '../components/todo/TheModal.vue';
 import KanbanColumn from '../components/todo/TheColumn.vue';
 import { RouterLink } from 'vue-router';
 import { mapActions, mapGetters, mapMutations } from 'vuex';
-import router from '@/router';
 
 export default {
   components: {
-    TheHeader,
-    TheFooter,
     TheModal,
     KanbanColumn,
   },
@@ -83,7 +78,6 @@ export default {
           statusId: statusId
         }
       };
-      console.log(formData)
       this.closeModal();
       await this.addTask(formData);
       await this.getTasks();
@@ -91,11 +85,7 @@ export default {
   },
 
   async mounted() {
-    if (!localStorage.getItem('token')) {
-      await router.push('/auth');
-    } else {
-      await this.getTasks();
-    };
+    await this.getTasks();
   },
 };
 </script>

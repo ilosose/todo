@@ -3,8 +3,8 @@
     <h1 class="auth__title">Авторизация</h1>
     <form class="auth-form" @submit.prevent="submit">
       <div class="auth-form__field">
-        <label class="auth-form__label" for="login">Почта</label>
-        <input class="auth-form__input" type="text" v-model="formAuth.email">
+        <label class="auth-form__label" for="email">Почта</label>
+        <input class="auth-form__input" type="email" v-model="formAuth.email">
       </div>
       <div class="auth-form__field">
         <label class="auth-form__label" for="password">Пароль</label>
@@ -40,14 +40,11 @@ import router from '@/router';
       ]),
 
       async submit() {
-        console.log('go')
         const formData = {
-          formData: {
-            ...this.formAuth
-          },
+          ...this.formAuth
         };
         
-        await this.signin(formData);
+        await this.signin({formData});
         await this.resetForm();
         
         await router.push('/boards');
