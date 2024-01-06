@@ -1,93 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./src/assets/css/index.css">
-  <title>To-Do-List-Kanban</title>
-</head>
-<body>
-  <header class="header">
-    <h1 class="header__title">Kanban Board</h1>
-    <img src="src/assets/img/header/plus.svg" alt="" class="header__img-plus">
-  </header>
-  
-  <main class="kanban container">
-    <section class="kanban__column kanban__column--to-do">
-      <div class="kanban__title">
-        <img src="src/assets/img/kanban/kanban__column--to-do.svg" alt="" class="kanban__img-title">
-        <h2 class="kanban__text">Задачи</h2>
-        <img src="src/assets/img/kanban/plus.svg" alt="" class="kanban__img-plus">
-      </div>
-      <div class="kanban__list">
-        <div class="task__item">
-            <h1 class="task-item__title">Задача 2</h1>
-            <h5 class="task-item__description">Описание задачи 2</h5>
-            <div class="task-item__info">
-              <div class="complexity__dot complexity__dot--medium"></div>
-              <div class="complexity__dot complexity__dot--medium"></div>
-              <div class="complexity__dot"></div>
-              <h5 class="task-item__date">1.12.2023</h5>
-            </div>
-        </div>
-      </div>
-    </section>
-    
-    <section class="kanban__column kanban__column--in-progress">
-      <div class="kanban__title">
-        <img src="src/assets/img/kanban/kanban__column--in-progress.svg" alt="" class="kanban__img-title">
-        <h2 class="">В процессе</h2>
-        <img src="src/assets/img/kanban/plus.svg" alt="" class="kanban__img-plus">
-      </div>
-      <div class="kanban__list">
-        <div class="task__item">
-          <h1 class="task-item__title">Задача 9</h1>
-          <h5 class="task-item__description">Описание задачи 9</h5>
-          <div class="task-item__complexity">
-            <div class="complexity__dot complexity__dot--low"></div>
-            <div class="complexity__dot"></div>
-            <div class="complexity__dot"></div>
-            <h5 class="task-item__date">20.12.2023</h5>
-          </div>
-        </div>
-      </div>
-      <div class="kanban__list">
-        <div class="task__item">
-          <h1 class="task-item__title">Задача 5</h1>
-          <h5 class="task-item__description">Описание задачи 5</h5>
-          <div class="task-item__complexity">
-            <div class="complexity__dot complexity__dot--high"></div>
-            <div class="complexity__dot complexity__dot--high"></div>
-            <div class="complexity__dot"></div>
-            <h5 class="task-item__date">20.12.2023</h5>
-          </div>
-        </div>
-      </div>
-    </section>
-    
-    <section class="kanban__column kanban__column--done">
-      <div class="kanban__title">
-        <img src="src/assets/img/kanban/kanban__column--done.svg" alt="" class="kanban__img-title">
-        <h2 class="">Выполнено</h2>  
-      </div>
-      <div class="kanban__list">
-        <div class="task__item">
-          <h1 class="task-item__title">Задача 10</h1>
-          <h5 class="task-item__description">Описание задачи 10</h5>
-          <div class="task-item__complexity">
-            <div class="complexity__dot complexity__dot--done"></div>
-            <div class="complexity__dot complexity__dot--done"></div>
-            <div class="complexity__dot complexity__dot--done"></div>
-            <h5 class="task-item__date">20.12.2023</h5>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-  
-  <footer class="footer">
-    <p class="footer__text">To-Do-List-Kanban</p>
-  </footer>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vite App</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
   </body>
-<script src="./src/assets/js/index.js"></script>
 </html>
