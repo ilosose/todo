@@ -1,0 +1,51 @@
+.kanban {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    justify-content: space-around;
+    flex-grow: 1;
+    margin-bottom: 0;
+}
+
+.kanban__column {
+    font-size: 12px;
+    flex: 0 0 100%;
+    background-color: blueviolet;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 0 10px 20px;
+}
+
+.kanban__column--to-do {
+     margin-bottom: auto;
+}
+
+.kanban__column--in-progress {
+    margin-bottom: auto;
+}
+
+.kanban__column--done {
+    margin-bottom: auto;
+}
+
+.kanban__title {
+    display: flex;
+}
+
+.kanban__list {
+    background-color: white;
+    color: gray;
+    border-radius: 6px;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+}
+
+.kanban__img-title {
+    margin-right: 15px;
+}
+
+.kanban__img-plus {
+    margin-left: auto;
+}
