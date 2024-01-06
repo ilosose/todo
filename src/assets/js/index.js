@@ -9,8 +9,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeModalButton = document.querySelector(".close-modal");
   const cancelButton = document.querySelector(".cancel-button");
   const form = document.querySelector(".modal form");
-
+  let buttonId = null;
   // =========================================================================
+  function setupAddTaskButtons() {
+    addTaskButtons.forEach((addButton) => {
+      addButton.addEventListener("click", () => {
+        buttonId = addButton.id;
+        modal.style.display = "flex";
+      });
+    });
+  };
+
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
@@ -20,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Вставить код для создания задачи
     if (title && description && dueDate) {
-      function getComplexityClass () {
+      function getComplexityClass (dueDate) {
         const currentDate = new Date();
         const inputTime = new Date(dueDate);
         const timeDiff = inputTime.getTime() - currentDate.getTime();
@@ -43,27 +52,19 @@ document.addEventListener("DOMContentLoaded", () => {
         description: description,
         complexity: getComplexityClass(dueDate),
         dueDate: dueDate,
-        columnId: "to-do"
+        columnId: buttonId
       };
 
-      tasks = []
-      columns[0].tasks = []
-
       tasks.push(taskForm);
-      columns[0].tasks.push(taskForm.id)
+      const column = columns.find(column => column.id === taskForm.columnId);
+      if (column) {
+        column.tasks.push(taskForm.id);
+      }
 
-      columns.forEach((column) => {
-        const taskList = document.querySelector(".kanban__list")
-        column.tasks.forEach((taskId) => {
-          const task = tasks.find((task) => task.id === taskId)
-          if (task) {
-            taskList.appendChild(renderTaskElement(task))
-          }
-        })
-      })
-        
+      renderKanban();
+      setupAddTaskButtons();
+      form.reset();
       modal.style.display = "none";
-      
     };
   });
   // =========================================================================
@@ -81,6 +82,15 @@ document.addEventListener("DOMContentLoaded", () => {
   cancelButton.addEventListener("click", () => {
     modal.style.display = "none";
   });
+
+  function setupAddTaskButtons() {
+    const addTaskButtons = document.querySelectorAll(".kanban__icon--add");
+    addTaskButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        modal.style.display = "flex";
+      });
+    });
+  }
 });
 
 
@@ -107,6 +117,7 @@ function renderTaskElement(task) {
 
 function renderKanban() {
   const kanbanContainer = document.querySelector(".kanban");
+  kanbanContainer.innerHTML = ``;
 
   columns.forEach((column) => {
     const columnSection = document.createElement("section");
@@ -117,7 +128,7 @@ function renderKanban() {
               <img src="${column.icon}" alt="Колонка ${column.title}" class="kanban__icon kanban__icon--column">
               <h2 class="kanban__title">${column.title}</h2>
             </div>
-            <img src="./src/assets/img/kanban/plus.svg" alt="Добавить задачу" class="kanban__icon kanban__icon--add">
+            <img src="./src/assets/img/kanban/plus.svg" alt="Добавить задачу" class="kanban__icon kanban__icon--add" id="${column.id}">
           </div>
           <div class="kanban__list"></div>
         `;
