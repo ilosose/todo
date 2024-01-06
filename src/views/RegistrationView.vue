@@ -4,19 +4,19 @@
     <form @submit.prevent="submit" class="registration-form">
       <div class="registration-form__field">
         <label class="registration-form__label" for="name">Имя</label>
-        <input type="text" placeholder="Имя" class="registration-form__input" v-model="this.formData.name">
+        <input type="text" placeholder="Имя" class="registration-form__input" v-model="this.formRegistration.name">
       </div>
       <div class="registration-form__field">
         <label class="registration-form__label" for="email">Почта</label>
-        <input type="email" placeholder="email@inbox.com" class="registration-form__input" v-model="this.formData.email">
+        <input type="email" placeholder="email@inbox.com" class="registration-form__input" v-model="this.formRegistration.email">
       </div>
       <div class="registration-form__field">
         <label class="registration-form__label" for="password">Пароль</label>
-        <input type="password" placeholder="Пароль" class="registration-form__input" v-model="this.formData.password">
+        <input type="password" placeholder="Пароль" class="registration-form__input" v-model="this.formRegistration.password">
       </div>
       <div class="registration-form__field">
         <label class="registration-form__label" for="password">Повторить пароль</label>
-        <input type="password" placeholder="Повторить пароль" class="registration-form__input" v-model="this.formData.confermPassword">
+        <input type="password" placeholder="Повторить пароль" class="registration-form__input" v-model="this.formRegistration.confermPassword">
       </div>
       <button type="submit" class="registration-form__submit">Зарегистрароваться</button>
     </form>
