@@ -4,19 +4,19 @@
     <form @submit.prevent="submit" class="registration-form">
       <div class="registration-form__field">
         <label class="registration-form__label" for="name">Имя</label>
-        <input type="text" placeholder="Имя" class="registration-form__input">
+        <input type="text" placeholder="Имя" class="registration-form__input" v-model="this.formData.name">
       </div>
       <div class="registration-form__field">
         <label class="registration-form__label" for="email">Почта</label>
-        <input type="email" placeholder="email@inbox.com" class="registration-form__input">
+        <input type="email" placeholder="email@inbox.com" class="registration-form__input" v-model="this.formData.email">
       </div>
       <div class="registration-form__field">
         <label class="registration-form__label" for="password">Пароль</label>
-        <input type="password" placeholder="Пароль" class="registration-form__input">
+        <input type="password" placeholder="Пароль" class="registration-form__input" v-model="this.formData.password">
       </div>
       <div class="registration-form__field">
         <label class="registration-form__label" for="password">Повторить пароль</label>
-        <input type="password" placeholder="Повторить пароль" class="registration-form__input">
+        <input type="password" placeholder="Повторить пароль" class="registration-form__input" v-model="this.formData.confermPassword">
       </div>
       <button type="submit" class="registration-form__submit">Зарегистрароваться</button>
     </form>
@@ -26,7 +26,9 @@
 
 <script>
 import { RouterLink } from 'vue-router';
-import { mapActions } from 'vuex';
+import axios from '../utils/axios'
+import router from '@/router';
+
 export default {
   data() {
     return {
@@ -40,20 +42,21 @@ export default {
   },
 
   methods: {
-    ...mapActions([
-      'signup',
-    ]),
-
     async submit() {
       if(this.formRegistration.name != '' && this.formRegistration.email != '' && this.formRegistration.email != '', this.formRegistration.password != '' && this.formRegistration.confermPassword != '') {
         const formData = {
-        formData: {
           ...this.formRegistration
-          },
         };
-
-        await signup(formData);
-
+        
+        await axios
+          .put('auth/signup', {formData})
+          .then((res) => {
+            console.log('Получилось!');
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+        
         await this.resetForm();
 
         await router.push('/auth');

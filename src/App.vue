@@ -19,7 +19,12 @@ export default {
     if (!localStorage.getItem('token')) {
       router.push('/registration')
     };
-    router.push('/boards')
+    if (localStorage.getItem('token')) {
+      router.push('/boards')
+    }
+    if (localStorage.getItem('boardId')) {
+      router.push('/todo')
+    }
   }
 
 }

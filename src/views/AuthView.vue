@@ -4,11 +4,11 @@
     <form class="auth-form" @submit.prevent="submit">
       <div class="auth-form__field">
         <label class="auth-form__label" for="email">Почта</label>
-        <input class="auth-form__input" type="email" v-model="formAuth.email">
+        <input class="auth-form__input" type="email" v-model="formData.email">
       </div>
       <div class="auth-form__field">
         <label class="auth-form__label" for="password">Пароль</label>
-        <input class="auth-form__input" type="password" v-model="formAuth.password">
+        <input class="auth-form__input" type="password" v-model="formData.password">
       </div>
       <div class="auth-form__field auth-form__field--remember-me">
         <input class="auth-form__checkbox" type="checkbox" id="remember-me">
@@ -22,8 +22,9 @@
 
 <script>
 import { RouterLink } from 'vue-router';
-import { mapActions } from 'vuex';
+import axios from '../utils/axios'
 import router from '@/router';
+
   export default {
     data() {
       return {
@@ -35,16 +36,22 @@ import router from '@/router';
     },
 
     methods: {
-      ...mapActions([
-        'signin',
-      ]),
-
       async submit() {
         const formData = {
           ...this.formAuth
         };
+      
+        await axios
+          .post('auth/signin', {formData})
+          .then((res) => {
+            localStorage.setItem('token', res.data.token);
+            localStorage.setItem('userId', res.data.userId);
+            localStorage.setItem('userEmail', formData.email);
+          })
+          .catch((err) => {
+            console.log(err);
+          })
         
-        await this.signin({formData});
         await this.resetForm();
         
         await router.push('/boards');

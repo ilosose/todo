@@ -11,8 +11,7 @@
           class="kanban__icon kanban__icon--column">
         <h2 class="kanban__title">{{ column.name }}</h2>
       </div>      
-      <img
-        v-if="column.id !== 'done'" 
+      <img 
         src="../assets/img/kanban/plus.svg" 
         alt="Добавить задачу" 
         class="kanban__icon kanban__icon--add" 
@@ -50,7 +49,7 @@ import KanbanTask from './TheTask.vue';
 
     data() {
       return {
-        localTask: this.tasks,
+
       }
     },
 

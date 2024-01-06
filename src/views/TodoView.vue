@@ -9,9 +9,9 @@
     </button>
   </div>
 
-  <div class="kanban" v-if="tasks">
+  <div class="kanban" v-if="columns">
     <kanban-column 
-      v-for="column in tasks"
+      v-for="column in columns"
       class="kanban__column"
       :key="column.id"
       :column="column.status"
@@ -21,7 +21,6 @@
     />
   </div>
 
-  
   <the-modal 
     v-if="isModalOpen"
     @close-modal="closeModal"
@@ -30,12 +29,11 @@
 
 </template>
 <script>
-
-
 import TheModal from '../components/todo/TheModal.vue';
 import KanbanColumn from '../components/todo/TheColumn.vue';
 import { RouterLink } from 'vue-router';
-import { mapActions, mapGetters, mapMutations } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
+import axios from '../utils/axios'
 
 export default {
   components: {
@@ -43,24 +41,22 @@ export default {
     KanbanColumn,
   },
 
-  computed: {
-    ...mapGetters([
-      'tasks',
-      'curentBoardId',
-      'curentColumnId',
-      'isModalOpen',
-    ]),
+  data() {
+    return {
+      columns: [],
+      isModalOpen: false,
+      curentColumnId: null,
+    }
   },
 
   methods: {
     ...mapActions([
-      'getTasks',
-      'openModal',
-      'closeModal',
-      'resetLocalStorage',
-      'resetLocalStorageBoard',
-      'addTask',
+      'resetLocalStorage'
     ]),
+
+    resetLocalStorageBoard() {
+      localStorage.removeItem('boardId');
+    },
   
     async resetLocalStorageButton() {
       await this.resetLocalStorage();
@@ -70,22 +66,54 @@ export default {
       await this.resetLocalStorageBoard();
     },
 
+    openModal(columnId) {
+      this.isModalOpen = true;
+      this.curentColumnId = columnId;
+    },
+
+    closeModal() {
+      this.isModalOpen = false;
+    },
+
+    getColumns() {
+      const boardId = localStorage.getItem('boardId');
+      axios
+        .get(`boards/${boardId}/tasks`)
+        .then((res) => {
+          this.columns = res.data
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    },
+
     async addTaskData(newTask) {
       const statusId = this.curentColumnId;
+      const boardId = localStorage.getItem('boardId')
       const formData = {
-        formData: {
-          ...newTask,
-          statusId: statusId
-        }
+        ...newTask,
+        statusId: statusId
       };
+
       this.closeModal();
-      await this.addTask(formData);
-      await this.getTasks();
-    }
+
+      await axios
+        .post(`boards/${boardId}/tasks`, {formData})
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+
+      await this.getColumns();
+    },
+
+
   },
 
   async mounted() {
-    await this.getTasks();
+    await this.getColumns();
   },
 };
 </script>

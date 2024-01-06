@@ -2,7 +2,7 @@
   <button @click.prevent="resetLocalStorageButton" class="exit">
     <RouterLink to="/registration">Выйти</RouterLink>
   </button>
-  <div class="board" v-if="boards">
+  <div class="board" v-if="this.boards">
     <column-board
       v-for="board in boards"
       class="board__box"
@@ -14,27 +14,34 @@
 <script>
 import { RouterLink } from 'vue-router';
 import ColumnBoard from '../components/boards/TheBoard.vue';
-import TheHeader from '../components/TheHeader.vue';
-import TheFooter from '../components/TheFooter.vue';
 import { mapActions, mapGetters } from 'vuex';
+import axios from '../utils/axios';
+
 export default {
   components: {
     ColumnBoard,
-    TheHeader,
-    TheFooter,
   },
 
-  computed: {
-    ...mapGetters([
-      'boards',
-    ]),
+  data() {
+    return {
+      boards: [],
+    }
   },
 
   methods: {
-    ...mapActions([
-      'getBoards',
-      'resetLocalStorage',
-    ]),
+    ...mapActions(['resetLocalStorage',]),
+
+    async getBoards() {
+      const userId = localStorage.getItem('userId')
+      await axios
+        .get(`user/${userId}/boards`)
+        .then((res) => {
+          this.boards = res.data
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
 
     async resetLocalStorageButton() {
       await this.resetLocalStorage();
