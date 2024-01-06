@@ -1,33 +1,17 @@
-header {
-    margin-top: 10px;
-}
-
-.header__container {
+.header {
+    font-size: 12px;
+    padding-left: 10px;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-inline: 200px;
+    margin-top: 5px;
+    margin-bottom: 50px;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
     border-radius: 10px;
-}
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    justify-content: space-between;
+  }
 
-.header__title {
-    font-weight: 300;
-
-}
-
-.header__option {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.header__user-icon {
-    width: 40px;
-    height: 40px;
-    background-color: #d9d9d9;
-    border-radius: 50%;
-    color: #333;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-}
+  .header__img-plus {
+    padding-right: 10px;
+  }
