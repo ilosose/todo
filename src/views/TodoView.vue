@@ -9,17 +9,10 @@
     </button>
   </div>
 
-  <div class="kanban" v-if="columns">
-    <kanban-column 
-      v-for="column in columns"
-      class="kanban__column"
-      :key="column.id"
-      :column="column.status"
-      :tasks="column.tasks"
-      @add-task="openModal(column.status.id)"
-      @task-droped="handleTaskDroped"
-    />
-  </div>
+  <kanban-column
+    @add-task="openModal"
+    @task-droped="handleTaskDroped"
+  />
 
   <the-modal 
     v-if="isModalOpen"
@@ -32,7 +25,7 @@
 import TheModal from '../components/todo/TheModal.vue';
 import KanbanColumn from '../components/todo/TheColumn.vue';
 import { RouterLink } from 'vue-router';
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions } from 'vuex';
 import axios from '../utils/axios'
 
 export default {
@@ -43,7 +36,6 @@ export default {
 
   data() {
     return {
-      columns: [],
       isModalOpen: false,
       curentColumnId: null,
     }
@@ -80,7 +72,9 @@ export default {
       axios
         .get(`boards/${boardId}/tasks`)
         .then((res) => {
-          this.columns = res.data
+          const columnsData = res.data
+          console.log(columnsData)
+          this.$store.commit('tasks/setColumns', columnsData)
         })
         .catch((err) => {
           console.log(err);
@@ -108,8 +102,6 @@ export default {
 
       await this.getColumns();
     },
-
-
   },
 
   async mounted() {
@@ -119,25 +111,6 @@ export default {
 </script>
 
 <style scoped>
-  .kanban {
-    display: flex;
-    padding: 40px;
-    align-items: flex-start;
-    gap: 40px;
-    margin: 10px 0;
-  }
-
-  .kanban__column {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 24px;
-    flex: 1 0 0;
-    padding: 14px;
-    border-radius: 12px;
-    background-color: #D5CCFF;
-  }
   .nav {
     display: flex;
     justify-content: end;
@@ -160,7 +133,7 @@ export default {
     background: #D5CCFF;
     border-radius: 5px;
   }
-
+  
   .nav__exit:hover,
   .nav__go-back:hover {
     background: #13c4bb;
