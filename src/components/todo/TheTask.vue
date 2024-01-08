@@ -19,10 +19,14 @@
         </div>
         <div class="task-item__client">{{ task.createdAt }}</div>
       </div>
+      <button class="task-item__delete" @click.prevent="deleteTask(task.id)">Удалить</button>
   </div>
 </template>
 
 <script>
+import axios from '../../utils/axios';
+import { mapActions } from 'vuex';
+
   export default {
     props: {
       task: {
@@ -32,6 +36,8 @@
     },
     
     methods: {
+      ...mapActions('tasks', ['getColumns']),
+
       getComplexityDot(createdAt) {
         const currentDate = new Date();
         const inputTime = new Date(createdAt);
@@ -40,20 +46,34 @@
 
         if (daysDiff <= 7) {
           return [
-            { tag: 'complexity__dot--high', id: 1 },
-            { tag: 'complexity__dot--high', id: 2 },
-            { tag: 'complexity__dot--high', id: 3 }
+            { tag: 'complexity__dot--high' },
+            { tag: 'complexity__dot--high' },
+            { tag: 'complexity__dot--high' }
           ];
         } else if (daysDiff <= 14) {
           return [
-            { tag: 'complexity__dot--medium', id: 4 },
-            { tag: 'complexity__dot--medium', id: 5 }
+            { tag: 'complexity__dot--medium' },
+            { tag: 'complexity__dot--medium' }
           ];
         } else {
           return [
-            { tag: 'complexity__dot--low', id: 6 }
+            { tag: 'complexity__dot--low' }
           ];
         };
+      },
+
+      async deleteTask(taskId) {
+        const boardId = localStorage.getItem('boardId')
+        await axios
+          .delete(`boards/${boardId}/tasks/${taskId}`)
+          .then(() => {
+            console.log('Задача успешно удалена');
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        
+        await this.getColumns();
       },
       
       startDrag(event) {

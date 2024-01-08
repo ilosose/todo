@@ -42,9 +42,9 @@ export default {
   },
 
   methods: {
-    ...mapActions([
-      'resetLocalStorage'
-    ]),
+    ...mapActions(['resetLocalStorage']),
+
+    ...mapActions('tasks', ['getColumns']),
 
     resetLocalStorageBoard() {
       localStorage.removeItem('boardId');
@@ -65,20 +65,6 @@ export default {
 
     closeModal() {
       this.isModalOpen = false;
-    },
-
-    getColumns() {
-      const boardId = localStorage.getItem('boardId');
-      axios
-        .get(`boards/${boardId}/tasks`)
-        .then((res) => {
-          const columnsData = res.data
-          console.log(columnsData)
-          this.$store.commit('tasks/setColumns', columnsData)
-        })
-        .catch((err) => {
-          console.log(err);
-        })
     },
 
     async addTaskData(newTask) {
