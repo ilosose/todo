@@ -1,10 +1,20 @@
 export default {
   namespaced: true,
-  state: {},
+  state: {
+    columns: [],
+  },
 
-  mutations: {},
+  mutations: {
+    setColumns: (state, columnsData) => {
+      state.columns = columnsData;
+    },
+  },
 
   actions: {},
 
-  getters: {}
+  getters: {
+    columns(state) {
+      return state.columns;
+    },
+  }
 }
