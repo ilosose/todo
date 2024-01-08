@@ -52,9 +52,6 @@ import { mapGetters } from 'vuex';
         this.$emit('task-droped', Number(taskId), this.column.id);
       },
     },
-
-    created() {
-    },
   }
 </script>
 
