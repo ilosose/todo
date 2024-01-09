@@ -1,10 +1,35 @@
+import axios from "../utils/axios";
+
 export default {
   namespaced: true,
-  state: {},
+  state: {
+    columns: [],
+  },
 
-  mutations: {},
+  mutations: {
+    setColumns: (state, columnsData) => {
+      state.columns = columnsData;
+    },
+  },
 
-  actions: {},
+  actions: {
+    getColumns({ commit }) {
+      const boardId = localStorage.getItem('boardId')
+      return axios
+        .get(`boards/${boardId}/tasks`)
+        .then((res) => {
+          const columnsData = res.data
+          commit('setColumns', columnsData)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+  },
 
-  getters: {}
+  getters: {
+    columns(state) {
+      return state.columns;
+    },
+  }
 }

@@ -1,56 +1,44 @@
 <template>
-  <section 
-    :class="`kanban__column kanban__column--${column.id}`"
-    @dragover.prevent="allowDrop"
-    @drop="handleDrop" 
-  >
-    <div class="kanban__header">
-      <div class="kanban__header-content">
+   <div class="kanban" v-if="columns">
+    <section
+      v-for="status in columns" 
+      :key="status.id"
+      class="kanban__column"
+      @dragover.prevent="allowDrop"
+      @drop="handleDrop" 
+    >
+      <div class="kanban__header">
+        <div class="kanban__header-content">
+          <h2 class="kanban__title">{{ status.status.name }}</h2>
+        </div>      
         <img 
-          :src="column.icon" 
-          class="kanban__icon kanban__icon--column">
-        <h2 class="kanban__title">{{ column.name }}</h2>
-      </div>      
-      <img 
-        src="../assets/img/kanban/plus.svg" 
-        alt="Добавить задачу" 
-        class="kanban__icon kanban__icon--add" 
-        :id="`${column.id}`"
-        @click="$emit('add-task')">
-    </div>
-    <div class="kanban__list">
-      <kanban-task 
-        v-for="task in tasks"
-        :key="task.id"
-        :task="task"  
-      />
-    </div>
-  </section>
+          src="../assets/img/kanban/plus.svg" 
+          alt="Добавить задачу" 
+          class="kanban__icon kanban__icon--add"
+          @click="$emit('add-task', status.status.id)">
+      </div>
+      <div class="kanban__list">
+        <kanban-task 
+          v-for="task in status.tasks"
+          :key="task.id"
+          :task="task"  
+        />
+      </div>
+    </section>
+  </div>
 </template>
 
 <script>
 import KanbanTask from './TheTask.vue';
+import { mapGetters } from 'vuex';
 
   export default {
     components: {
       KanbanTask,
     },
 
-    props: {
-      column: {
-        type: Object,
-        default: {},
-      },
-      tasks: {
-        type: Object,
-        default: {},
-      }
-    },
-
-    data() {
-      return {
-
-      }
+    computed: {
+      ...mapGetters('tasks', ['columns'])
     },
 
     methods: {
@@ -63,11 +51,30 @@ import KanbanTask from './TheTask.vue';
         const taskId = event.dataTransfer.getData('text/plain');
         this.$emit('task-droped', Number(taskId), this.column.id);
       },
-    }
+    },
   }
 </script>
 
 <style scoped>
+  .kanban {
+    display: flex;
+    padding: 40px;
+    align-items: flex-start;
+    gap: 40px;
+    margin: 10px 0;
+  }
+
+  .kanban__column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 24px;
+    flex: 1 0 0;
+    padding: 14px;
+    border-radius: 12px;
+    background-color: #D5CCFF;
+  }
   .kanban__header {
       display: flex;
       align-items: center;
