@@ -1,10 +1,23 @@
 export default {
   namespaced: true,
-  state: {},
+  state: {
+    isShowModal: false,
+  },
 
-  mutations: {},
+  mutations: {
+    openModal(state){
+      state.showModal = true;
+    },
+    closeModal(state){
+      state.showModal = false;
+    }
+  },
 
   actions: {},
 
-  getters: {}
+  getters: {
+    modals(state) {
+      return state.modals;
+    },
+  }
 }
