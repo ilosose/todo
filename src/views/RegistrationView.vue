@@ -1,26 +1,27 @@
 <template>
   <div class="registration container">
     <h1 class="registration__title">Регистрация</h1>
-    <form @submit.prevent="submit" class="registration-form">
+    <form @submit.prevent="comparison" class="registration-form">
       <div class="registration-form__field">
-        <label class="registration-form__label" for="name">Имя</label>
-        <input type="text" placeholder="Имя" class="registration-form__input" v-model="this.formRegistration.name">
+        <label class="registration-form__label" for="name" >Имя</label>
+        <input type="text" placeholder="Имя" class="registration-form__input" v-model="this.formRegistration.name" required minlength="5">
       </div>
       <div class="registration-form__field">
         <label class="registration-form__label" for="email">Почта</label>
-        <input type="email" placeholder="email@inbox.com" class="registration-form__input" v-model="this.formRegistration.email">
+        <input type="email" placeholder="email@inbox.com" class="registration-form__input" v-model="this.formRegistration.email" required>
       </div>
       <div class="registration-form__field">
         <label class="registration-form__label" for="password">Пароль</label>
-        <input type="password" placeholder="Пароль" class="registration-form__input" v-model="this.formRegistration.password">
+        <input type="password" placeholder="Пароль" class="registration-form__input" v-model="this.formRegistration.password" required>
       </div>
       <div class="registration-form__field">
         <label class="registration-form__label" for="password">Повторить пароль</label>
-        <input type="password" placeholder="Повторить пароль" class="registration-form__input" v-model="this.formRegistration.confermPassword">
+        <input type="password" placeholder="Повторить пароль" class="registration-form__input" v-model="this.formRegistration.confermPassword" required>
       </div>
+      <div v-if="error" class="EerrorPassword"> {{ error }}</div>
       <button type="submit" class="registration-form__submit">Зарегистрароваться</button>
     </form>
-    <button class="registration-form__redirect"><RouterLink to="/auth">Авторизация</RouterLink></button>
+    <RouterLink to="/auth" class="registration-form__redirect">Авторизация</RouterLink>
   </div>
 </template>
 
@@ -37,31 +38,43 @@ export default {
         email: '',
         password: '',
         confermPassword: '',
-      }
+      },
+      error: null
     }
   },
 
   methods: {
+    comparison(){
+      if(this.formRegistration.password == this.formRegistration.confermPassword){
+       this.submit()
+       this.error = null
+      }else
+      this.error = 'Пароли не совпадают!'
+    },
+
+
     async submit() {
       if(this.formRegistration.name != '' && this.formRegistration.email != '' && this.formRegistration.email != '', this.formRegistration.password != '' && this.formRegistration.confermPassword != '') {
         const formData = {
           ...this.formRegistration
-        };
+        }
+
+
+
         
         await axios
           .put('auth/signup', {formData})
           .then((res) => {
-            console.log('Получилось!');
+            router.push('/auth')
           })
           .catch((err) => {
-            console.log(err);
+            alert(err.response.data.cause)
           })
         
-        await this.resetForm();
 
-        await router.push('/auth');
       };
     },
+
       
     resetForm() {
       this.formRegistration = { name: '', email: '', password: '', confermPassword: '' };
@@ -70,6 +83,12 @@ export default {
 };
 </script>
 <style scope>
+.EerrorPassword{
+  color: red;
+  padding-bottom: 10px;
+  font-weight: 600;
+  
+}
   .registration {
   display: flex;
   flex-direction: column;
@@ -98,7 +117,7 @@ export default {
     flex-direction: column;
     justify-content: flex-start;
     gap: 5px;
-    margin: 15px 0;
+    margin: 10px 0;
   }
 
   .registration-form__label {
@@ -124,24 +143,24 @@ export default {
     width: 100%;
     height: 45px;
     margin-bottom: 10px;
-    border: none;
     border-radius: 10px;
     background: #5D5FEF;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.30);
     color: #f4f2ff;
+    border:solid 2px black;
+
   }
   .registration-form__submit:hover {
-    background: #13c4bb;
+    background: rgba(rgb(101, 41, 212), green, blue, alpha);
     cursor: pointer;
   }
   .registration-form__redirect {
-    padding-inline: 70px;
-    padding-block: 12px;
-    border-radius: 10px;
-    background: #5D5FEF;
+font-weight: 600;
+color: lightsteelblue;
+
   }
   .registration-form__redirect:hover {
-    background: #13c4bb;
+    color: whitesmoke;
     cursor: pointer;
   }
 </style>
