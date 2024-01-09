@@ -16,12 +16,12 @@
       </div>
       <button class="auth-form__submit" type="submit">Войти</button>
     </form>
-    <button class="auth-form__redirect" ><RouterLink to="/registration">Регистрация</RouterLink></button>
+    <RouterLink class="auth-form__redirect" to="/registration">Регистрация</RouterLink>
   </div>
 </template>
 
 <script>
-import { RouterLink } from 'vue-router';
+import { RouterLink, routerKey } from 'vue-router';
 import axios from '../utils/axios'
 import router from '@/router';
 
@@ -47,14 +47,16 @@ import router from '@/router';
             localStorage.setItem('token', res.data.token);
             localStorage.setItem('userId', res.data.userId);
             localStorage.setItem('userEmail', formData.email);
+            router.push('/boards');
           })
           .catch((err) => {
-            console.log(err);
+            alert(err.response.data.cause);
+            router.push('/auth');
           })
         
         await this.resetForm();
         
-        await router.push('/boards');
+
       },
 
       resetForm() {
@@ -65,7 +67,9 @@ import router from '@/router';
 </script>
 
 <style scoped>
+
   .auth {
+
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -166,13 +170,14 @@ import router from '@/router';
 
   .auth-form__redirect {
     padding-inline: 70px;
-    padding-block: 12px;
     border-radius: 10px;
-    background: #5D5FEF;
+    font-weight: 600;
+color: lightsteelblue;
+    
   }
 
   .auth-form__redirect:hover {
-    background: #13c4bb;
+    color: whitesmoke;
     cursor: pointer;
   }
 </style>
