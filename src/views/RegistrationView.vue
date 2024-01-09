@@ -47,6 +47,7 @@ export default {
     comparison(){
       if(this.formRegistration.password == this.formRegistration.confermPassword){
        this.submit()
+       this.error = null
       }else
       this.error = 'Пароли не совпадают!'
     },
