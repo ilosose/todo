@@ -4,7 +4,7 @@
     <form @submit.prevent="comparison" class="registration-form">
       <div class="registration-form__field">
         <label class="registration-form__label" for="name" >Имя</label>
-        <input type="text" placeholder="Имя" class="registration-form__input" v-model="this.formRegistration.name" required>
+        <input type="text" placeholder="Имя" class="registration-form__input" v-model="this.formRegistration.name" required minlength="5">
       </div>
       <div class="registration-form__field">
         <label class="registration-form__label" for="email">Почта</label>
@@ -57,23 +57,24 @@ export default {
       if(this.formRegistration.name != '' && this.formRegistration.email != '' && this.formRegistration.email != '', this.formRegistration.password != '' && this.formRegistration.confermPassword != '') {
         const formData = {
           ...this.formRegistration
-        };
+        }
+
+
 
         
         await axios
           .put('auth/signup', {formData})
           .then((res) => {
-            console.log('Получилось!');
+            router.push('/auth')
           })
           .catch((err) => {
-            console.log(err);
+            alert(err.response.data.cause)
           })
         
-        await this.resetForm();
 
-        await router.push('/auth');
       };
     },
+
       
     resetForm() {
       this.formRegistration = { name: '', email: '', password: '', confermPassword: '' };
