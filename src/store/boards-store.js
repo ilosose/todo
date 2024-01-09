@@ -6,18 +6,18 @@ export default {
 
   mutations: {
     openModal(state){
-      state.showModal = true;
+      state.isShowModal = true;
     },
     closeModal(state){
-      state.showModal = false;
+      state.isShowModal = false;
     }
   },
 
   actions: {},
 
   getters: {
-    modals(state) {
-      return state.modals;
+    isShowModal(state) {
+      return state.isShowModal;
     },
   }
 }

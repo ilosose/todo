@@ -18,8 +18,6 @@
 </template>
 
 <script>
-import store from '@/store';
-import { mapMutations, mapState } from 'vuex';
 
 export default {
   data() {
@@ -31,7 +29,7 @@ export default {
 
   methods:{
     openWindow(){
-      this.$store.commit('openModal');
+      this.$store.commit('boards/openModal');
     }
   },
     

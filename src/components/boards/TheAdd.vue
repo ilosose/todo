@@ -1,5 +1,5 @@
 <template>
-  <div v-if="showModal" class="window">
+  <div class="window" v-if="isShowModal">
     <div class="window__container">
       <a href="#" class="close-window" @click="closeWindow">✖</a>
       <form >
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-
+import { mapGetters } from 'vuex'; 
 
 export default {
   data() {
@@ -36,9 +36,14 @@ export default {
       },
     };
   },
+
+  computed: {
+    ...mapGetters('boards', ['isShowModal'])
+  },
+
   methods: {
     closeWindow(){
-      this.$store.commit('closeModal');
+      this.$store.commit('boards/closeModal');
     }
   },
 };

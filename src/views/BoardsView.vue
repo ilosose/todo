@@ -2,8 +2,7 @@
   <button @click.prevent="resetLocalStorageButton" class="exit">
     <RouterLink to="/registration">Выйти</RouterLink>
   </button>
-  <the-add
-  />
+  <the-add />
   <div class="board" v-if="this.boards">
     <column-board
       v-for="board in boards"
@@ -33,7 +32,7 @@ export default {
   },
 
   computed:{
-    ...mapGetters('boards', ['modals'])
+    ...mapGetters('boards', ['isShowModal'])
   },
 
   methods: {
