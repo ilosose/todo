@@ -1,22 +1,24 @@
 <template>
   <div class="window" v-if="isShowModal">
     <div class="window__container">
-      <a href="#" class="close-window" @click="closeWindow">✖</a>
-      <form >
-        <!-- @submit.prevent="submitBoards" -->
+      <form @submit.prevent="submitBoards">
         <input
           type="text"
-          v-model="newBoards.name"
+          v-model="newBoard.name"
           required
           placeholder="Введите заголовок доски"
         />
         <textarea
-          v-model="newBoards.description"
+          v-model="newBoard.description"
           required
           placeholder="Введите описание доски"
         ></textarea>
         <button type="submit">Отправить</button>
-        <button type="button" class="cancel-btn" @click="closeWindow">
+        <button 
+          type="button" 
+          class="cancel-btn" 
+          @click="closeWindow"
+        >
           Отмена
         </button>
       </form>
@@ -30,21 +32,31 @@ import { mapGetters } from 'vuex';
 export default {
   data() {
     return {
-      newBoards: {
-        name: "",
-        description: "",
+      newBoard: {
+        name: '',
+        description: '',
       },
     };
   },
 
   computed: {
-    ...mapGetters('boards', ['isShowModal'])
+    ...mapGetters('boards', ['isShowModal']),
   },
 
   methods: {
-    closeWindow(){
+    submitBoards() {
+      this.$store.commit('boards/closeModal')
+      this.$emit('add-board', { ...this.newBoard });
+      this.resetForm();
+    },
+
+    closeWindow() {
       this.$store.commit('boards/closeModal');
-    }
+    },
+
+    resetForm() {
+      this.newBoard = { name: '', description: '' };
+    },
   },
 };
 </script>

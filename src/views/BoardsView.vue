@@ -1,19 +1,11 @@
 <template>
-  <button @click.prevent="resetLocalStorageButton" class="exit">
-    <RouterLink to="/registration">Выйти</RouterLink>
-  </button>
-  <the-add />
-  <div class="board" v-if="this.boards">
-    <column-board
-      v-for="board in boards"
-      class="board__box"
-      :key="board.id"
-      :board="board"
+  <button @click.prevent="resetLocalStorageButton" class="exit">Выйти</button>
+    <the-add 
+      @add-board="addBoard"
     />
-  </div>
+    <column-board />
 </template>
 <script>
-import { RouterLink } from "vue-router";
 import ColumnBoard from "../components/boards/TheBoard.vue";
 import TheAdd from "../components/boards/TheAdd.vue";
 import { mapActions, mapGetters } from "vuex";
@@ -25,41 +17,37 @@ export default {
     TheAdd,
   },
 
-  data() {
-    return {
-      boards: [],
-    };
-  },
-
   computed:{
     ...mapGetters('boards', ['isShowModal'])
   },
 
   methods: {
-    ...mapActions(["resetLocalStorage"]),
+    ...mapActions(['resetLocalStorage']),
+    ...mapActions('boards', ['getBoards']),
 
-    async getBoards() {
-      const userId = localStorage.getItem("userId");
+    async addBoard(newBoard) {
+      const userId = localStorage.getItem('userId');
+      const formData = {
+        ...newBoard
+      };
+
       await axios
-        .get(`user/${userId}/boards`)
+        .post(`user/${userId}/boards`, {formData})
         .then((res) => {
-          this.boards = res.data;
+          console.log(res)
         })
         .catch((err) => {
-          console.log(err);
+          console.log(err)
         });
+      
+      await this.getBoards();
     },
 
     async resetLocalStorageButton() {
       await this.resetLocalStorage();
+      await this.$router.push('/registration')
     },
 
-    openModal() {
-      this.isModalVisible = true;
-    },
-    closeModal() {
-      this.isModalVisible = false;
-    },
   },
 
   async mounted() {
@@ -69,28 +57,16 @@ export default {
 </script>
 
 <style scope>
-.board {
-  display: flex;
-  margin-right: auto;
-  padding: 14px;
-  margin-top: 150px;
-  margin-left: 100px;
-  margin: auto;
-  color: #5d5fef;
-
-  border-radius: 12px;
-  background-color: #d5ccff;
-}
-.exit {
-  justify-content: end;
-  margin-left: auto;
-  margin-right: 12px;
-  padding: 15px;
-  border-radius: 12px;
-  background-color: #d5ccff;
-}
-.exit:hover {
-  background: #13c4bb;
-  cursor: pointer;
-}
+  .exit {
+    justify-content: end;
+    margin-left: auto;
+    margin-right: 12px;
+    padding: 15px;
+    border-radius: 12px;
+    background-color: #d5ccff;
+  }
+  .exit:hover {
+    background: #13c4bb;
+    cursor: pointer;
+  }
 </style>
