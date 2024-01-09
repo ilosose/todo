@@ -4,7 +4,7 @@ const router = createRouter({
   history: createWebHistory(''),
   routes: [
     {
-      path: '/todo',
+      path: '/boards/:boardId',
       name: 'todo',
       component: () => import('../views/TodoView.vue')
     },

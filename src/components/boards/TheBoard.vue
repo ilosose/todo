@@ -26,29 +26,20 @@
   </div>
 </template>
 <script>
-import router from '@/router';
 import { mapGetters, mapActions } from 'vuex';
 import axios from '../../utils/axios';
 export default {
-  data() {
-    return {
-    }
-  },
-
   computed: {
     ...mapGetters('boards', ['boards'])
   },
 
   methods: {
     ...mapActions('boards', ['getBoards']),
+
     async deleteBoard(boardId) {
-      console.log(boardId);
       const userId = localStorage.getItem('userId')
       await axios
         .delete(`user/${userId}/boards/${boardId}`)
-        .then((res) => {
-          console.log('Good')
-        })
         .catch((err) => {
           console.log(err)
         });
@@ -57,8 +48,8 @@ export default {
     },
   
     async openColumn(boardId) {
-      await localStorage.setItem('boardId', boardId);
-      await router.push('/todo');
+      console.log(boardId)
+      await this.$router.push({ name: 'todo', params: { boardId: boardId}});
     },
   },
   
@@ -82,7 +73,8 @@ export default {
     flex: 1 0 0;
     padding: 14px;
     border-radius: 12px;
-    background-color: #13c4bb;
+    background-color: #D5CCFF;
+    color: #2B1887;
   }
 
   .board-item__title:hover {

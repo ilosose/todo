@@ -21,9 +21,8 @@
 </template>
 
 <script>
-import { RouterLink, routerKey } from 'vue-router';
-import axios from '../utils/axios'
-import router from '@/router';
+import { RouterLink } from 'vue-router';
+import axios from '../utils/axios';
 
   export default {
     data() {
@@ -46,17 +45,14 @@ import router from '@/router';
           .then((res) => {
             localStorage.setItem('token', res.data.token);
             localStorage.setItem('userId', res.data.userId);
-            localStorage.setItem('userEmail', formData.email);
-            router.push('/boards');
+            this.$router.push({ name: 'boards' });
           })
           .catch((err) => {
             alert(err.response.data.cause);
-            router.push('/auth');
+            this.$router.push({ name: 'auth' });
           })
         
         await this.resetForm();
-        
-
       },
 
       resetForm() {
@@ -172,7 +168,7 @@ import router from '@/router';
     padding-inline: 70px;
     border-radius: 10px;
     font-weight: 600;
-color: lightsteelblue;
+    color: lightsteelblue;
     
   }
 

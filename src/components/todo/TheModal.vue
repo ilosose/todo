@@ -1,7 +1,6 @@
 <template>
   <div class="modal"> 
     <div class="modal__container">
-      <a href="#" class="close-modal" @click="closeModal">✖</a> 
       <form @submit.prevent="submitTask">
         <input type="text" v-model="newTask.name" required placeholder="Введите заголовок задачи"/>
         <textarea v-model="newTask.description" required placeholder="Введите описание задачи"></textarea>

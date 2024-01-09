@@ -8,8 +8,6 @@ const store = createStore({
   actions: {
     resetLocalStorage() {
       localStorage.removeItem('token');
-      localStorage.removeItem('userEmail');
-      localStorage.removeItem('boardId');
       localStorage.removeItem('userId');
     }
   },

@@ -4,17 +4,20 @@ export default {
   namespaced: true,
   state: {
     columns: [],
+    boardId: null,
   },
 
   mutations: {
+    setBoardId(state, boardId) {
+      state.boardId = boardId;
+    },
     setColumns: (state, columnsData) => {
       state.columns = columnsData;
     },
   },
 
   actions: {
-    getColumns({ commit }) {
-      const boardId = localStorage.getItem('boardId')
+    getColumns({ commit }, boardId) {
       return axios
         .get(`boards/${boardId}/tasks`)
         .then((res) => {
@@ -28,6 +31,9 @@ export default {
   },
 
   getters: {
+    boardId(state) {
+      return state.boardId;
+    },
     columns(state) {
       return state.columns;
     },
