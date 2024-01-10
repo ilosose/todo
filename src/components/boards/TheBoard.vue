@@ -19,6 +19,7 @@
       </div>
       <div>
         <button class="board-item__delete" @click.prevent="deleteBoard(board.id)">Удалить</button>
+        <button class="board-item__edit" @click.prevent="openEditWindow(board.id)">Изменить</button>  
       </div>
     </section>
   </div>
@@ -42,39 +43,43 @@ export default {
 
       await this.getBoards();
     },
-
+    
+    openEditWindow(boardId){
+      this.$emit('edit-board', boardId);
+    },
+  
     async openColumn(boardId) {
-      console.log(boardId);
-      await this.$router.push({ name: "todo", params: { boardId: boardId } });
+      await this.$router.push({ name: 'todo', params: { boardId: boardId}});
     },
   },
-};
+}
+
 </script>
 <style scope>
 
-.board {
-  display: flex;
-  padding: 40px;
-  align-items: flex-start;
-  gap: 40px;
-  margin: 10px 0;
-}
+  .board {
+    display: flex;
+    padding: 40px;
+    align-items: flex-start;
+    gap: 40px;
+    margin: 10px 0;
+  }
 
-.board-item {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 24px;
-  flex: 1 0 0;
-  padding: 14px;
-  border-radius: 12px;
-  background-color: #d5ccff;
-  color: #2b1887;
-}
+  .board-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 24px;
+    flex: 1 0 0;
+    padding: 14px;
+    border-radius: 12px;
+    background-color: #d5ccff;
+    color: #2b1887;
+  }
 
-.board-item__title:hover {
-  color: #13c4bb;
-  cursor: pointer;
-}
+  .board-item__title:hover {
+    color: #13c4bb;
+    cursor: pointer;
+  }
 </style>

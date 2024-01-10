@@ -1,22 +1,32 @@
 <template>
   <button @click.prevent="resetLocalStorageButton" class="exit">Выйти</button>
     <the-add @add-board="addBoard"/>
-    <column-board />
+    <the-edit 
+      v-if="isEditModal"
+      @edit-board="editBoard"
+      @close-edit-modal="closeEditModal"
+     />
+    <column-board @edit-board="openEditModal"/>
 </template>
 <script>
 import ColumnBoard from "../components/boards/TheBoard.vue";
 import TheAdd from "../components/boards/TheAdd.vue";
-import { mapActions, mapGetters } from "vuex";
+import TheEdit from "../components/boards/TheEdit.vue"
+import { mapActions } from "vuex";
 import axios from "../utils/axios";
 
 export default {
   components: {
     ColumnBoard,
     TheAdd,
+    TheEdit,
   },
 
-  computed:{
-    ...mapGetters('boards', ['isShowModal'])
+  data() {
+    return {
+      isEditModal: false,
+      curentBoardId: null,
+    }
   },
 
   methods: {
@@ -32,9 +42,33 @@ export default {
 
       await axios
         .post(`user/${userId}/boards`, {formData})
-        .then((res) => {
-          console.log(res)
-        })
+        .catch((err) => {
+          console.log(err)
+        });
+      
+      await this.getBoards();
+    },
+
+    openEditModal(boardId) {
+      this.curentBoardId = boardId;
+      this.isEditModal = true;
+    },
+
+    closeEditModal() {
+      this.isEditModal = false;
+    },
+
+    async editBoard(editBoard) {
+      const curentBoardId = this.curentBoardId;
+      const userId = localStorage.getItem('userId');
+      const formData = {
+        ...editBoard
+      };
+
+      this.isEditModal = false;
+      
+      await axios
+        .put(`user/${userId}/boards/${curentBoardId}`, {formData})
         .catch((err) => {
           console.log(err)
         });
