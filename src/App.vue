@@ -8,7 +8,6 @@
 import { RouterView } from 'vue-router';
 import TheHeader from '@/components/TheHeader.vue';
 import TheFooter from '@/components/TheFooter.vue';
-import router from './router';
 export default {
   components: {
     TheHeader,
@@ -17,16 +16,9 @@ export default {
 
   created() {
     if (!localStorage.getItem('token')) {
-      router.push('/registration')
+      this.$router.push({ name: 'registration'})
     };
-    if (localStorage.getItem('token')) {
-      router.push('/boards')
-    }
-    if (localStorage.getItem('boardId')) {
-      router.push('/todo')
-    }
   }
-
 }
 </script>
 

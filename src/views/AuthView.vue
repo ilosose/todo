@@ -4,11 +4,11 @@
     <form class="auth-form" @submit.prevent="submit">
       <div class="auth-form__field">
         <label class="auth-form__label" for="email">Почта</label>
-        <input class="auth-form__input" type="email" v-model="formAuth.email">
+        <input class="auth-form__input" placeholder="email" type="email" v-model="formAuth.email">
       </div>
       <div class="auth-form__field">
         <label class="auth-form__label" for="password">Пароль</label>
-        <input class="auth-form__input" type="password" v-model="formAuth.password">
+        <input class="auth-form__input" placeholder="password" type="password" v-model="formAuth.password">
       </div>
       <div class="auth-form__field auth-form__field--remember-me">
         <input class="auth-form__checkbox" type="checkbox" id="remember-me">
@@ -21,9 +21,8 @@
 </template>
 
 <script>
-import { RouterLink, routerKey } from 'vue-router';
-import axios from '../utils/axios'
-import router from '@/router';
+import { RouterLink } from 'vue-router';
+import axios from '../utils/axios';
 
   export default {
     data() {
@@ -46,17 +45,14 @@ import router from '@/router';
           .then((res) => {
             localStorage.setItem('token', res.data.token);
             localStorage.setItem('userId', res.data.userId);
-            localStorage.setItem('userEmail', formData.email);
-            router.push('/boards');
+            this.$router.push({ name: 'boards' });
           })
           .catch((err) => {
             alert(err.response.data.cause);
-            router.push('/auth');
+            this.$router.push({ name: 'auth' });
           })
         
         await this.resetForm();
-        
-
       },
 
       resetForm() {
@@ -172,7 +168,7 @@ import router from '@/router';
     padding-inline: 70px;
     border-radius: 10px;
     font-weight: 600;
-color: lightsteelblue;
+    color: lightsteelblue;
     
   }
 

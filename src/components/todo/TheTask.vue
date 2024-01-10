@@ -25,7 +25,7 @@
 
 <script>
 import axios from '../../utils/axios';
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
   export default {
     props: {
@@ -34,9 +34,13 @@ import { mapActions } from 'vuex';
         default: {},
       },
     },
+
+    computed: { 
+      ...mapGetters('columns', ['boardId']),
+    },
     
     methods: {
-      ...mapActions('tasks', ['getColumns']),
+      ...mapActions('columns', ['getColumns']),
 
       getComplexityDot(createdAt) {
         const currentDate = new Date();
@@ -63,17 +67,13 @@ import { mapActions } from 'vuex';
       },
 
       async deleteTask(taskId) {
-        const boardId = localStorage.getItem('boardId')
         await axios
-          .delete(`boards/${boardId}/tasks/${taskId}`)
-          .then(() => {
-            console.log('Задача успешно удалена');
-          })
+          .delete(`boards/${this.boardId}/tasks/${taskId}`)
           .catch((err) => {
             console.log(err);
           });
         
-        await this.getColumns();
+        await this.getColumns(this.boardId);
       },
       
       startDrag(event) {

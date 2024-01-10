@@ -1,8 +1,6 @@
 <template>
   <button @click.prevent="resetLocalStorageButton" class="exit">Выйти</button>
-    <the-add 
-      @add-board="addBoard"
-    />
+    <the-add @add-board="addBoard"/>
     <column-board />
 </template>
 <script>
@@ -23,6 +21,7 @@ export default {
 
   methods: {
     ...mapActions(['resetLocalStorage']),
+    
     ...mapActions('boards', ['getBoards']),
 
     async addBoard(newBoard) {
@@ -45,7 +44,7 @@ export default {
 
     async resetLocalStorageButton() {
       await this.resetLocalStorage();
-      await this.$router.push('/registration')
+      await this.$router.push({ name: 'registration' })
     },
 
   },

@@ -25,7 +25,6 @@ export default {
       return axios
         .get(`user/${userId}/boards`)
         .then((res) => {
-          console.log(res.data)
           const boardsData = res.data;
           commit('setBoards', boardsData)
         })

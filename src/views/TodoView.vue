@@ -2,10 +2,10 @@
  
   <div class="nav">
     <button @click.prevent="resetLocalStorageButton" class="nav__exit">
-      <RouterLink to="/registration">Выйти</RouterLink>
+      Выйти
     </button>
-    <button @click.prevent="resetLocalStorageBoardButton" class="nav__go-back">
-      <RouterLink to="/boards">Страница досок</RouterLink>
+    <button @click.prevent="this.$router.push({ name: 'boards' })" class="nav__go-back">
+      Страница досок
     </button>
   </div>
 
@@ -24,8 +24,7 @@
 <script>
 import TheModal from '../components/todo/TheModal.vue';
 import KanbanColumn from '../components/todo/TheColumn.vue';
-import { RouterLink } from 'vue-router';
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import axios from '../utils/axios'
 
 export default {
@@ -41,20 +40,22 @@ export default {
     }
   },
 
+  computed: {
+    ...mapGetters('columns', ['boardId'])
+  },
+
   methods: {
     ...mapActions(['resetLocalStorage']),
 
-    ...mapActions('tasks', ['getColumns']),
-
-    resetLocalStorageBoard() {
-      localStorage.removeItem('boardId');
-    },
+    ...mapActions('columns', ['getColumns']),
   
     async resetLocalStorageButton() {
+      await this.$router.push({ name: 'registration' });
       await this.resetLocalStorage();
     },
 
     async resetLocalStorageBoardButton() {
+      await this.$router.push({ name: 'boards' });
       await this.resetLocalStorageBoard();
     },
 
@@ -69,7 +70,6 @@ export default {
 
     async addTaskData(newTask) {
       const statusId = this.curentColumnId;
-      const boardId = localStorage.getItem('boardId')
       const formData = {
         ...newTask,
         statusId: statusId
@@ -78,7 +78,7 @@ export default {
       this.closeModal();
 
       await axios
-        .post(`boards/${boardId}/tasks`, {formData})
+        .post(`boards/${this.boardId}/tasks`, {formData})
         .then((res) => {
           console.log(res)
         })
@@ -86,12 +86,13 @@ export default {
           console.log(err)
         })
 
-      await this.getColumns();
+      await this.getColumns(this.boardId);
     },
   },
 
   async mounted() {
-    await this.getColumns();
+    await this.$store.commit('columns/setBoardId', this.$route.params.boardId)
+    await this.getColumns(this.boardId);
   },
 };
 </script>

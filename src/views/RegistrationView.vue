@@ -27,8 +27,7 @@
 
 <script>
 import { RouterLink } from 'vue-router';
-import axios from '../utils/axios'
-import router from '@/router';
+import axios from '../utils/axios';
 
 export default {
   data() {
@@ -65,7 +64,7 @@ export default {
         await axios
           .put('auth/signup', {formData})
           .then((res) => {
-            router.push('/auth')
+            this.$router.push({ name: 'auth' })
           })
           .catch((err) => {
             alert(err.response.data.cause)
