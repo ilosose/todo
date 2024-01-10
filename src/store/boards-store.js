@@ -5,6 +5,7 @@ export default {
   state: {
     boards: [],
     isShowModal: false,
+    isEditModal: false,
   },
 
   mutations: {
@@ -16,6 +17,12 @@ export default {
     },
     closeModal(state) {
       state.isShowModal = false;
+    },
+    openEditModal(state){
+      state.isEditModal = true;
+    },
+    closeEditModal(state){
+      state.isEditModal = false;
     }
   },
 
@@ -41,5 +48,8 @@ export default {
     isShowModal(state) {
       return state.isShowModal;
     },
+    isEditModal(state){
+      return state.isEditModal;
+    }
   }
 }

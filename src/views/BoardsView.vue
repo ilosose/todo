@@ -1,11 +1,13 @@
 <template>
   <button @click.prevent="resetLocalStorageButton" class="exit">Выйти</button>
     <the-add @add-board="addBoard"/>
+    <the-edit @edit-board="editsBoard" />
     <column-board />
 </template>
 <script>
 import ColumnBoard from "../components/boards/TheBoard.vue";
 import TheAdd from "../components/boards/TheAdd.vue";
+import TheEdit from "../components/boards/TheEdit.vue"
 import { mapActions, mapGetters } from "vuex";
 import axios from "../utils/axios";
 
@@ -13,10 +15,12 @@ export default {
   components: {
     ColumnBoard,
     TheAdd,
+    TheEdit,
   },
 
   computed:{
-    ...mapGetters('boards', ['isShowModal'])
+    ...mapGetters('boards', ['isShowModal']),
+    ...mapGetters('boards',['isEditModal'])
   },
 
   methods: {
@@ -32,6 +36,24 @@ export default {
 
       await axios
         .post(`user/${userId}/boards`, {formData})
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((err) => {
+          console.log(err)
+        });
+      
+      await this.getBoards();
+    },
+
+    async editsBoard(boardId) {
+      const userId = localStorage.getItem('userId');
+      const formData = {
+        ...editBoard
+      };
+      
+      await axios
+        .put(`user/${userId}/boards/${boardId}`, {formData})
         .then((res) => {
           console.log(res)
         })

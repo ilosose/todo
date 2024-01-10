@@ -21,6 +21,7 @@
       </div>
       <div>
         <button class="board-item__delete" @click.prevent="deleteBoard(board.id)">Удалить</button>
+        <button class="board-item__edit" @click.prevent="openEditWindow(board.id)">Изменить</button>  
       </div>
     </section>
   </div>
@@ -46,13 +47,18 @@ export default {
       
         await this.getBoards();
     },
+
+    
+      openEditWindow(boardId){
+      this.$store.commit('boards/openEditModal');
+      console.log(boardId);
+    },
   
     async openColumn(boardId) {
       console.log(boardId)
       await this.$router.push({ name: 'todo', params: { boardId: boardId}});
     },
   },
-  
 }
 </script>
 <style scope>
@@ -80,6 +86,10 @@ export default {
   .board-item__title:hover {
     color: #13c4bb;
     cursor: pointer;
+  }
+
+  .board-item__edit{
+    margin: 0 5px;
   }
   
 </style>

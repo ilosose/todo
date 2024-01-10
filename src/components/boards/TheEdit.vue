@@ -1,23 +1,23 @@
 <template>
-  <div class="window" v-if="isShowModal">
+    <div class="window" v-if="isEditModal">
     <div class="window__container">
-      <form @submit.prevent="submitBoards">
+      <form @submit.prevent="submitEdit">
         <input
           type="text"
-          v-model="newBoard.name"
+          v-model="editBoard.name"
           required
           placeholder="Введите заголовок доски"
         />
         <textarea
-          v-model="newBoard.description"
+          v-model="editBoard.description"
           required
           placeholder="Введите описание доски"
         ></textarea>
-        <button type="submit">Отправить</button>
+        <button type="submit">Изменить</button>
         <button 
           type="button" 
           class="cancel-btn" 
-          @click="closeWindow"
+          @click="closeEditModal"
         >
           Отмена
         </button>
@@ -29,37 +29,33 @@
 <script>
 import { mapGetters } from 'vuex'; 
 
-export default {
-  data() {
+    export default {
+        data() {
     return {
-      newBoard: {
+      editBoard: {
         name: '',
         description: '',
       },
     };
   },
-
   computed: {
-    ...mapGetters('boards', ['isShowModal']),
+    ...mapGetters('boards', ['isEditModal']),
   },
-
-  methods: {
-    submitBoards() {
-      this.$store.commit('boards/closeModal')
-      this.$emit('add-board', { ...this.newBoard });
+  methods:{
+    submitEdit() {
+      this.$store.commit('boards/closeEditModal')
+      this.$emit('edit-board', { ...this.editBoard });
       this.resetForm();
     },
-
-    closeWindow() {
-      this.$store.commit('boards/closeModal');
-      this.resetForm();
+    closeEditModal() {
+        this.$store.commit('boards/closeEditModal');
+        this.resetForm();
+      },
+      resetForm() {
+      this.editBoard = { name: '', description: '' };
     },
-
-    resetForm() {
-      this.newBoard = { name: '', description: '' };
-    },
-  },
-};
+  }
+    }
 </script>
 
 <style scoped>
