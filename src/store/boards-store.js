@@ -4,26 +4,21 @@ export default {
   namespaced: true,
   state: {
     boards: [],
-    isShowModal: false,
-    isEditModal: false,
+    isAddModal: false,
   },
 
   mutations: {
     setBoards(state, boardsData) {
       state.boards = boardsData;
     },
+
     openModal(state) {
-      state.isShowModal = true;
+      state.isAddModal = true;
     },
+    
     closeModal(state) {
-      state.isShowModal = false;
+      state.isAddModal = false;
     },
-    openEditModal(state){
-      state.isEditModal = true;
-    },
-    closeEditModal(state){
-      state.isEditModal = false;
-    }
   },
 
   actions: {
@@ -45,11 +40,9 @@ export default {
     boards(state) {
       return state.boards;
     },
-    isShowModal(state) {
-      return state.isShowModal;
-    },
-    isEditModal(state){
-      return state.isEditModal;
+
+    isAddModal(state) {
+      return state.isAddModal;
     }
   }
 }

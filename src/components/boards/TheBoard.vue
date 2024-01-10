@@ -49,13 +49,11 @@ export default {
     },
 
     
-      openEditWindow(boardId){
-      this.$store.commit('boards/openEditModal');
-      console.log(boardId);
+    openEditWindow(boardId){
+      this.$emit('edit-board', boardId);
     },
   
     async openColumn(boardId) {
-      console.log(boardId)
       await this.$router.push({ name: 'todo', params: { boardId: boardId}});
     },
   },

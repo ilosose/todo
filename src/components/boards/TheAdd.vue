@@ -1,5 +1,5 @@
 <template>
-  <div class="window" v-if="isShowModal">
+  <div class="window" v-if="isAddModal">
     <div class="window__container">
       <form @submit.prevent="submitBoards">
         <input
@@ -40,7 +40,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters('boards', ['isShowModal']),
+    ...mapGetters('boards', ['isAddModal']),
   },
 
   methods: {

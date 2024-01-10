@@ -1,5 +1,5 @@
 <template>
-    <div class="window" v-if="isEditModal">
+    <div class="window">
     <div class="window__container">
       <form @submit.prevent="submitEdit">
         <input
@@ -27,10 +27,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'; 
 
-    export default {
-        data() {
+export default {
+  data() {
     return {
       editBoard: {
         name: '',
@@ -38,24 +37,22 @@ import { mapGetters } from 'vuex';
       },
     };
   },
-  computed: {
-    ...mapGetters('boards', ['isEditModal']),
-  },
+
   methods:{
     submitEdit() {
-      this.$store.commit('boards/closeEditModal')
       this.$emit('edit-board', { ...this.editBoard });
       this.resetForm();
     },
+
     closeEditModal() {
-        this.$store.commit('boards/closeEditModal');
-        this.resetForm();
-      },
-      resetForm() {
+      this.$emit('close-edit-modal')
+    },
+
+    resetForm() {
       this.editBoard = { name: '', description: '' };
     },
   }
-    }
+}
 </script>
 
 <style scoped>
