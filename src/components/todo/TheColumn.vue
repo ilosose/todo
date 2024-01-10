@@ -38,7 +38,7 @@ import { mapGetters } from 'vuex';
     },
 
     computed: {
-      ...mapGetters('tasks', ['columns'])
+      ...mapGetters('columns', ['columns'])
     },
 
     methods: {

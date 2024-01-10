@@ -4,11 +4,11 @@
     <form class="auth-form" @submit.prevent="submit">
       <div class="auth-form__field">
         <label class="auth-form__label" for="email">Почта</label>
-        <input class="auth-form__input" type="email" v-model="formAuth.email">
+        <input class="auth-form__input" placeholder="email" type="email" v-model="formAuth.email">
       </div>
       <div class="auth-form__field">
         <label class="auth-form__label" for="password">Пароль</label>
-        <input class="auth-form__input" type="password" v-model="formAuth.password">
+        <input class="auth-form__input" placeholder="password" type="password" v-model="formAuth.password">
       </div>
       <div class="auth-form__field auth-form__field--remember-me">
         <input class="auth-form__checkbox" type="checkbox" id="remember-me">

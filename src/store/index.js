@@ -2,7 +2,7 @@ import { createStore } from "vuex";
 
 import user from './user-store';
 import boards from './boards-store';
-import tasks from './tasks-store';
+import columns from './columns-store';
 
 const store = createStore({
   actions: {
@@ -15,7 +15,7 @@ const store = createStore({
   modules: {
     user,
     boards,
-    tasks,
+    columns,
   }
 })
 

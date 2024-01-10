@@ -36,11 +36,11 @@ import { mapActions, mapGetters } from 'vuex';
     },
 
     computed: { 
-      ...mapGetters('tasks', ['boardId']),
+      ...mapGetters('columns', ['boardId']),
     },
     
     methods: {
-      ...mapActions('tasks', ['getColumns']),
+      ...mapActions('columns', ['getColumns']),
 
       getComplexityDot(createdAt) {
         const currentDate = new Date();

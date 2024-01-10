@@ -41,13 +41,13 @@ export default {
   },
 
   computed: {
-    ...mapGetters('tasks', ['boardId'])
+    ...mapGetters('columns', ['boardId'])
   },
 
   methods: {
     ...mapActions(['resetLocalStorage']),
 
-    ...mapActions('tasks', ['getColumns']),
+    ...mapActions('columns', ['getColumns']),
   
     async resetLocalStorageButton() {
       await this.$router.push({ name: 'registration' });
@@ -91,7 +91,7 @@ export default {
   },
 
   async mounted() {
-    await this.$store.commit('tasks/setBoardId', this.$route.params.boardId)
+    await this.$store.commit('columns/setBoardId', this.$route.params.boardId)
     await this.getColumns(this.boardId);
   },
 };
