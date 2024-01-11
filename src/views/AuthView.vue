@@ -65,21 +65,17 @@ import axios from '../utils/axios';
 <style scoped>
 
   .auth {
-
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
     width: 100vw;
     height: 100vh;
-
     background: #2B1887;
 
   }
   .auth__title {
     color: #f4f2ff;
-
     text-align: center;
     font-size: 50px;
     font-style: normal;

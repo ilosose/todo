@@ -4,11 +4,6 @@ const router = createRouter({
   history: createWebHistory(''),
   routes: [
     {
-      path: '/boards/:boardId',
-      name: 'todo',
-      component: () => import('../views/TodoView.vue')
-    },
-    {
       path: '/auth',
       name: 'auth',
       component: () => import('../views/AuthView.vue')
@@ -20,8 +15,24 @@ const router = createRouter({
     },
     {
       path: '/boards',
-      name: 'boards',
-      component: () => import('../views/BoardsView.vue')
+      name: 'boardsLayout',
+      component: () => import('../views/BoardsLayout.vue'),
+      children: [
+        {
+          path: '',
+          name: 'boards',
+          component: () => import('../views/BoardsView.vue')
+        },
+        {
+          path: ':boardId',
+          name: 'todo',
+          component: () => import('../views/TodoView.vue')
+        },
+        {
+          path: ':boardId*',
+          redirect: { name: 'boards'}
+        },
+      ]
     }
   ]
 })

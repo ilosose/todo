@@ -1,23 +1,34 @@
 <template>
-  <the-header />
   <RouterView />
-  <the-footer />
 </template>
 
 <script >
 import { RouterView } from 'vue-router';
 import TheHeader from '@/components/TheHeader.vue';
 import TheFooter from '@/components/TheFooter.vue';
+import { mapGetters } from 'vuex';
 export default {
   components: {
     TheHeader,
     TheFooter,
   },
 
+  computed: {
+    ...mapGetters('user', ['isAuthenticated'])
+  },
+
   created() {
-    if (!localStorage.getItem('token')) {
-      this.$router.push({ name: 'registration'})
-    };
+    this.$router.beforeEach((to, from, next) => {
+      if(!this.isAuthenticated && to.name !== 'auth') next({ name: 'auth' })
+    })
+
+
+    // if (this.$route.path === '/') {
+    //   if (!this.isAuthenticated) {
+    //     this.$router.push({ name: 'registration'});
+    //     return;
+    //   };
+    // }
   }
 }
 </script>
