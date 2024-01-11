@@ -4,31 +4,28 @@
 
 <script >
 import { RouterView } from 'vue-router';
-import TheHeader from '@/components/TheHeader.vue';
-import TheFooter from '@/components/TheFooter.vue';
 import { mapGetters } from 'vuex';
 export default {
-  components: {
-    TheHeader,
-    TheFooter,
-  },
-
   computed: {
     ...mapGetters('user', ['isAuthenticated'])
   },
 
-  created() {
-    this.$router.beforeEach((to, from, next) => {
-      if(!this.isAuthenticated && to.name !== 'auth') next({ name: 'auth' })
-    })
+  mounted() {
+    // this.$router.beforeEach(async (to, from) => {
+    //   if(!this.isAuthenticated && to.name !== 'registration') {
+    //     return { name: 'registration' }
+    //   }
+    //   if(to.path === '/') {
+    //     return { name: 'boards'}
+    //   }
+    // })
 
-
-    // if (this.$route.path === '/') {
-    //   if (!this.isAuthenticated) {
-    //     this.$router.push({ name: 'registration'});
-    //     return;
-    //   };
-    // }
+    if (this.$route.path === '/') {
+      if (!this.isAuthenticated) {
+        this.$router.push({ name: 'registration'});
+        return;
+      };
+    }
   }
 }
 </script>
