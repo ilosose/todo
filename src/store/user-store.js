@@ -1,10 +1,20 @@
 export default {
   namespaced: true,
-  state: {},
+  state: {
+    isAuthenticated: false,
+  },
 
   mutations: {},
 
   actions: {},
   
-  getters: {}
+  getters: {
+    isAuthenticated(state) {
+      const token = localStorage.getItem("token");
+      if (token) {
+        return state.isAuthenticated = true;
+      }
+      return state.isAuthenticated = false;
+    }
+  }
 }

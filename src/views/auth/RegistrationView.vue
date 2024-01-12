@@ -27,7 +27,7 @@
 
 <script>
 import { RouterLink } from 'vue-router';
-import axios from '../utils/axios';
+import axios from '../../utils/axios';
 
 export default {
   data() {
@@ -51,16 +51,12 @@ export default {
       this.error = 'Пароли не совпадают!'
     },
 
-
     async submit() {
       if(this.formRegistration.name != '' && this.formRegistration.email != '' && this.formRegistration.email != '', this.formRegistration.password != '' && this.formRegistration.confermPassword != '') {
         const formData = {
           ...this.formRegistration
         }
 
-
-
-        
         await axios
           .put('auth/signup', {formData})
           .then((res) => {
@@ -70,11 +66,9 @@ export default {
             alert(err.response.data.cause)
           })
         
-
       };
     },
 
-      
     resetForm() {
       this.formRegistration = { name: '', email: '', password: '', confermPassword: '' };
     },
@@ -86,29 +80,25 @@ export default {
   color: red;
   padding-bottom: 10px;
   font-weight: 600;
-  
 }
   .registration {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   width: 100vw;
   height: 100vh;
-
   background: #2B1887;
 
   }
 
   .registration__title {
-  color: #f4f2ff;
-
-  text-align: center;
-  font-size: 50px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
+    color: #f4f2ff;
+    text-align: center;
+    font-size: 50px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
   }
 
   .registration-form__field {
@@ -147,17 +137,18 @@ export default {
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.30);
     color: #f4f2ff;
     border:solid 2px black;
-
   }
+
   .registration-form__submit:hover {
     background: rgba(rgb(101, 41, 212), green, blue, alpha);
     cursor: pointer;
   }
-  .registration-form__redirect {
-font-weight: 600;
-color: lightsteelblue;
 
+  .registration-form__redirect {
+    font-weight: 600;
+    color: lightsteelblue;
   }
+
   .registration-form__redirect:hover {
     color: whitesmoke;
     cursor: pointer;

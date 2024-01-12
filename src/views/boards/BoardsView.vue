@@ -9,11 +9,11 @@
     <column-board @edit-board="openEditModal"/>
 </template>
 <script>
-import ColumnBoard from "../components/boards/TheBoard.vue";
-import TheAdd from "../components/boards/TheAdd.vue";
-import TheEdit from "../components/boards/TheEdit.vue"
+import ColumnBoard from "../../components/boards/TheBoard.vue";
+import TheAdd from "../../components/boards/modals/TheAdd.vue";
+import TheEdit from "../../components/boards/modals/TheEdit.vue"
 import { mapActions } from "vuex";
-import axios from "../utils/axios";
+import axios from "../../utils/axios";
 
 export default {
   components: {

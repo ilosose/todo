@@ -20,9 +20,8 @@
       <div class="task-item__client">{{ task.createdAt }}</div>
     </div>
     <div>
-      <button class="task-item__delete" @click.prevent="deleteTask(task.id)">
-        Удалить
-      </button>
+      <button class="task-item__edit" @click.prevent="editTask(task.id, task.statusId)">Редактировать</button>
+      <button class="task-item__delete" @click.prevent="deleteTask(task.id)">Удалить</button>
     </div>
   </div>
 </template>
@@ -68,11 +67,16 @@ export default {
       }
     },
 
+    editTask(taskId, statusId) {
+      this.$store.commit('columns/setTaskId', taskId);
+      this.$store.commit('columns/setStatusId', statusId);
+    },
+
     async deleteTask(taskId) {
       await axios
         .delete(`boards/${this.boardId}/tasks/${taskId}`)
         .catch((err) => {
-          console.log(err);
+          alert(err.response.data.cause);
         });
 
       await this.getColumns(this.boardId);
@@ -164,10 +168,5 @@ export default {
   font-size: 14px;
   color: #4f46e5;
   text-align: center;
-}
-
-.task-item__title:hover {
-  cursor: pointer;
-  opacity: 0.5;
 }
 </style>

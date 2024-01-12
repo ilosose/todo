@@ -5,6 +5,9 @@ export default {
   state: {
     columns: [],
     boardId: null,
+    isOpenEditTaskModal: false,
+    curentTaskId: null,
+    curentStatusId: null,
   },
 
   mutations: {
@@ -13,6 +16,16 @@ export default {
     },
     setColumns: (state, columnsData) => {
       state.columns = columnsData;
+    },
+    setTaskId: (state, taskId) => {
+      state.curentTaskId = taskId;
+      state.isOpenEditTaskModal = true;
+    },
+    setStatusId: (state, statusId) => {
+      state.curentStatusId = statusId;
+    },
+    closeEditTaskModal: (state) => {
+      state.isOpenEditTaskModal = false;
     },
   },
 
@@ -37,5 +50,14 @@ export default {
     columns(state) {
       return state.columns;
     },
+    isOpenEditTaskModal(state) {
+      return state.isOpenEditTaskModal;
+    },
+    curentTaskId(state) {
+      return state.curentTaskId;
+    },
+    curentStatusId(state) {
+      return state.curentStatusId;
+    }
   }
 }
