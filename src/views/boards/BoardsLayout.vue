@@ -12,6 +12,7 @@ export default {
     TheHeader,
     TheFooter,
   },
+  
   created() {
 
   },

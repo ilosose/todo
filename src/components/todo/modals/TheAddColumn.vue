@@ -1,48 +1,39 @@
 <template>
-  <div class="modal"> 
-    <h1 class="title__modal">Создание задачи</h1>
+    <div class="modal"> 
+    <h1 class="title__modal">Создать доску</h1>
     <div class="modal__container">
-      <form @submit.prevent="submitTask">
-        <input type="text" v-model="newTask.name" required placeholder="Введите заголовок задачи"/>
-        <textarea v-model="newTask.description" required placeholder="Введите описание задачи"></textarea>
-        <input type="date" required v-model="newTask.plannedCompletionAt" placeholder="Выберите дату"/>
-      <div class="buttons">
-        <button type="button" class="cancel-button" @click="closeModal">Отмена</button> 
-        <button type="submit">Отправить</button>
-      </div>
+      <form @submit.prevent="addColumn">
+        <input type="text"  required v-model="newColumn.name" placeholder="Название колонки"/>
+        <div class="buttons">
+          <button type="button" class="cancel-button" @click.prevent="$emit('close-modal')">Отмена</button> 
+          <button type="submit">Создать</button>
+        </div>
       </form>
     </div>
   </div>
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        newTask: {
-          name: '',
-          description: '',
-          plannedCompletionAt: ''
-        }
-      }
-    },
-    
-    methods: {
-      closeModal() {
-        this.$emit('close-modal');
-        this.resetForm();
-      },
-
-      submitTask() {
-        this.$emit('add-task', { ...this.newTask });
-        this.resetForm();
-      },
-      
-      resetForm() {
-        this.newTask = { title: '', description: '', dueDate: '' };
+export default {
+  data() {
+    return {
+      newColumn: {
+        name: ''
       }
     }
+  },
+  
+  methods: {
+    addColumn() {
+      this.$emit('add-column', { ...this.newColumn });
+      this.resetForm();
+    },
+
+    resetForm() {
+      this.newColumn = { name: '' };
+    },
   }
+}
 </script>
 
 <style scoped>
@@ -63,7 +54,7 @@
   }
   .title__modal{
 position: absolute;
-color: white;
+color: whitesmoke;
 margin-bottom: 400px;
   }
   .modal__container {

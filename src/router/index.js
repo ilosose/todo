@@ -6,27 +6,27 @@ const router = createRouter({
     {
       path: '/auth',
       name: 'auth',
-      component: () => import('../views/AuthView.vue')
+      component: () => import('../views/auth/AuthView.vue')
     },
     {
       path:'/registration',
       name: 'registration',
-      component: () => import('../views/RegistrationView.vue')
+      component: () => import('../views/auth/RegistrationView.vue')
     },
     {
       path: '/boards',
       name: 'boardsLayout',
-      component: () => import('../views/BoardsLayout.vue'),
+      component: () => import('../views/boards/BoardsLayout.vue'),
       children: [
         {
           path: '',
           name: 'boards',
-          component: () => import('../views/BoardsView.vue')
+          component: () => import('../views/boards/BoardsView.vue')
         },
         {
           path: ':boardId',
           name: 'todo',
-          component: () => import('../views/TodoView.vue')
+          component: () => import('../views/todo/TodoView.vue')
         },
         {
           path: ':boardId*',

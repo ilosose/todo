@@ -11,15 +11,6 @@ export default {
   },
 
   mounted() {
-    // this.$router.beforeEach(async (to, from) => {
-    //   if(!this.isAuthenticated && to.name !== 'registration') {
-    //     return { name: 'registration' }
-    //   }
-    //   if(to.path === '/') {
-    //     return { name: 'boards'}
-    //   }
-    // })
-
     if (this.$route.path === '/') {
       if (!this.isAuthenticated) {
         this.$router.push({ name: 'registration'});

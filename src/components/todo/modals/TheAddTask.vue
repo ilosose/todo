@@ -1,13 +1,14 @@
 <template>
-    <div class="modal"> 
-    <h1 class="title__modal">Создать доску</h1>
+  <div class="modal"> 
+    <h1 class="title__modal">Создание задачи</h1>
     <div class="modal__container">
-      <form>
-        <input type="text"  required placeholder="Название доски"/>
-        <textarea  required placeholder="Описание доски"></textarea>
+      <form @submit.prevent="submitTask">
+        <input type="text" v-model="newTask.name" required placeholder="Введите заголовок задачи"/>
+        <textarea v-model="newTask.description" required placeholder="Введите описание задачи"></textarea>
+        <input type="date" required v-model="newTask.plannedCompletionAt" placeholder="Выберите дату"/>
       <div class="buttons">
-        <button type="button" class="cancel-button">Отмена</button> 
-        <button type="submit">Создать</button>
+        <button type="button" class="cancel-button" @click.prevent="closeModal">Отмена</button> 
+        <button type="submit">Отправить</button>
       </div>
       </form>
     </div>
@@ -15,6 +16,33 @@
 </template>
 
 <script>
+  export default {
+    data() {
+      return {
+        newTask: {
+          name: '',
+          description: '',
+          plannedCompletionAt: ''
+        }
+      }
+    },
+    
+    methods: {
+      closeModal() {
+        this.$emit('close-modal');
+        this.resetForm();
+      },
+
+      submitTask() {
+        this.$emit('add-task', { ...this.newTask });
+        this.resetForm();
+      },
+      
+      resetForm() {
+        this.newTask = { title: '', description: '', dueDate: '' };
+      }
+    }
+  }
 </script>
 
 <style scoped>
@@ -34,9 +62,9 @@
     padding-top: 10px;
   }
   .title__modal{
-position: absolute;
-color: whitesmoke;
-margin-bottom: 400px;
+    position: absolute;
+    color: white;
+    margin-bottom: 400px;
   }
   .modal__container {
     display: flex;

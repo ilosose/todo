@@ -27,7 +27,7 @@
 
 <script>
 import { RouterLink } from 'vue-router';
-import axios from '../utils/axios';
+import axios from '../../utils/axios';
 
 export default {
   data() {

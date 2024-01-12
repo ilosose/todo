@@ -12,18 +12,24 @@
           <h2 class="kanban__title">{{ status.status.name }}</h2>
         </div>
         <div class="icons">
-        <img
-          src="../assets/img/kanban/pen.svg"
-          alt="Изменить колонку"
-          class="kanban__icon--edit"
-        />
-        <img
-          src="../assets/img/kanban/plus.svg"
-          alt="Добавить задачу"
-          class="kanban__icon kanban__icon--add"
-          @click="$emit('add-task', status.status.id)"
-        />
-      </div>
+          <img
+            src="../assets/img/kanban/pen.svg"
+            alt="Изменить колонку"
+            class="kanban__icon kanban__icon--edit"
+            @click="$emit('edit-column', status.status.id)"
+          />
+          <img src="../assets/img/kanban/bucket.svg" 
+            alt="Удалить колонку"
+            class="kanban__icon kanban__icon--delete"
+            @click="deleteStatus(status.status.id)"
+          />
+          <img
+            src="../assets/img/kanban/plus.svg"
+            alt="Добавить задачу"
+            class="kanban__icon kanban__icon--add"
+            @click="$emit('add-task', status.status.id)"
+          />
+        </div>
       </div>
       <div class="kanban__list">
         <kanban-task v-for="task in status.tasks" :key="task.id" :task="task" />
@@ -33,8 +39,9 @@
 </template>
 
 <script>
+import axios from "../../utils/axios";
 import KanbanTask from "./TheTask.vue";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   components: {
@@ -42,10 +49,20 @@ export default {
   },
 
   computed: {
-    ...mapGetters("columns", ["columns"]),
+    ...mapGetters('columns', ['columns', 'boardId']),
   },
 
   methods: {
+    ...mapActions('columns', ['getColumns']),
+    async deleteStatus(statusId) {
+      await axios
+        .delete(`boards/${this.boardId}/statuses/${statusId}`)
+        .catch((err) => {
+          console.log(err.response.data.cause)
+        })
+      await this.getColumns(this.boardId);
+    },
+
     allowDrop(event) {
       event.preventDefault();
     },
@@ -61,12 +78,22 @@ export default {
 
 <style scoped>
 .kanban__icon--edit {
-  
-  cursor: pointer;
+  width: 26px;
+  height: 26px;
   padding-right: 8px;
 }
 .kanban__icon--edit:hover{
   opacity: 0.7;
+  cursor: pointer;
+}
+
+.kanban__icon--delete {
+  width: 23px;
+  height: 23px;
+}
+.kanban__icon--delete:hover {
+  opacity: 0.7;
+  cursor: pointer;
 }
 .kanban {
   display: flex;

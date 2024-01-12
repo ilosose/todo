@@ -2,12 +2,12 @@
     <div class="modal"> 
     <h1 class="title__modal">Изменить</h1>
     <div class="modal__container">
-      <form @submit.prevent="submitTask">
-        <input type="text" v-model="EditTask.name" required placeholder="Новый заголовок задачи"/>
-        <textarea v-model="newTask.description" required placeholder="Новое описание задачи"></textarea>
-        <input type="date" required v-model="newTask.plannedCompletionAt" placeholder="Выберите дату"/>
+      <form @submit.prevent="editTaskData">
+        <input type="text" v-model="editTask.name" required placeholder="Новый заголовок задачи"/>
+        <textarea v-model="editTask.description" required placeholder="Новое описание задачи"></textarea>
+        <input type="date" required v-model="editTask.plannedCompletionAt" placeholder="Выберите дату"/>
       <div class="buttons">
-        <button type="button" class="cancel-button" @click="closeModal">Отмена</button> 
+        <button type="button" class="cancel-button" @click="$store.commit('columns/closeEditTaskModal')">Отмена</button> 
         <button type="submit">Отправить</button>
       </div>
       </form>
@@ -15,10 +15,29 @@
   </div>
 </template>
 
-
 <script>
-</script>
+export default {
+  data() {
+    return {
+      editTask: {
+        name: '',
+        description: '',
+        plannedCompletionAt: ''
+      }
+    }
+  },
 
+  methods: {
+    editTaskData() {
+      this.$emit('edit-task', { ...this.editTask });
+      this.resetForm();
+    },
+    resetForm() {
+      this.editTask = { name: '', description: '', plannedCompletionAt: '' };
+    }
+  }
+}
+</script>
 
 <style scoped>
 .modal {
@@ -37,9 +56,9 @@
     padding-top: 10px;
   }
   .title__modal{
-position: absolute;
-color: whitesmoke;
-margin-bottom: 400px;
+    position: absolute;
+    color: whitesmoke;
+    margin-bottom: 400px;
   }
   .modal__container {
     display: flex;
@@ -57,7 +76,7 @@ margin-bottom: 400px;
     gap: 15px;
   }
   ::placeholder{
-padding-top: 5px;
+    padding-top: 5px;
   }
 
   input[type="text"],
@@ -106,7 +125,6 @@ padding-top: 5px;
     float: left;
 
   }
-  
   .cancel-button:hover { 
     background-color: gray;
   }

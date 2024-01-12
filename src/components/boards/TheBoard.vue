@@ -18,8 +18,8 @@
         </div>
       </div>
       <div>
-        <button class="board-item__delete" @click.prevent="deleteBoard(board.id)">Удалить</button>
         <button class="board-item__edit" @click.prevent="openEditWindow(board.id)">Изменить</button>  
+        <button class="board-item__delete" @click.prevent="deleteBoard(board.id)">Удалить</button>
       </div>
     </section>
   </div>

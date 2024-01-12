@@ -2,19 +2,38 @@
     <div class="modal"> 
     <h1 class="title__modal">Изменить доску</h1>
     <div class="modal__container">
-      <form>
-        <input type="text"  required placeholder="Новое название доски"/>
-        <textarea  required placeholder="Новое описание доски"></textarea>
-      <div class="buttons">
-        <button type="button" class="cancel-button">Отмена</button> 
-        <button type="submit">Изменить</button>
-      </div>
+      <form @submit.prevent="editColumnData">
+        <input type="text"  required v-model="editColumn.name" placeholder="Новое название доски"/>
+        <div class="buttons">
+          <button type="button" class="cancel-button" @click="$emit('close-modal')">Отмена</button> 
+          <button type="submit">Изменить</button>
+        </div>
       </form>
     </div>
   </div>
 </template>
 
 <script>
+export default {
+  data() {
+    return {
+      editColumn: {
+        name: ''
+      }
+    }
+  },
+
+  methods: {
+    editColumnData() {
+      this.$emit('edit-column', { ...this.editColumn });
+      this.resetForm();
+    },
+
+    resetForm() {
+      this.editColumn = { name: '' };
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -34,9 +53,9 @@
     padding-top: 10px;
   }
   .title__modal{
-position: absolute;
-color: whitesmoke;
-margin-bottom: 400px;
+    position: absolute;
+    color: whitesmoke;
+    margin-bottom: 400px;
   }
   .modal__container {
     display: flex;
@@ -54,7 +73,7 @@ margin-bottom: 400px;
     gap: 15px;
   }
   ::placeholder{
-padding-top: 5px;
+    padding-top: 5px;
   }
 
   input[type="text"],
