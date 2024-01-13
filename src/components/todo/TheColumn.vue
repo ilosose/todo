@@ -5,7 +5,7 @@
       :key="status.id"
       class="kanban__column"
       @dragover.prevent="allowDrop"
-      @drop="handleDrop"
+      @drop="handleDrop($event, status.status.id)"
     >
       <div class="kanban__header">
         <div class="kanban__header-content">
@@ -67,10 +67,10 @@ export default {
       event.preventDefault();
     },
 
-    handleDrop(event) {
+    handleDrop(event, statusId) {
       event.preventDefault();
       const taskId = event.dataTransfer.getData("text/plain");
-      this.$emit("task-droped", Number(taskId), this.column.id);
+      this.$emit("task-droped", Number(taskId), statusId);
     },
   },
 };

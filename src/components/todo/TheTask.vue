@@ -3,7 +3,7 @@
     v-if="task"
     class="task-item"
     draggable="true"
-    @dragstart="startDrag"
+    @dragstart="startDrag($event, task.id)"
     @dragend="endDrag"
   >
     <h3 class="task-item__title">{{ task.name }}</h3>
@@ -82,9 +82,8 @@ export default {
       await this.getColumns(this.boardId);
     },
 
-    startDrag(event) {
-      console.log(event);
-      event.dataTransfer.setData("text/plain", this.task.id);
+    startDrag(event, taskId) {
+      event.dataTransfer.setData("text/plain", taskId);
     },
   },
 };
