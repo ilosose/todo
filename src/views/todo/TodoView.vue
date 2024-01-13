@@ -182,8 +182,23 @@ export default {
 
       await this.getColumns(this.boardId);  
     },
-  },
 
+    async handleTaskDroped(taskId, statusId) {
+      const formData = {
+        statusId: statusId
+      };
+
+      await axios
+        .patch(`boards/${this.boardId}/tasks/${taskId}`, {formData})
+        .catch((err) => {
+          alert(err.response.data.cause)
+        });
+
+      await this.getColumns(this.boardId);
+    },
+
+  },
+  
   async mounted() {
     await this.$store.commit('columns/setBoardId', this.$route.params.boardId)
     await this.getColumns(this.boardId);
@@ -220,5 +235,4 @@ export default {
     background: #13c4bb;
     cursor: pointer;
   }
-
 </style>
