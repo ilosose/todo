@@ -7,24 +7,26 @@
           v-model="usersearch.name"
           placeholder="Поиск пользователя"
         />
-        <div class="accordion" v-for="user in users.items" :key="user.id">
-          <input
-            class="email__users"
-            type="radio"
-            name="radio-a"
-            id="check1"
-            checked
-          />
-          <label class="accordion-label" for="check1">
-            <div class="ava">{{ user.id }}</div>
-            <div>{{ user.email }}</div>
-          </label>
-        </div>
-        <div class="accordion-content">
-          <div>
-            <input class="switcher__input" type="checkbox" :id="user.id" />
-            <label class="switcher__label" :for="user.id"></label>
-            <p>NeforOlegovich</p>
+        <div class="content" v-for="user in users.items" :key="user.id">
+          <div class="accordion" >
+            <input
+              class="email__users"
+              type="radio"
+              name="radio-a"
+              :id="user.id"
+              checked
+            />
+            <label class="accordion-label" for="check1">
+              <div class="ava">{{ user.id }}</div>
+              <div>{{ user.email }}</div>
+            </label>
+          </div>
+          <div class="accordion-content">
+            <div>
+              <input class="switcher__input" type="checkbox" :id="user.id" />
+              <label class="switcher__label" :for="user.id"></label>
+              <p>NeforOlegovich</p>
+            </div>
           </div>
         </div>
         <div class="buttons">
