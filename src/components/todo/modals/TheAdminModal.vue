@@ -15,11 +15,15 @@
               <label class="switcher__label" for="switcher"></label>
               <p>NeforOlegovich</p>
             </div>
+            </div>
+            <div class="accordion-content">
             <div>
               <input class="switcher__input" type="checkbox" id="switcher1">
               <label class="switcher__label" for="switcher1"></label>
               <p>NeforOlegovich</p>
             </div>
+            </div>
+            <div class="accordion-content">
             <div>
               <input class="switcher__input" type="checkbox" id="switcher2">
               <label class="switcher__label" for="switcher2"></label>
@@ -35,7 +39,7 @@
           <div class="accordion-content">
             <div>
               <input class="switcher__input" type="checkbox" id="switcher4">
-              <label class="switcher__label" for="switcher"></label>
+              <label class="switcher__label" for="switcher4"></label>
               <p>proreka@gmail.com</p>
             </div>
           </div>
@@ -126,7 +130,7 @@ export default {
   top: 1px;
   left: 1px;
   z-index: 2;
-  transition: transform .1s linear;
+  transition: transform .2s linear;
 }
 
 .switcher__label:active:after {
@@ -145,7 +149,7 @@ input:checked+.accordion-label::after {
 
 input:checked~.accordion-content {
   max-height: 100vh;
-  padding: 16px;
+  padding: 18px;
 }
 
 .accordion-label:after {
@@ -158,11 +162,11 @@ input:checked~.accordion-content {
 }
 
 .accordion-content {
-  max-height: 0;
+  max-height: 0px;
   padding: 0 16px;
   color: black;
-  background: white;
-  border-radius: 0px 0px 10px 10px;
+  background: whitesmoke;
+
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
 }
@@ -205,7 +209,7 @@ input:checked~.accordion-content {
   display: flex;
   -webkit-box-pack: justify;
   border-radius: 10px 10px 0px 0px;
-  background: white;
+  background: rgb(100, 155, 100);
   font-weight: bold;
   cursor: pointer;
   font-size: 20px;
@@ -232,7 +236,7 @@ input:checked~.accordion-content {
 
 .modal__container {
   display: flex;
-  background-color: whitesmoke;
+  background-color: white;
   padding: 20px;
   border-radius: 15px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
@@ -251,7 +255,6 @@ form {
 }
 
 input[type="text"],
-input[type="date"],
 textarea {
   padding: 10px;
   border: 1px solid #ddd;
@@ -277,14 +280,7 @@ button[type="submit"]:hover {
   background-color: rgb(25, 116, 78);
 }
 
-.close-modal {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  text-decoration: none;
-  color: rgb(0, 0, 0);
-  font-size: 24px;
-}
+
 
 .cancel-button {
   padding: 10px 30px;
