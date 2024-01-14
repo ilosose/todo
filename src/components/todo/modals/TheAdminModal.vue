@@ -1,51 +1,64 @@
 <template>
   <div class="modal">
-
     <div class="modal__container">
-      <form>
-        <input type="text" required placeholder="Поиск пользователя" />
+      <form @submit.prevent="submitAdmin">
+        <input
+          type="text"
+          v-model="usersearch.name"
+          placeholder="Поиск пользователя"
+        />
         <div class="accordion">
-          <input class="email__users" type="radio" name="radio-a" id="check1" checked>
+          <input
+            class="email__users"
+            type="radio"
+            name="radio-a"
+            id="check1"
+            checked
+          />
           <label class="accordion-label" for="check1">
-            <div class="ava">I.G</div>Ivanov@gmail.com
+            <div class="ava">I.G</div>
+            Ivanov@gmail.com
           </label>
           <div class="accordion-content">
             <div>
-              <input class="switcher__input" type="checkbox" id="switcher">
+              <input class="switcher__input" type="checkbox" id="switcher" />
               <label class="switcher__label" for="switcher"></label>
               <p>NeforOlegovich</p>
             </div>
-            </div>
-            <div class="accordion-content">
+          </div>
+          <div class="accordion-content">
             <div>
-              <input class="switcher__input" type="checkbox" id="switcher1">
+              <input class="switcher__input" type="checkbox" id="switcher1" />
               <label class="switcher__label" for="switcher1"></label>
               <p>NeforOlegovich</p>
             </div>
-            </div>
-            <div class="accordion-content">
+          </div>
+          <div class="accordion-content">
             <div>
-              <input class="switcher__input" type="checkbox" id="switcher2">
+              <input class="switcher__input" type="checkbox" id="switcher2" />
               <label class="switcher__label" for="switcher2"></label>
               <p>NeforOlegovich</p>
             </div>
           </div>
         </div>
         <div class="accordion">
-          <input class="email__users" type="radio" name="radio-a" id="check2">
+          <input class="email__users" type="radio" name="radio-a" id="check2" />
           <label class="accordion-label" for="check2">
-            <div class="ava">P.G</div>Penta@gmail.com
+            <div class="ava">P.G</div>
+            Penta@gmail.com
           </label>
           <div class="accordion-content">
             <div>
-              <input class="switcher__input" type="checkbox" id="switcher4">
+              <input class="switcher__input" type="checkbox" id="switcher4" />
               <label class="switcher__label" for="switcher4"></label>
               <p>proreka@gmail.com</p>
             </div>
           </div>
         </div>
         <div class="buttons">
-          <button type="button" class="cancel-button">Закрыть</button>
+          <button type="button" class="cancel-button" @click="closemodal">
+            Закрыть
+          </button>
           <button type="submit">Применить</button>
         </div>
       </form>
@@ -53,16 +66,32 @@
   </div>
 </template>
 <script>
-
 export default {
-  methods: {
-    panpan() {
-      alert("asd")
+  data(){
+    return {
+      usersearch:{
+        name: '',
+      }
     }
-  }
-}
-</script>
+  },
+  methods: {
+    submitAdmin() {
+      this.$emit('usersearch', {...this.usersearch});
+      console.log(this.usersearch.name)
+      this.resetform()
+    },
 
+    closemodal() {
+      this.$emit('close-admin-modal');
+      this.resetform()
+    },
+
+    resetform(){
+      this.usersearch = {name: ''}
+    },
+  },
+};
+</script>
 
 <style scoped>
 .switcher__label {
@@ -74,24 +103,24 @@ export default {
   display: none;
 }
 
-.switcher__input:checked+.switcher__label {
+.switcher__input:checked + .switcher__label {
   color: #000;
 }
 
-.switcher__input:checked+.switcher__label:before {
+.switcher__input:checked + .switcher__label:before {
   background-color: seagreen;
 }
 
-.switcher__input:checked+.switcher__label:after {
+.switcher__input:checked + .switcher__label:after {
   transform: translateX(23px);
 }
 
-.switcher__input:checked+.switcher__label:active:after {
+.switcher__input:checked + .switcher__label:active:after {
   transform: translateX(12px);
 }
 
-.switcher__input:checked+.switcher__label:active:before {
-  background-color: #4C9900;
+.switcher__input:checked + .switcher__label:active:before {
+  background-color: #4c9900;
 }
 
 .switcher__label {
@@ -102,7 +131,7 @@ export default {
   color: #ccc;
   cursor: pointer;
   position: relative;
-  transition: color .1s linear;
+  transition: color 0.1s linear;
 }
 
 .switcher__label:before {
@@ -116,7 +145,7 @@ export default {
   top: 0;
   left: 0;
   z-index: 1;
-  transition: background-color .1s linear;
+  transition: background-color 0.1s linear;
 }
 
 .switcher__label:after {
@@ -130,7 +159,7 @@ export default {
   top: 1px;
   left: 1px;
   z-index: 2;
-  transition: transform .2s linear;
+  transition: transform 0.2s linear;
 }
 
 .switcher__label:active:after {
@@ -138,22 +167,20 @@ export default {
 }
 
 .switcher__label:active:before {
-  background-color: #4C9900;
+  background-color: #4c9900;
 }
 
-
-input:checked+.accordion-label::after {
+input:checked + .accordion-label::after {
   -webkit-transform: rotate(90deg);
   transform: rotate(90deg);
 }
 
-input:checked~.accordion-content {
+input:checked ~ .accordion-content {
   max-height: 100vh;
   padding: 18px;
 }
 
 .accordion-label:after {
-
   width: 16px;
   height: 16px;
   text-align: center;
@@ -192,8 +219,6 @@ input:checked~.accordion-content {
   z-index: -1;
 }
 
-
-
 .accordion {
   width: 100%;
   color: black;
@@ -231,8 +256,6 @@ input:checked~.accordion-content {
 .buttons {
   padding-top: 10px;
 }
-
-
 
 .modal__container {
   display: flex;
@@ -280,8 +303,6 @@ button[type="submit"]:hover {
   background-color: rgb(25, 116, 78);
 }
 
-
-
 .cancel-button {
   padding: 10px 30px;
   background-color: rgb(155, 155, 155);
@@ -290,7 +311,6 @@ button[type="submit"]:hover {
   border-radius: 5px;
   cursor: pointer;
   float: left;
-
 }
 
 .cancel-button:hover {
