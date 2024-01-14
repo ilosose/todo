@@ -7,7 +7,7 @@
           v-model="usersearch.name"
           placeholder="Поиск пользователя"
         />
-        <div class="accordion">
+        <div class="accordion" v-for="user in users.items" :key="user.id">
           <input
             class="email__users"
             type="radio"
@@ -16,43 +16,15 @@
             checked
           />
           <label class="accordion-label" for="check1">
-            <div class="ava">I.G</div>
-            Ivanov@gmail.com
+            <div class="ava">{{ user.id }}</div>
+            <div>{{ user.email }}</div>
           </label>
-          <div class="accordion-content">
-            <div>
-              <input class="switcher__input" type="checkbox" id="switcher" />
-              <label class="switcher__label" for="switcher"></label>
-              <p>NeforOlegovich</p>
-            </div>
-          </div>
-          <div class="accordion-content">
-            <div>
-              <input class="switcher__input" type="checkbox" id="switcher1" />
-              <label class="switcher__label" for="switcher1"></label>
-              <p>NeforOlegovich</p>
-            </div>
-          </div>
-          <div class="accordion-content">
-            <div>
-              <input class="switcher__input" type="checkbox" id="switcher2" />
-              <label class="switcher__label" for="switcher2"></label>
-              <p>NeforOlegovich</p>
-            </div>
-          </div>
         </div>
-        <div class="accordion">
-          <input class="email__users" type="radio" name="radio-a" id="check2" />
-          <label class="accordion-label" for="check2">
-            <div class="ava">P.G</div>
-            Penta@gmail.com
-          </label>
-          <div class="accordion-content">
-            <div>
-              <input class="switcher__input" type="checkbox" id="switcher4" />
-              <label class="switcher__label" for="switcher4"></label>
-              <p>proreka@gmail.com</p>
-            </div>
+        <div class="accordion-content">
+          <div>
+            <input class="switcher__input" type="checkbox" :id="user.id" />
+            <label class="switcher__label" :for="user.id"></label>
+            <p>NeforOlegovich</p>
           </div>
         </div>
         <div class="buttons">
@@ -67,27 +39,31 @@
 </template>
 <script>
 export default {
-  data(){
+  props: {
+    users: {
+      type: Object,
+      default: {},
+    },
+  },
+  data() {
     return {
-      usersearch:{
-        name: '',
-      }
-    }
+      usersearch: {
+        name: "",
+      },
+    };
   },
   methods: {
     submitAdmin() {
-      this.$emit('usersearch', {...this.usersearch});
-      console.log(this.usersearch.name)
-      this.resetform()
+      this.$emit("user-search", { ...this.usersearch });
     },
 
     closemodal() {
-      this.$emit('close-admin-modal');
-      this.resetform()
+      this.$emit("close-admin-modal");
+      this.resetform();
     },
 
-    resetform(){
-      this.usersearch = {name: ''}
+    resetform() {
+      this.usersearch = { name: "" };
     },
   },
 };

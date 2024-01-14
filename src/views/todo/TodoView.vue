@@ -12,7 +12,7 @@
     <button @click.prevent="openAddColunmModal" class="nav__add-column">
       Добавить статус
     </button>
-    <button @click.prevent="openAdminModal">Управление</button>
+    <button class="management" @click.prevent="openAdminModal">Управление</button>
   </div>
 
   <kanban-column
@@ -40,10 +40,16 @@
   />
   <the-admin-modal
   v-if="isAdminModal"
-  @close-admin-modal="closeAdminMoadl"
+  :users="users"
+  @close-admin-modal="closeAdminModal"
+  @user-search="mutchAdminModal"
   />
 
-  <the-edit-task v-if="isOpenEditTaskModal" @edit-task="editTask" />
+  <the-edit-task 
+  v-if="isOpenEditTaskModal" 
+  @edit-task="editTask" 
+  />
+
 </template>
 <script>
 import TheAddTask from "../../components/todo/modals/TheAddTask.vue";
@@ -67,6 +73,7 @@ export default {
 
   data() {
     return {
+      users: [],
       isAdminModal: false,
       isAddTaskModalOpen: false,
       isAddColumnModalOpen: false,
@@ -98,14 +105,6 @@ export default {
       await this.$router.push({ name: "boards" });
       await this.resetLocalStorageBoard();
     },
-    openAdminModal() {
-      this.isAdminModal = true;
-
-    },
-    closeAdminMoadl(){
-      this.isAdminModal = false;
-
-    },
 
     openAddTaskModal(columnId) {
       this.isAddTaskModalOpen = true;
@@ -131,6 +130,26 @@ export default {
 
     closeEditColumnModal() {
       this.isEditColumnModalOpen = false;
+    },
+
+    closeAdminModal(){
+      this.isAdminModal = false;
+
+    },
+
+    openAdminModal() {
+      this.isAdminModal = true;
+    },
+
+   async mutchAdminModal(usersearch){
+    await axios
+    .get(`users/match?email=${usersearch.name}`)
+    .then((response)=>{
+      this.users = response.data
+    })
+    .catch((err)=>{
+      alert(err.response.data.cause)
+    })
     },
 
     async addColumn(newColumn) {
@@ -227,6 +246,34 @@ export default {
 </script>
 
 <style scoped>
+.nav__add-column{
+  padding: 5px;
+  padding-inline: 10px;
+  margin-right: 15px;
+  background: #d5ccff;
+  border-radius: 5px;
+}
+.nav__add-column:hover{
+  padding: 5px;
+  padding-inline: 10px;
+  margin-right: 15px;
+  background: #13c4bb;
+  border-radius: 5px;
+}
+.management{
+  padding: 5px;
+  padding-inline: 10px;
+  margin-right: 15px;
+  background: #d5ccff;
+  border-radius: 5px;
+}
+.management:hover{
+  padding: 5px;
+  padding-inline: 10px;
+  margin-right: 15px;
+  background: #13c4bb;
+  border-radius: 5px;
+}
 .nav {
   display: flex;
   justify-content: end;
