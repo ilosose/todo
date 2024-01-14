@@ -1,37 +1,48 @@
 <template>
-  <div class="kanban" v-if="columns">
+  <div 
+    class="kanban" 
+    v-if="columns"  
+  >
     <section
       v-for="status in columns"
       :key="status.id"
       class="kanban__column"
-      @dragover.prevent="allowDrop"
-      @drop="handleDrop($event, status.status.id)"
     >
-      <div class="kanban__header">
+      <div class="kanban__header"
+        draggable="true"
+        @dragstart="startDrag($event, status.status.name, status.status.id)"
+        @dragover.prevent="allowDrop"
+        @drop="handleStatusDrop($event, status.status.name, status.status.id)" 
+      >
         <div class="kanban__header-content">
           <h2 class="kanban__title">{{ status.status.name }}</h2>
         </div>
         <div class="icons">
-          <img
-            src="../assets/img/kanban/pen.svg"
-            alt="Изменить колонку"
-            class="kanban__icon kanban__icon--edit"
-            @click="$emit('edit-column', status.status.id)"
-          />
-          <img src="../assets/img/kanban/bucket.svg" 
-            alt="Удалить колонку"
-            class="kanban__icon kanban__icon--delete"
-            @click="deleteStatus(status.status.id)"
-          />
           <img
             src="../assets/img/kanban/plus.svg"
             alt="Добавить задачу"
             class="kanban__icon kanban__icon--add"
             @click="$emit('add-task', status.status.id)"
           />
+          <img
+            src="../assets/img/kanban/pen.svg"
+            alt="Изменить колонку"
+            class="kanban__icon kanban__icon--edit"
+            @click="$emit('edit-column', status.status.id)"
+          />
+          <img 
+            src="../assets/img/kanban/bucket.svg" 
+            alt="Удалить колонку"
+            class="kanban__icon kanban__icon--delete"
+            @click="deleteStatus(status.status.id)"
+          />
         </div>
       </div>
-      <div class="kanban__list">
+      <div 
+        class="kanban__list"
+        @dragover.prevent="allowDrop"
+        @drop="handleTaskDrop($event, status.status.id)" 
+      >
         <kanban-task v-for="task in status.tasks" :key="task.id" :task="task" />
       </div>
     </section>
@@ -67,11 +78,47 @@ export default {
       event.preventDefault();
     },
 
-    handleDrop(event, statusId) {
-      event.preventDefault();
-      const taskId = event.dataTransfer.getData("text/plain");
-      this.$emit("task-droped", Number(taskId), statusId);
+    handleTaskDrop(event, statusId) {
+        event.preventDefault();
+        const taskId = event.dataTransfer.getData("text/plain");
+        this.$emit("task-droped", Number(taskId), statusId);
     },
+
+    startDrag(event, targetStatusName, targetStatusId) {
+      event.dataTransfer.setData("targetStatusName", targetStatusName);
+      event.dataTransfer.setData("targetStatusId", targetStatusId)
+    },
+
+    async handleStatusDrop(event, statusNameArea, statusIdArea) {
+      event.preventDefault();
+      const targetStatusName = event.dataTransfer.getData("targetStatusName");
+      const targetStatusId = event.dataTransfer.getData("targetStatusId");
+      const targetStatus = {
+        formData: {
+          name: statusNameArea
+        }
+      }
+      const areaStatus = {
+        formData: {
+          name: targetStatusName
+        }
+      }
+
+      await axios
+        .put(`boards/${this.boardId}/statuses/${statusIdArea}`, areaStatus)
+        .catch((err) => {
+          console.log(err.response.data.cause)
+        })
+
+      await axios
+        .put(`boards/${this.boardId}/statuses/${targetStatusId}`, targetStatus)
+        .catch((err) => {
+          console.log(err.response.data.cause)
+        })
+
+      await this.getColumns(this.boardId)
+    }
+
   },
 };
 </script>
@@ -101,6 +148,7 @@ export default {
   align-items: flex-start;
   gap: 40px;
   margin: 10px 0;
+  
 }
 
 .kanban__column {
@@ -134,7 +182,6 @@ export default {
   font-weight: 600;
   line-height: normal;
 }
-
 .kanban__icon--add:hover {
   cursor: pointer;
   opacity: 0.5;
@@ -145,5 +192,6 @@ export default {
   flex-direction: column;
   gap: 10px;
   width: 100%;
+  padding-top: 20px;
 }
 </style>
