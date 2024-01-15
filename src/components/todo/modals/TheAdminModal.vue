@@ -2,38 +2,28 @@
   <div class="modal">
     <div class="modal__container">
       <form @submit.prevent="submitAdmin">
-        <input
-          type="text"
-          v-model="usersearch.name"
-          placeholder="Поиск пользователя"
-        />
+        <input type="text" v-model="usersearch.name" placeholder="Поиск пользователя" />
+      </form>
+      <component>
         <div class="accordion" v-for="user in users.items" :key="user.id">
-          <input
-            class="email__users"
-            type="radio"
-            name="radio-a"
-            id="check1"
-            checked
-          />
-          <label class="accordion-label" for="check1">
+          <input class="email__users" type="radio" name="radio-a" id="check1" checked  />
+          <label class="accordion-label" for="check1" @click="open">
             <div class="ava">{{ user.id }}</div>
             <div>{{ user.email }}</div>
           </label>
         </div>
-        <div class="accordion-content">
-          <div>
-            <input class="switcher__input" type="checkbox" :id="user.id" />
-            <label class="switcher__label" :for="user.id"></label>
+        <div class="hideContent accordions" :class="{'accordiooon': isHide == false}">
+          <div v-if="isHide==false">
+            <input class="switcher__input" type="checkbox" :id="users.id" />
+            <label class="switcher__label" :for="users.id"></label>
             <p>NeforOlegovich</p>
           </div>
         </div>
         <div class="buttons">
-          <button type="button" class="cancel-button" @click="closemodal">
-            Закрыть
-          </button>
+          <button type="button" class="cancel-button" @click="closemodal">Закрыть</button>
           <button type="submit">Применить</button>
         </div>
-      </form>
+      </component>
     </div>
   </div>
 </template>
@@ -49,6 +39,7 @@ export default {
     return {
       usersearch: {
         name: "",
+        isHide: true,
       },
     };
   },
@@ -65,6 +56,10 @@ export default {
     resetform() {
       this.usersearch = { name: "" };
     },
+    open() {
+      this.isHide = !this.isHide
+      alert("asd")
+    },
   },
 };
 </script>
@@ -79,24 +74,24 @@ export default {
   display: none;
 }
 
-.switcher__input:checked + .switcher__label {
+.switcher__input:checked+.switcher__label {
   color: #000;
 }
 
-.switcher__input:checked + .switcher__label:before {
+.switcher__input:checked+.switcher__label:before {
   background-color: seagreen;
 }
 
-.switcher__input:checked + .switcher__label:after {
+.switcher__input:checked+.switcher__label:after {
   transform: translateX(23px);
 }
 
-.switcher__input:checked + .switcher__label:active:after {
+.switcher__input:checked+.switcher__label:active:after {
   transform: translateX(12px);
 }
 
-.switcher__input:checked + .switcher__label:active:before {
-  background-color: #4c9900;
+.switcher__input:checked+.switcher__label:active:before {
+  background-color: #4C9900;
 }
 
 .switcher__label {
@@ -107,7 +102,7 @@ export default {
   color: #ccc;
   cursor: pointer;
   position: relative;
-  transition: color 0.1s linear;
+  transition: color .1s linear;
 }
 
 .switcher__label:before {
@@ -121,7 +116,7 @@ export default {
   top: 0;
   left: 0;
   z-index: 1;
-  transition: background-color 0.1s linear;
+  transition: background-color .1s linear;
 }
 
 .switcher__label:after {
@@ -135,7 +130,7 @@ export default {
   top: 1px;
   left: 1px;
   z-index: 2;
-  transition: transform 0.2s linear;
+  transition: transform .2s linear;
 }
 
 .switcher__label:active:after {
@@ -143,42 +138,25 @@ export default {
 }
 
 .switcher__label:active:before {
-  background-color: #4c9900;
+  background-color: #4C9900;
 }
 
-input:checked + .accordion-label::after {
+
+input:checked+.accordion-label::after {
   -webkit-transform: rotate(90deg);
   transform: rotate(90deg);
 }
 
-input:checked ~ .accordion-content {
-  max-height: 100vh;
-  padding: 18px;
-}
 
-.accordion-label:after {
-  width: 16px;
-  height: 16px;
-  text-align: center;
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
-}
 
-.accordion-content {
-  max-height: 0px;
-  padding: 0 16px;
-  color: black;
-  background: whitesmoke;
 
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
-}
 
-.accordion-content p {
-  margin: 0;
-  color: black;
-  font-size: 18px;
-}
+
+
+
+
+
+
 
 .ava {
   text-align: center;
@@ -194,21 +172,26 @@ input:checked ~ .accordion-content {
   opacity: 0;
   z-index: -1;
 }
-
-.accordion {
-  width: 100%;
-  color: black;
+.hideContent {
+  background: whitesmoke;
+  width: auto;
+  margin-bottom: 20px;
+}
+.accordions {
   overflow: hidden;
-  margin-bottom: 16px;
+  height: 0px;
+  transition: all 0.5m;
 }
 
-.accordion:last-child {
-  margin-bottom: 0;
+.accordiooon {
+  transition: all 0.5s;
+  height: 50px;
 }
 
 .accordion-label {
+  margin-bottom: 20px;
   display: flex;
-  -webkit-box-pack: justify;
+  color: #000;
   border-radius: 10px 10px 0px 0px;
   background: rgb(100, 155, 100);
   font-weight: bold;
@@ -234,7 +217,6 @@ input:checked ~ .accordion-content {
 }
 
 .modal__container {
-  display: flex;
   background-color: white;
   padding: 20px;
   border-radius: 15px;
@@ -246,14 +228,12 @@ form {
   display: flex;
   width: 100%;
   flex-direction: column;
-  gap: 15px;
+  margin-bottom: 10px;
 }
 
-::placeholder {
-  padding-top: 5px;
-}
 
-input[type="text"],
+
+input,
 textarea {
   padding: 10px;
   border: 1px solid #ddd;
@@ -279,6 +259,8 @@ button[type="submit"]:hover {
   background-color: rgb(25, 116, 78);
 }
 
+
+
 .cancel-button {
   padding: 10px 30px;
   background-color: rgb(155, 155, 155);
@@ -287,6 +269,7 @@ button[type="submit"]:hover {
   border-radius: 5px;
   cursor: pointer;
   float: left;
+
 }
 
 .cancel-button:hover {
