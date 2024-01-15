@@ -4,26 +4,26 @@
       <form @submit.prevent="submitAdmin">
         <input type="text" v-model="usersearch.name" placeholder="Поиск пользователя" />
       </form>
-      <div>
-        <div class="accordion" v-for="user in users.items" :key="user.id">
-          <input class="email__users" type="radio" name="radio-a"  checked  />
-          <label class="accordion-label"  @click="open">
+      <div v-for="user in users.items" :key="user.id">
+        <div class="accordion" >
+          <input class="email__users" type="radio" name="radio-a" :id="user.id"  checked  />
+          <label class="accordion-label" @click="open(user.id)" :for="user.id">
             <div class="ava">{{ user.id }}</div>
             <div>{{ user.email }}</div>
           </label>
         </div>
-        <div class="hideContent accordions" :class="{'accordiooon': isHide == false}">
-          <div v-if="isHide == false" >
+        <div class="hideContent accordions" :ref="'hideContent-' + user.id" :class="{'accordiooon': isHide == true}" >
+          <div class="content" v-if="isHide == true" >
             <input class="switcher__input" type="checkbox" :id="user.id" />
             <label class="switcher__label" :for="user.id"></label>
             <p>NeforOlegovich</p>
           </div>
         </div>
-        <div class="buttons">
+      </div>
+      <div class="buttons">
           <button type="button" class="cancel-button" @click="closemodal">Закрыть</button>
           <button type="submit" @click="submitAdmin">Применить</button>
         </div>
-      </div>
     </div>
   </div>
 </template>
@@ -39,14 +39,14 @@ export default {
     return {
       usersearch: {
         name: "",
-        isHide: true,
       },
+      isHide: false,
     };
   },
   methods: {
     submitAdmin() {
       this.$emit("user-search", { ...this.usersearch });
-      alert("submitAdmin")
+
     },
 
     closemodal() {
@@ -57,8 +57,10 @@ export default {
     resetform() {
       this.usersearch = { name: "" };
     },
-    open() {
+    open(userid) {
       this.isHide = !this.isHide
+      const bodyElement = this.$refs['hideContent-'+userid]
+      console.log(userid)
       console.log(this.isHide)
     },
   },
@@ -175,6 +177,7 @@ input:checked+.accordion-label::after {
 }
 .hideContent {
   background: whitesmoke;
+  color: #000;
   width: auto;
   margin-bottom: 20px;
 }
@@ -188,6 +191,7 @@ input:checked+.accordion-label::after {
   transition: all 0.5s;
   height: 50px;
 }
+
 
 .accordion-label {
   margin-bottom: 20px;
