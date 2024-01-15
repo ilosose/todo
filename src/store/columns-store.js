@@ -1,4 +1,5 @@
 import axios from "../utils/axios";
+import router from "@/router";
 
 export default {
   namespaced: true,
@@ -38,7 +39,8 @@ export default {
           commit('setColumns', columnsData)
         })
         .catch((err) => {
-          console.log(err)
+          console.log(err.response.data.cause)
+          router.push({ name: 'boards' })
         })
     }
   },

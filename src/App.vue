@@ -3,20 +3,20 @@
 </template>
 
 <script >
-import { RouterView } from 'vue-router';
 import { mapGetters } from 'vuex';
 export default {
   computed: {
     ...mapGetters('user', ['isAuthenticated'])
   },
 
-  mounted() {
-    if (this.$route.path === '/') {
-      if (!this.isAuthenticated) {
-        this.$router.push({ name: 'registration'});
-        return;
-      };
+  mounted() {  
+    if(!this.isAuthenticated) {
+      this.$router.push({ name: 'registration'});
     }
+    if(this.$route.name === null) {
+      this.$router.push({ name: 'boards' })
+    }
+    this.$router.push({ name: 'boards' })
   }
 }
 </script>
