@@ -6,14 +6,23 @@
       </form>
       <div v-for="user in users.items" :key="user.id">
         <div class="accordion" >
-          <input class="email__users" type="radio" name="radio-a" :id="user.id"  checked  />
-          <label class="accordion-label" @click="open(user.id)" :for="user.id">
+          <input class="email__users" type="radio " name="radio-a" id="user"  checked  />
+          <label class="accordion-label" @click="open(user.id)"  for="user">
             <div class="ava">{{ user.id }}</div>
             <div>{{ user.email }}</div>
           </label>
         </div>
-        <div class="hideContent accordions" :ref="'hideContent-' + user.id" :class="{'accordiooon': isHide == true}" >
-          <div class="content" v-if="isHide == true" >
+        <div class="hideContent accordions" :ref="'hideContent-' + user.id">
+          <div class="content" >
+            <input class="switcher__input" type="checkbox" id="user" />
+            <label class="switcher__label" for="user"></label>
+            <p>NeforOlegovich</p>
+          </div>
+          <div class="content">
+            <input class="switcher__input" type="checkbox" :id="user.id" />
+            <label class="switcher__label" :for="user.id"></label>
+            <p>NeforOlegovich</p>
+          </div><div class="content">
             <input class="switcher__input" type="checkbox" :id="user.id" />
             <label class="switcher__label" :for="user.id"></label>
             <p>NeforOlegovich</p>
@@ -28,6 +37,8 @@
   </div>
 </template>
 <script>
+import { storeKey } from 'vuex';
+
 export default {
   props: {
     users: {
@@ -40,13 +51,12 @@ export default {
       usersearch: {
         name: "",
       },
-      isHide: false,
+      popapan: true
     };
   },
   methods: {
     submitAdmin() {
       this.$emit("user-search", { ...this.usersearch });
-
     },
 
     closemodal() {
@@ -58,10 +68,24 @@ export default {
       this.usersearch = { name: "" };
     },
     open(userid) {
-      this.isHide = !this.isHide
-      const bodyElement = this.$refs['hideContent-'+userid]
+      const bodyElement = this.$refs['hideContent-'+ userid]
+      bodyElement.forEach(element => {
+        element.style.transition = 'all 0.5s'
+        element.style.height = '50px'
+        this.popapan = false
+      });
+      console.log(bodyElement)
       console.log(userid)
-      console.log(this.isHide)
+    },
+    close(userid) {
+      const bodyElement = this.$refs['hideContent-'+ userid]
+      bodyElement.forEach(element => {
+        element.style.transition = 'all 0.5s'
+        element.style.height = '0px'
+        this.popapan = true
+      });
+      console.log(bodyElement)
+      console.log(userid)
     },
   },
 };
