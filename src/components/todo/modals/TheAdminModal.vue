@@ -4,26 +4,26 @@
       <form @submit.prevent="submitAdmin">
         <input type="text" v-model="usersearch.name" placeholder="Поиск пользователя" />
       </form>
-      <component>
+      <div>
         <div class="accordion" v-for="user in users.items" :key="user.id">
-          <input class="email__users" type="radio" name="radio-a" id="check1" checked  />
-          <label class="accordion-label" for="check1" @click="open">
+          <input class="email__users" type="radio" name="radio-a"  checked  />
+          <label class="accordion-label"  @click="open">
             <div class="ava">{{ user.id }}</div>
             <div>{{ user.email }}</div>
           </label>
         </div>
         <div class="hideContent accordions" :class="{'accordiooon': isHide == false}">
-          <div v-if="isHide==false">
-            <input class="switcher__input" type="checkbox" :id="users.id" />
-            <label class="switcher__label" :for="users.id"></label>
+          <div v-if="isHide == false" >
+            <input class="switcher__input" type="checkbox" :id="user.id" />
+            <label class="switcher__label" :for="user.id"></label>
             <p>NeforOlegovich</p>
           </div>
         </div>
         <div class="buttons">
           <button type="button" class="cancel-button" @click="closemodal">Закрыть</button>
-          <button type="submit">Применить</button>
+          <button type="submit" @click="submitAdmin">Применить</button>
         </div>
-      </component>
+      </div>
     </div>
   </div>
 </template>
@@ -46,6 +46,7 @@ export default {
   methods: {
     submitAdmin() {
       this.$emit("user-search", { ...this.usersearch });
+      alert("submitAdmin")
     },
 
     closemodal() {
@@ -58,7 +59,7 @@ export default {
     },
     open() {
       this.isHide = !this.isHide
-      alert("asd")
+      console.log(this.isHide)
     },
   },
 };
