@@ -76,8 +76,7 @@ export default {
   },
   methods: {
     submitAdmin() {
-      this.$emit('usersearch', {...this.usersearch});
-      console.log(this.usersearch.name)
+      this.$emit('user-search', {...this.usersearch});  
       this.resetform()
     },
 

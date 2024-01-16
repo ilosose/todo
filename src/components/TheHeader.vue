@@ -10,7 +10,7 @@
           alt="header__icon--add"
           class="header__icon header__icon--add"
         />
-        <div class="header__user-icon">{{ userIcon }}</div>
+        <button @click.prevent="resetLocalStorageButton" class="exit">Выйти</button>
       </div>
     </div>
     <div class="table"></div>
@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 
 export default {
   data() {
@@ -28,9 +29,16 @@ export default {
   },
 
   methods:{
+    ...mapActions(['resetLocalStorage']),
+
     openWindow(){
       this.$store.commit('boards/openModal');
-    }
+    },
+
+    async resetLocalStorageButton() {
+        await this.resetLocalStorage();
+        await this.$router.push({ name: 'registration' })
+      },
   },
     
   computed: {
@@ -63,17 +71,10 @@ header {
   gap: 15px;
 }
 
-.header__user-icon {
-  width: 40px;
-  height: 40px;
-  background-color: #d9d9d9;
-  border-radius: 50%;
-  color: #333;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-}
+  .exit:hover {
+    
+    cursor: pointer;
+  }
 
 .header__icon:hover {
   cursor: pointer;

@@ -1,5 +1,4 @@
 <template>
-  <button @click.prevent="resetLocalStorageButton" class="exit">Выйти</button>
     <the-add @add-board="addBoard"/>
     <the-edit 
       v-if="isEditModal"
@@ -76,11 +75,6 @@ export default {
       await this.getBoards();
     },
 
-    async resetLocalStorageButton() {
-      await this.resetLocalStorage();
-      await this.$router.push({ name: 'registration' })
-    },
-
   },
 
   async mounted() {
@@ -90,16 +84,5 @@ export default {
 </script>
 
 <style scope>
-  .exit {
-    justify-content: end;
-    margin-left: auto;
-    margin-right: 12px;
-    padding: 15px;
-    border-radius: 12px;
-    background-color: #d5ccff;
-  }
-  .exit:hover {
-    background: #13c4bb;
-    cursor: pointer;
-  }
+  
 </style>

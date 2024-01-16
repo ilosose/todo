@@ -40,7 +40,8 @@
   />
   <the-admin-modal
   v-if="isAdminModal"
-  @close-admin-modal="closeAdminMoadl"
+  @user-search="usersSearch"
+  @close-admin-modal="closeAdminModal"
   />
 
   <the-edit-task v-if="isOpenEditTaskModal" @edit-task="editTask" />
@@ -102,7 +103,7 @@ export default {
       this.isAdminModal = true;
 
     },
-    closeAdminMoadl(){
+    closeAdminModal(){
       this.isAdminModal = false;
 
     },
@@ -217,6 +218,14 @@ export default {
 
       await this.getColumns(this.boardId);
     },
+
+    async usersSearch(usersearch){
+      await axios
+      .get(`users/match?email=${usersearch.name}`)
+      .catch((err) => {
+        alert(err.response.data.cause)
+      })
+    }
   },
 
   async mounted() {
