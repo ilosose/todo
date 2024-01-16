@@ -1,92 +1,231 @@
 <template>
-  <div class="modal">
+  <div class="modal" >
     <div class="modal__container">
       <form @submit.prevent="submitAdmin">
-        <input
-          type="text"
-          v-model="usersearch.name"
-          placeholder="Поиск пользователя"
-        />
-        <div class="accordion">
-          <input
-            class="email__users"
-            type="radio"
-            name="radio-a"
-            id="check1"
-            checked
-          />
-          <label class="accordion-label" for="check1">
-            <div class="ava">I.G</div>
-            Ivanov@gmail.com
-          </label>
-          <div class="accordion-content">
-            <div>
-              <input class="switcher__input" type="checkbox" id="switcher" />
-              <label class="switcher__label" for="switcher"></label>
-              <p>NeforOlegovich</p>
-            </div>
-          </div>
-          <div class="accordion-content">
-            <div>
-              <input class="switcher__input" type="checkbox" id="switcher1" />
-              <label class="switcher__label" for="switcher1"></label>
-              <p>NeforOlegovich</p>
-            </div>
-          </div>
-          <div class="accordion-content">
-            <div>
-              <input class="switcher__input" type="checkbox" id="switcher2" />
-              <label class="switcher__label" for="switcher2"></label>
-              <p>NeforOlegovich</p>
-            </div>
-          </div>
-        </div>
-        <div class="accordion">
-          <input class="email__users" type="radio" name="radio-a" id="check2" />
-          <label class="accordion-label" for="check2">
-            <div class="ava">P.G</div>
-            Penta@gmail.com
-          </label>
-          <div class="accordion-content">
-            <div>
-              <input class="switcher__input" type="checkbox" id="switcher4" />
-              <label class="switcher__label" for="switcher4"></label>
-              <p>proreka@gmail.com</p>
-            </div>
-          </div>
-        </div>
-        <div class="buttons">
-          <button type="button" class="cancel-button" @click="closemodal">
-            Закрыть
-          </button>
-          <button type="submit">Применить</button>
-        </div>
+        <input type="text" v-model="usersearch.name" placeholder="Поиск пользователя" />
       </form>
+      <div v-for="user in users" :key="user.id">
+        <div class="accordion" >
+          <input class="email__users" type="radio " name="radio-a" id="user"  checked  />
+          <label class="accordion-label" @click="open(user.id)"  for="user">
+            <div class="ava">{{ user.id }}</div>
+            <div>{{ user.email }}</div>
+          </label>
+        </div>
+        <div class="hideContent accordions" :ref="'hideContent-' + user.id">
+          <div class="content">
+            <input class="switcher__input" v-model="manageBoard" :value="user.id" type="checkbox" :id="user.id + 1" />
+            <label class="switcher__label" :for="user.id + 1"></label>
+            <p>Управление досками</p>
+          </div>
+          <div class="content">
+            <input class="switcher__input" v-model="manegeStatuses" :value="user.id" type="checkbox" :id="user.id + 2" />
+            <label class="switcher__label" :for="user.id + 2"></label>
+            <p>Управление статусами</p>
+          </div><div class="content">
+            <input class="switcher__input" v-model="manageUsers" :value="user.id" type="checkbox" :id="user.id + 3" />
+            <label class="switcher__label" :for="user.id + 3"></label>
+            <p>Управление пользователями</p>
+          </div>
+        </div>
+      </div>
+      <div class="buttons">
+          <button type="button" class="cancel-button" @click="closemodal">Закрыть</button>
+          <button type="submit" @click="submitAdmin">Применить</button>
+        </div>
     </div>
   </div>
 </template>
 <script>
+import axios from '../../../utils/axios';
+import { mapGetters } from 'vuex';
+
 export default {
-  data(){
-    return {
-      usersearch:{
-        name: '',
-      }
-    }
+  computed: {
+    ...mapGetters('columns', ['boardId', 'users'])
   },
+  data() {
+    return {
+      usersearch: {
+        name: '',
+      },
+      popapan: true,
+      manageBoard: [],
+      manegeStatuses: [],
+      manageUsers: [],
+      curentUserId: ''
+    };
+  },
+  watch: {
+    manageBoard(userId) {
+      console.log(userId)
+        this.curentUserId = userId
+        this.setPermissionsManageBoard(userId);
+      if(userId.length == 0) {
+        this.deletePermissionsManageBoard(this.curentUserId);
+        this.curentUserId = ''
+      }
+    },
+    manegeStatuses(userId) {
+      if(userId.length == 1) {
+        this.curentUserId = userId
+        this.setPermissionsManegeStatuses(userId);
+      }
+      if(userId.length == 0) {
+        this.deletePermissionsManegeStatuses(this.curentUserId);
+        this.curentUserId = ''
+      }
+    },
+    manageUsers(userId) {
+      if(userId.length == 1) {
+        this.curentUserId = userId
+        this.setPermissionsManageUsers(userId);
+      }
+      if(userId.length == 0) {
+        this.deletePermissionsManageUsers(this.curentUserId);
+        this.curentUserId = ''
+      }
+    },
+  },
+
   methods: {
     submitAdmin() {
+<<<<<<< HEAD
       this.$emit('user-search', {...this.usersearch});  
       this.resetform()
+=======
+      this.$emit("user-search", { ...this.usersearch });
+>>>>>>> develop
     },
 
     closemodal() {
-      this.$emit('close-admin-modal');
-      this.resetform()
+      this.$emit("close-admin-modal");
+      this.resetform();
     },
 
-    resetform(){
-      this.usersearch = {name: ''}
+    resetform() {
+      this.usersearch = { name: "" };
+    },
+
+    async setPermissionsManageBoard(userId) {
+      await axios
+        .put(`boards/${this.boardId}/users/${userId}/permissions/delete-board`)
+        .then((res) => {
+          console.log('set Bord Manage1')
+        })
+        .catch((err) => {
+          alert(err.response.data.cause)
+        })
+
+      await axios
+        .put(`boards/${this.boardId}/users/${userId}/permissions/manage-board`)
+        .then((res) => {
+          console.log('set Bord Manage2')
+        })
+        .catch((err) => {
+          alert(err.response.data.cause)
+        })
+    },
+
+    async setPermissionsManegeStatuses(userId) {
+      await axios
+        .put(`boards/${this.boardId}/users/${userId}/permissions/delete-board-statuses`)
+        .then((res) => {
+          console.log('set Status Manage1')
+        })
+        .catch((err) => {
+          alert(err.response.data.cause)
+        })
+
+      await axios
+        .put(`boards/${this.boardId}/users/${userId}/permissions/manage-board-statuses`)
+        .then((res) => {
+          console.log('set Status Manage2')
+        })
+        .catch((err) => {
+          alert(err.response.data.cause)
+        })
+    },
+
+    async setPermissionsManageUsers(userId) {
+      await axios
+        .put(`boards/${this.boardId}/users/${userId}/permissions`)
+        .then((res) => {
+          console.log('set User Manage')
+        })
+        .catch((err) => {
+          alert(err.response.data.cause)
+        })
+    },
+
+    async deletePermissionsManageBoard(userId) {
+      await axios
+        .delete(`boards/${this.boardId}/users/${userId}/permissions/delete-board`)
+        .then((res) => {
+          console.log('delete Board Manage1')
+        })
+        .catch((err) => {
+          alert(err.response.data.cause)
+        })
+
+      await axios
+        .delete(`boards/${this.boardId}/users/${userId}/permissions/manage-board`)
+        .then((res) => {
+          console.log('delete Board Manage2')
+        })
+        .catch((err) => {
+          alert(err.response.data.cause)
+        })
+    },
+
+    async deletePermissionsManegeStatuses(userId) {
+      await axios
+        .delete(`boards/${this.boardId}/users/${userId}/permissions/delete-board-statuses`)
+        .then((res) => {
+          console.log('delete Status Manage1')
+        })
+        .catch((err) => {
+          alert(err.response.data.cause)
+        })
+
+      await axios
+        .delete(`boards/${this.boardId}/users/${userId}/permissions/manage-board-statuses`)
+        .then((res) => {
+          console.log('delete Status Manage2')
+        })
+        .catch((err) => {
+          alert(err.response.data.cause)
+        })
+    },
+
+    async deletePermissionsManageUsers(userId) {
+      await axios
+        .delete(`boards/${this.boardId}/users/${userId}/permissions/manage-board-users`)
+        .then((res) => {
+          console.log('delete User Manage')
+        })
+        .catch((err) => {
+          alert(err.response.data.cause)
+        })
+    },
+
+
+
+    async open(userId) {
+      const bodyElement = this.$refs['hideContent-'+ userId]
+      bodyElement.forEach(element => {
+        element.style.transition = 'all 0.5s'
+        element.style.height = '50px'
+      });
+      this.popapan = true
+    },
+    close(userId) {
+      const bodyElement = this.$refs['hideContent-'+ userId]
+      bodyElement.forEach(element => {
+        element.style.transition = null
+        element.style.height = null
+      });
+      this.popapan = true
     },
   },
 };
@@ -102,24 +241,24 @@ export default {
   display: none;
 }
 
-.switcher__input:checked + .switcher__label {
+.switcher__input:checked+.switcher__label {
   color: #000;
 }
 
-.switcher__input:checked + .switcher__label:before {
+.switcher__input:checked+.switcher__label:before {
   background-color: seagreen;
 }
 
-.switcher__input:checked + .switcher__label:after {
+.switcher__input:checked+.switcher__label:after {
   transform: translateX(23px);
 }
 
-.switcher__input:checked + .switcher__label:active:after {
+.switcher__input:checked+.switcher__label:active:after {
   transform: translateX(12px);
 }
 
-.switcher__input:checked + .switcher__label:active:before {
-  background-color: #4c9900;
+.switcher__input:checked+.switcher__label:active:before {
+  background-color: #4C9900;
 }
 
 .switcher__label {
@@ -130,7 +269,7 @@ export default {
   color: #ccc;
   cursor: pointer;
   position: relative;
-  transition: color 0.1s linear;
+  transition: color .1s linear;
 }
 
 .switcher__label:before {
@@ -144,7 +283,7 @@ export default {
   top: 0;
   left: 0;
   z-index: 1;
-  transition: background-color 0.1s linear;
+  transition: background-color .1s linear;
 }
 
 .switcher__label:after {
@@ -158,7 +297,7 @@ export default {
   top: 1px;
   left: 1px;
   z-index: 2;
-  transition: transform 0.2s linear;
+  transition: transform .2s linear;
 }
 
 .switcher__label:active:after {
@@ -166,42 +305,25 @@ export default {
 }
 
 .switcher__label:active:before {
-  background-color: #4c9900;
+  background-color: #4C9900;
 }
 
-input:checked + .accordion-label::after {
+
+input:checked+.accordion-label::after {
   -webkit-transform: rotate(90deg);
   transform: rotate(90deg);
 }
 
-input:checked ~ .accordion-content {
-  max-height: 100vh;
-  padding: 18px;
-}
 
-.accordion-label:after {
-  width: 16px;
-  height: 16px;
-  text-align: center;
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
-}
 
-.accordion-content {
-  max-height: 0px;
-  padding: 0 16px;
-  color: black;
-  background: whitesmoke;
 
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
-}
 
-.accordion-content p {
-  margin: 0;
-  color: black;
-  font-size: 18px;
-}
+
+
+
+
+
+
 
 .ava {
   text-align: center;
@@ -217,21 +339,28 @@ input:checked ~ .accordion-content {
   opacity: 0;
   z-index: -1;
 }
-
-.accordion {
-  width: 100%;
-  color: black;
+.hideContent {
+  background: whitesmoke;
+  color: #000;
+  width: auto;
+  margin-bottom: 20px;
+}
+.accordions {
   overflow: hidden;
-  margin-bottom: 16px;
+  height: 0px;
+  transition: all 0.5m;
 }
 
-.accordion:last-child {
-  margin-bottom: 0;
+.accordiooon {
+  transition: all 0.5s;
+  height: 50px;
 }
+
 
 .accordion-label {
+  margin-bottom: 20px;
   display: flex;
-  -webkit-box-pack: justify;
+  color: #000;
   border-radius: 10px 10px 0px 0px;
   background: rgb(100, 155, 100);
   font-weight: bold;
@@ -257,7 +386,6 @@ input:checked ~ .accordion-content {
 }
 
 .modal__container {
-  display: flex;
   background-color: white;
   padding: 20px;
   border-radius: 15px;
@@ -269,14 +397,12 @@ form {
   display: flex;
   width: 100%;
   flex-direction: column;
-  gap: 15px;
+  margin-bottom: 10px;
 }
 
-::placeholder {
-  padding-top: 5px;
-}
 
-input[type="text"],
+
+input,
 textarea {
   padding: 10px;
   border: 1px solid #ddd;
@@ -302,6 +428,8 @@ button[type="submit"]:hover {
   background-color: rgb(25, 116, 78);
 }
 
+
+
 .cancel-button {
   padding: 10px 30px;
   background-color: rgb(155, 155, 155);
@@ -310,6 +438,7 @@ button[type="submit"]:hover {
   border-radius: 5px;
   cursor: pointer;
   float: left;
+
 }
 
 .cancel-button:hover {

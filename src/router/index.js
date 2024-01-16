@@ -4,6 +4,10 @@ const router = createRouter({
   history: createWebHistory(''),
   routes: [
     {
+      path: '/',
+      redirect: { name: 'boards' }
+    },
+    {
       path: '/auth',
       name: 'auth',
       component: () => import('../views/auth/AuthView.vue')
@@ -30,10 +34,10 @@ const router = createRouter({
         },
         {
           path: ':boardId*',
-          redirect: { name: 'boards'}
+          redirect: { name: 'boards' }
         },
       ]
-    }
+    },
   ]
 })
 
