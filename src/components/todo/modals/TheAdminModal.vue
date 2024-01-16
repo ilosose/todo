@@ -90,8 +90,7 @@ export default {
 
   methods: {
     submitAdmin() {
-<<<<<<< HEAD
-      this.$emit('user-search', {...this.usersearch});  
+      this.$emit('user-search', {...this.usersearch}); 
     },
 
     closemodal() {
