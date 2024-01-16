@@ -14,6 +14,14 @@
     </button>
     <button class="management" @click.prevent="openAdminModal">Управление</button>
   </div>
+  <div class="box">
+    <div v-for="user in users" :key="user.id">
+      <div>{{ user.email }}</div>
+      <button @click="deleteUser(user.id)">Удалить</button>
+    </div>
+    <button >Добавить пользователя</button>
+  </div>
+  
 
   <kanban-column
     @add-task="openAddTaskModal"
@@ -39,15 +47,15 @@
     @close-modal="closeAddTaskModal"
   />
   <the-admin-modal
-  v-if="isAdminModal"
-  :users="users"
-  @close-admin-modal="closeAdminModal"
-  @user-search="mutchAdminModal"
+    v-if="isAdminModal"
+    :users="users"
+    @close-admin-modal="closeAdminModal"
+    @user-search="mutchAdminModal"
   />
 
   <the-edit-task 
-  v-if="isOpenEditTaskModal" 
-  @edit-task="editTask" 
+    v-if="isOpenEditTaskModal" 
+    @edit-task="editTask" 
   />
 
 </template>
@@ -134,22 +142,22 @@ export default {
 
     closeAdminModal(){
       this.isAdminModal = false;
-
     },
 
-    openAdminModal() {
+    async openAdminModal() {
       this.isAdminModal = true;
+      
     },
 
-   async mutchAdminModal(usersearch){
+   async mutchAdminModal(){
     await axios
-    .get(`users/match?email=${usersearch.name}`)
-    .then((response)=>{
-      this.users = response.data
-    })
-    .catch((err)=>{
-      alert(err.response.data.cause)
-    })
+      .get(`boards/${this.boardId}/users`)
+      .then((response)=>{
+        this.users = response.data
+      })
+      .catch((err)=>{
+        alert(err.response.data.cause)
+      })
     },
 
     async addColumn(newColumn) {
@@ -236,10 +244,21 @@ export default {
 
       await this.getColumns(this.boardId);
     },
+
+    async deleteUser(userId) {
+      await axios
+        .delete(`boards/${this.boardId}/users/${userId}`)
+        .catch((err) => {
+          console.log(err.response.data.cause)
+        })
+
+      
+    }
   },
 
   async mounted() {
     await this.$store.commit("columns/setBoardId", this.$route.params.boardId);
+    await this.mutchAdminModal();
     await this.getColumns(this.boardId);
   },
 };

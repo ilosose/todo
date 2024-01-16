@@ -1,10 +1,10 @@
 <template>
-  <div class="modal">
+  <div class="modal" >
     <div class="modal__container">
       <form @submit.prevent="submitAdmin">
         <input type="text" v-model="usersearch.name" placeholder="Поиск пользователя" />
       </form>
-      <div v-for="user in users.items" :key="user.id">
+      <div v-for="user in users" :key="user.id">
         <div class="accordion" >
           <input class="email__users" type="radio " name="radio-a" id="user"  checked  />
           <label class="accordion-label" @click="open(user.id)"  for="user">
@@ -13,19 +13,19 @@
           </label>
         </div>
         <div class="hideContent accordions" :ref="'hideContent-' + user.id">
-          <div class="content" >
-            <input class="switcher__input" type="checkbox" id="user" />
-            <label class="switcher__label" for="user"></label>
-            <p>NeforOlegovich</p>
+          <div class="content">
+            <input class="switcher__input" v-model="manageBoard" :value="user.id" type="checkbox" :id="user.id + 1" />
+            <label class="switcher__label" :for="user.id + 1"></label>
+            <p>Управление досками</p>
           </div>
           <div class="content">
-            <input class="switcher__input" type="checkbox" :id="user.id" />
-            <label class="switcher__label" :for="user.id"></label>
-            <p>NeforOlegovich</p>
+            <input class="switcher__input" v-model="manegeStatuses" :value="user.id" type="checkbox" :id="user.id + 2" />
+            <label class="switcher__label" :for="user.id + 2"></label>
+            <p>Управление статусами</p>
           </div><div class="content">
-            <input class="switcher__input" type="checkbox" :id="user.id" />
-            <label class="switcher__label" :for="user.id"></label>
-            <p>NeforOlegovich</p>
+            <input class="switcher__input" v-model="manageUsers" :value="user.id" type="checkbox" :id="user.id + 3" />
+            <label class="switcher__label" :for="user.id + 3"></label>
+            <p>Управление пользователями</p>
           </div>
         </div>
       </div>
@@ -37,7 +37,8 @@
   </div>
 </template>
 <script>
-import { storeKey } from 'vuex';
+import axios from '../../../utils/axios';
+import { mapGetters } from 'vuex';
 
 export default {
   props: {
@@ -46,14 +47,53 @@ export default {
       default: {},
     },
   },
+  computed: {
+    ...mapGetters('columns', ['boardId'])
+  },
   data() {
     return {
       usersearch: {
-        name: "",
+        name: '',
       },
-      popapan: true
+      popapan: true,
+      manageBoard: [],
+      manegeStatuses: [],
+      manageUsers: [],
+      curentUserId: ''
     };
   },
+  watch: {
+    manageBoard(userId) {
+      console.log(userId)
+        this.curentUserId = userId
+        this.setPermissionsManageBoard(userId);
+      if(userId.length == 0) {
+        this.deletePermissionsManageBoard(this.curentUserId);
+        this.curentUserId = ''
+      }
+    },
+    manegeStatuses(userId) {
+      if(userId.length == 1) {
+        this.curentUserId = userId
+        this.setPermissionsManegeStatuses(userId);
+      }
+      if(userId.length == 0) {
+        this.deletePermissionsManegeStatuses(this.curentUserId);
+        this.curentUserId = ''
+      }
+    },
+    manageUsers(userId) {
+      if(userId.length == 1) {
+        this.curentUserId = userId
+        this.setPermissionsManageUsers(userId);
+      }
+      if(userId.length == 0) {
+        this.deletePermissionsManageUsers(this.curentUserId);
+        this.curentUserId = ''
+      }
+    },
+  },
+
   methods: {
     submitAdmin() {
       this.$emit("user-search", { ...this.usersearch });
@@ -67,25 +107,126 @@ export default {
     resetform() {
       this.usersearch = { name: "" };
     },
-    open(userid) {
-      const bodyElement = this.$refs['hideContent-'+ userid]
+
+    async setPermissionsManageBoard(userId) {
+      await axios
+        .put(`boards/${this.boardId}/users/${userId}/permissions/delete-board`)
+        .then((res) => {
+          console.log('set Bord Manage1')
+        })
+        .catch((err) => {
+          alert(err.response.data.cause)
+        })
+
+      await axios
+        .put(`boards/${this.boardId}/users/${userId}/permissions/manage-board`)
+        .then((res) => {
+          console.log('set Bord Manage2')
+        })
+        .catch((err) => {
+          alert(err.response.data.cause)
+        })
+    },
+
+    async setPermissionsManegeStatuses(userId) {
+      await axios
+        .put(`boards/${this.boardId}/users/${userId}/permissions/delete-board-statuses`)
+        .then((res) => {
+          console.log('set Status Manage1')
+        })
+        .catch((err) => {
+          alert(err.response.data.cause)
+        })
+
+      await axios
+        .put(`boards/${this.boardId}/users/${userId}/permissions/manage-board-statuses`)
+        .then((res) => {
+          console.log('set Status Manage2')
+        })
+        .catch((err) => {
+          alert(err.response.data.cause)
+        })
+    },
+
+    async setPermissionsManageUsers(userId) {
+      await axios
+        .put(`boards/${this.boardId}/users/${userId}/permissions`)
+        .then((res) => {
+          console.log('set User Manage')
+        })
+        .catch((err) => {
+          alert(err.response.data.cause)
+        })
+    },
+
+    async deletePermissionsManageBoard(userId) {
+      await axios
+        .delete(`boards/${this.boardId}/users/${userId}/permissions/delete-board`)
+        .then((res) => {
+          console.log('delete Board Manage1')
+        })
+        .catch((err) => {
+          alert(err.response.data.cause)
+        })
+
+      await axios
+        .delete(`boards/${this.boardId}/users/${userId}/permissions/manage-board`)
+        .then((res) => {
+          console.log('delete Board Manage2')
+        })
+        .catch((err) => {
+          alert(err.response.data.cause)
+        })
+    },
+
+    async deletePermissionsManegeStatuses(userId) {
+      await axios
+        .delete(`boards/${this.boardId}/users/${userId}/permissions/delete-board-statuses`)
+        .then((res) => {
+          console.log('delete Status Manage1')
+        })
+        .catch((err) => {
+          alert(err.response.data.cause)
+        })
+
+      await axios
+        .delete(`boards/${this.boardId}/users/${userId}/permissions/manage-board-statuses`)
+        .then((res) => {
+          console.log('delete Status Manage2')
+        })
+        .catch((err) => {
+          alert(err.response.data.cause)
+        })
+    },
+
+    async deletePermissionsManageUsers(userId) {
+      await axios
+        .delete(`boards/${this.boardId}/users/${userId}/permissions/manage-board-users`)
+        .then((res) => {
+          console.log('delete User Manage')
+        })
+        .catch((err) => {
+          alert(err.response.data.cause)
+        })
+    },
+
+
+
+    async open(userId) {
+      const bodyElement = this.$refs['hideContent-'+ userId]
       bodyElement.forEach(element => {
         element.style.transition = 'all 0.5s'
         element.style.height = '50px'
-        this.popapan = false
       });
-      console.log(bodyElement)
-      console.log(userid)
+      this.popapan = true
     },
-    close(userid) {
-      const bodyElement = this.$refs['hideContent-'+ userid]
+    close(userId) {
+      const bodyElement = this.$refs['hideContent-'+ userId]
       bodyElement.forEach(element => {
-        element.style.transition = 'all 0.5s'
-        element.style.height = '0px'
-        this.popapan = true
+        element.style.transition = null
+        element.style.height = null
       });
-      console.log(bodyElement)
-      console.log(userid)
+      this.popapan = true
     },
   },
 };
