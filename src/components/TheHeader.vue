@@ -55,6 +55,8 @@ header {
 }
 
 .header__container {
+  background-color: gainsboro;
+  box-shadow: 3px 3px 10px black;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -62,6 +64,7 @@ header {
 }
 
 .header__title {
+  color: black;
   font-weight: 300;
 }
 
@@ -72,12 +75,23 @@ header {
 }
 
   .exit:hover {
-    
+    background-color:#dddddd;
+  transform : translate(0, 1px);
     cursor: pointer;
+  }
+  .exit{
+    background-color: #eeeeee;
+    box-shadow: 0 2px 2px rgb(111, 111, 111);
+    transition: background-color .4s;
+    font-family: 'Andale Mono', monospace;
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 10px;
+    color: black;
   }
 
 .header__icon:hover {
   cursor: pointer;
-  opacity: 0.5;
+  opacity: 0.4;
 }
 </style>

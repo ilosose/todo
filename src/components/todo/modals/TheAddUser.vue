@@ -1,9 +1,8 @@
 <template>
   <div class="modal"> 
-  <h1 class="title__modal">Создать доску</h1>
   <div class="modal__container">
     <form @submit.prevent="searchUser">
-      <input type="text"  required v-model="name" placeholder="Название колонки"/>
+      <input type="text"  required v-model="name" placeholder="Поиск Пользователя"/>
       <div class="buttons">
         <button type="button" class="cancel-button" @click="$emit('close-modal')">Отмена</button> 
         <button type="submit">Создать</button>
@@ -12,7 +11,7 @@
       <div v-for="user in users.items" :key="user.id">
         <div>
           <p style="color: black;">{{ user.email }}</p>
-          <button @click="addUser(user.id)">Добавить пользователя</button>
+          <button class="add__users" @click="addUser(user.id)">Добавить пользователя</button>
         </div>
       </div>
     </div>
@@ -74,6 +73,11 @@ methods: {
 </script>
 
 <style scoped>
+.content{
+  background-color: #ddd;
+  border-radius: 10px;
+  padding: 10px;
+}
 .modal {
   display: flex;
   justify-content: center;
@@ -89,14 +93,10 @@ methods: {
 .buttons{
   padding-top: 10px;
 }
-.title__modal{
-position: absolute;
-color: whitesmoke;
-margin-bottom: 400px;
-}
+
 .modal__container {
   display: flex;
-  background-color: white;
+  background-color: #eeeeee;
   padding: 20px;
   border-radius: 15px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
@@ -114,7 +114,6 @@ padding-top: 5px;
 }
 
 input[type="text"],
-input[type="date"],
 textarea {
   padding: 10px;
   border: 1px solid #ddd;
@@ -127,40 +126,52 @@ textarea {
 }
 
 button[type="submit"] {
-  padding: 10px 20px;
-  background-color: rgb(32, 146, 99);
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  float: right;
+  background-color: hsl(147, 92%, 45%);
+    box-shadow: 0 2px 2px rgb(111, 111, 111);
+    transition: background-color .4s;
+    font-family: 'Andale Mono', monospace;
+    border: 1px solid black;
+    padding: 10px 30px;
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 10px;
+    color: black;
+    float: right;
 }
 
 button[type="submit"]:hover {
-  background-color: rgb(25, 116, 78);
-}
-
-.close-modal {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  text-decoration: none;
-  color: rgb(0, 0, 0);
-  font-size: 24px;
+  background-color:hsl(147, 73%, 42%);
+  transform : translate(0, 1px);
+    cursor: pointer;
 }
 
 .cancel-button {
-  padding: 10px 30px;
-  background-color: rgb(155, 155, 155);
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  float: left;
-
+  background-color: #eeeeee;
+    box-shadow: 0 2px 2px rgb(111, 111, 111);
+    transition: background-color .4s;
+    font-family: 'Andale Mono', monospace;
+    border: 1px solid black;
+    padding: 10px 30px;
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 10px;
+    color: black;
 }
 
 .cancel-button:hover { 
-  background-color: gray;
+  background-color:#dddddd;
+  transform : translate(0, 1px);
+    cursor: pointer;
+}
+.add__users{
+  padding: 4px;
+  border: solid 1px black;
+  box-shadow: 0 2px 2px rgb(111, 111, 111);
+  font-family: 'Andale Mono', monospace;
+  transition: background-color .4s;
+  font-size: 15px;
+  margin: 5px 0px 20px 0px;
+    font-weight: 700;
+  border-radius: 7px;
 }
 </style>

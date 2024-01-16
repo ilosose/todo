@@ -16,16 +16,16 @@
           <div class="content">
             <input class="switcher__input" v-model="manageBoard" :value="user.id" type="checkbox" :id="user.id + 1" />
             <label class="switcher__label" :for="user.id + 1"></label>
-            <p>Управление досками</p>
+            <p @click="close(user.id)">Управление досками</p>
           </div>
           <div class="content">
             <input class="switcher__input" v-model="manegeStatuses" :value="user.id" type="checkbox" :id="user.id + 2" />
             <label class="switcher__label" :for="user.id + 2"></label>
-            <p>Управление статусами</p>
+            <p @click="close(user.id)">Управление статусами</p>
           </div><div class="content">
             <input class="switcher__input" v-model="manageUsers" :value="user.id" type="checkbox" :id="user.id + 3" />
             <label class="switcher__label" :for="user.id + 3"></label>
-            <p>Управление пользователями</p>
+            <p @click="close(user.id)">Управление пользователями</p>
           </div>
         </div>
       </div>
@@ -210,23 +210,24 @@ export default {
       const bodyElement = this.$refs['hideContent-'+ userId]
       bodyElement.forEach(element => {
         element.style.transition = 'all 0.5s'
-        element.style.height = '50px'
+        element.style.height = '90px'
       });
-      this.popapan = true
     },
     close(userId) {
       const bodyElement = this.$refs['hideContent-'+ userId]
       bodyElement.forEach(element => {
-        element.style.transition = null
-        element.style.height = null
+        element.style.transition = 'all 0.5s'
+        element.style.height = '0px'
       });
-      this.popapan = true
     },
   },
 };
 </script>
 
 <style scoped>
+p{
+  padding: 5px;
+}
 .switcher__label {
   float: right;
   position: absolute;
@@ -338,7 +339,7 @@ input:checked+.accordion-label::after {
   background: whitesmoke;
   color: #000;
   width: auto;
-  margin-bottom: 20px;
+
 }
 .accordions {
   overflow: hidden;
@@ -353,8 +354,8 @@ input:checked+.accordion-label::after {
 
 
 .accordion-label {
-  margin-bottom: 20px;
   display: flex;
+  margin-top: 10px;
   color: #000;
   border-radius: 10px 10px 0px 0px;
   background: rgb(100, 155, 100);

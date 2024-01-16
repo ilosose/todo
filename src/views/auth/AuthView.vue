@@ -63,6 +63,11 @@ import axios from '../../utils/axios';
 </script>
 
 <style scoped>
+.auth-form{
+  background-color: gainsboro;
+  padding: 10px;
+  border-radius: 10px;
+}
 
   .auth {
     display: flex;
@@ -71,16 +76,17 @@ import axios from '../../utils/axios';
     align-items: center;
     width: 100vw;
     height: 100vh;
-    background: #2B1887;
+    background: transparent;
 
   }
   .auth__title {
-    color: #f4f2ff;
+    color: black;
     text-align: center;
     font-size: 50px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
+    font-family: 'Andale Mono', monospace;
   }
 
   .auth-form__field {
@@ -98,7 +104,7 @@ import axios from '../../utils/axios';
   }
 
   .auth-form__label {
-    color: #f4f2ff;
+    color: black;
     margin-left: 15px;
     text-align: start;
     font-size: 15px;
@@ -108,8 +114,8 @@ import axios from '../../utils/axios';
 
   .auth-form__input {
     border-radius: 10px;
-    background: #D5CCFF;
-    border: none;
+    background: ghostwhite;
+    border: solid 2px black;
     padding: 10px 25px;
     width: 100%;
     height: 45px;
@@ -120,7 +126,7 @@ import axios from '../../utils/axios';
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    background-color: #5D5FEF;
+    background-color:gainsboro;
     width: 15px;
     height: 15px;
     border: none;
@@ -130,7 +136,7 @@ import axios from '../../utils/axios';
   }
 
   .auth-form__checkbox:checked {
-    background-color: #5D5FEF;
+    background-color: gainsboro;
   }
 
   .auth-form__checkbox:checked::after {
@@ -140,7 +146,7 @@ import axios from '../../utils/axios';
     top: 2px;
     width: 3px;
     height: 6px;
-    border: solid #f4f2ff;
+    border: solid black;
     border-width: 0 3px 3px 0;
     transform: rotate(45deg);
   }
@@ -149,14 +155,17 @@ import axios from '../../utils/axios';
     width: 100%;
     height: 45px;
     margin-bottom: 10px;
-    border: none;
+    border:solid 2px black;
     border-radius: 10px;
-    background: #5D5FEF;
+    background: gainsboro;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.30);
-    color: #f4f2ff;
+    color: black;
+    font-weight: 900;
+    font-family: 'Andale Mono', monospace;
   }
   .auth-form__submit:hover {
-    background: #13c4bb;
+    background-color: whitesmoke;
+    transform : translate(0, 1px);
     cursor: pointer;
   }
 
@@ -164,12 +173,12 @@ import axios from '../../utils/axios';
     padding-inline: 70px;
     border-radius: 10px;
     font-weight: 600;
-    color: lightsteelblue;
+    color: slategrey;
     
   }
 
   .auth-form__redirect:hover {
-    color: whitesmoke;
+    color: black;
     cursor: pointer;
   }
 </style>

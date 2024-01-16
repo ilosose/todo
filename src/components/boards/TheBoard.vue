@@ -62,6 +62,7 @@ export default {
 p, h4, h2{
  font-family: 'Andale Mono', monospace;
  font-weight: 800;
+
 }
 
 .board {
@@ -71,6 +72,12 @@ p, h4, h2{
     justify-content: center;
     gap: 40px;
     margin: 10px 0;
+  }
+
+  .board-item__title{
+    width: 100%;
+    text-decoration:underline;
+
   }
 
   .board-item {
@@ -83,7 +90,7 @@ p, h4, h2{
     padding: 14px;
     border-radius: 8px;
     background-color: rgb(240, 240, 240);
-    border-bottom: 3px solid #8293ff;
+    border-bottom: 3px solid grey;
     color: black;
     box-shadow: 0 8px 10px black;
     transition: 0.3s;
@@ -91,8 +98,8 @@ p, h4, h2{
 
 
   .board-item:hover {
-    background-color: #8293ff;
-    color: rgb(240, 240, 240);
+    background-color: lightgray;
+    color: black;
     transform: translate(1.2px, 1.2px);
     cursor: pointer;
   }
