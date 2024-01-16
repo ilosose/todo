@@ -1,10 +1,10 @@
 <template>
   <div class="nav">
-    <button @click.prevent="resetLocalStorageButton" class="nav__exit">
+    <button @click="resetLocalStorageButton" class="nav__exit">
       Выйти
     </button>
     <button
-      @click.prevent="this.$router.push({ name: 'boards' })"
+      @click="this.$router.push({ name: 'boards' })"
       class="nav__go-back"
     >
       Страница досок
