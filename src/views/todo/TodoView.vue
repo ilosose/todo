@@ -12,8 +12,16 @@
     <button @click.prevent="openAddColunmModal" class="nav__add-column">
       Добавить статус
     </button>
-    <button @click.prevent="openAdminModal">Управление</button>
+    <button class="management" @click.prevent="openAdminModal">Управление</button>
   </div>
+  <div class="box">
+    <div v-for="user in users" :key="user.id">
+      <div>{{ user.email }}</div>
+      <button @click="deleteUser(user.id)">Удалить</button>
+    </div>
+    <button @click="openAddUserModal">Добавить пользователя</button>
+  </div>
+  
 
   <kanban-column
     @add-task="openAddTaskModal"
@@ -38,12 +46,22 @@
     @add-task="addTaskData"
     @close-modal="closeAddTaskModal"
   />
-  <the-admin-modal
-  v-if="isAdminModal"
-  @close-admin-modal="closeAdminMoadl"
+
+  <the-add-user 
+    v-if="isAddUser"
+    @close-modal="closeAddUserModal"
   />
 
-  <the-edit-task v-if="isOpenEditTaskModal" @edit-task="editTask" />
+  <the-admin-modal
+    v-if="isAdminModal"
+    @close-admin-modal="closeAdminModal"
+  />
+
+  <the-edit-task 
+    v-if="isOpenEditTaskModal" 
+    @edit-task="editTask" 
+  />
+
 </template>
 <script>
 import TheAddTask from "../../components/todo/modals/TheAddTask.vue";
@@ -52,6 +70,7 @@ import TheAddColumn from "../../components/todo/modals/TheAddColumn.vue";
 import TheEditColumn from "../../components/todo/modals/TheEditColumn.vue";
 import TheEditTask from "../../components/todo/modals/TheEditTask.vue";
 import TheAdminModal from "@/components/todo/modals/TheAdminModal.vue";
+import TheAddUser from "../../components/todo/modals/TheAddUser.vue"
 import { mapActions, mapGetters } from "vuex";
 import axios from "../../utils/axios";
 
@@ -63,6 +82,7 @@ export default {
     TheEditTask,
     KanbanColumn,
     TheAdminModal,
+    TheAddUser,
   },
 
   data() {
@@ -71,7 +91,9 @@ export default {
       isAddTaskModalOpen: false,
       isAddColumnModalOpen: false,
       isEditColumnModalOpen: false,
+      isAddUser: false,
       curentColumnId: null,
+      userMatch: [],
     };
   },
 
@@ -81,13 +103,14 @@ export default {
       "curentTaskId",
       "curentStatusId",
       "isOpenEditTaskModal",
+      "users",
     ]),
   },
 
   methods: {
     ...mapActions(["resetLocalStorage"]),
 
-    ...mapActions("columns", ["getColumns"]),
+    ...mapActions("columns", ["getColumns", "getUsers"]),
 
     async resetLocalStorageButton() {
       await this.$router.push({ name: "registration" });
@@ -97,14 +120,6 @@ export default {
     async resetLocalStorageBoardButton() {
       await this.$router.push({ name: "boards" });
       await this.resetLocalStorageBoard();
-    },
-    openAdminModal() {
-      this.isAdminModal = true;
-
-    },
-    closeAdminMoadl(){
-      this.isAdminModal = false;
-
     },
 
     openAddTaskModal(columnId) {
@@ -121,6 +136,14 @@ export default {
       this.curentColumnId = columnId;
     },
 
+    openAdminModal() {
+      this.isAdminModal = true;
+    },
+
+    openAddUserModal() {
+      this.isAddUser = true;
+    },
+
     closeAddTaskModal() {
       this.isAddTaskModalOpen = false;
     },
@@ -131,6 +154,14 @@ export default {
 
     closeEditColumnModal() {
       this.isEditColumnModalOpen = false;
+    },
+
+    closeAdminModal() {
+      this.isAdminModal = false;
+    },
+
+    closeAddUserModal() {
+      this.isAddUser = false;
     },
 
     async addColumn(newColumn) {
@@ -217,16 +248,53 @@ export default {
 
       await this.getColumns(this.boardId);
     },
+
+    async deleteUser(userId) {
+      await axios
+        .delete(`boards/${this.boardId}/users/${userId}`)
+        .catch((err) => {
+          console.log(err.response.data.cause)
+        })
+    }
   },
 
   async mounted() {
     await this.$store.commit("columns/setBoardId", this.$route.params.boardId);
+    await this.getUsers(this.boardId);
     await this.getColumns(this.boardId);
   },
 };
 </script>
 
 <style scoped>
+.nav__add-column{
+  padding: 5px;
+  padding-inline: 10px;
+  margin-right: 15px;
+  background: #d5ccff;
+  border-radius: 5px;
+}
+.nav__add-column:hover{
+  padding: 5px;
+  padding-inline: 10px;
+  margin-right: 15px;
+  background: #13c4bb;
+  border-radius: 5px;
+}
+.management{
+  padding: 5px;
+  padding-inline: 10px;
+  margin-right: 15px;
+  background: #d5ccff;
+  border-radius: 5px;
+}
+.management:hover{
+  padding: 5px;
+  padding-inline: 10px;
+  margin-right: 15px;
+  background: #13c4bb;
+  border-radius: 5px;
+}
 .nav {
   display: flex;
   justify-content: end;
