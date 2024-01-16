@@ -12,11 +12,13 @@ export default {
   mounted() {  
     if(!this.isAuthenticated) {
       this.$router.push({ name: 'registration'});
+      return
     }
     if(this.$route.name === null) {
-      this.$router.push({ name: 'boards' })
+      this.$router.push({ name: 'boards' });
+      return
     }
-    this.$router.push({ name: 'boards' })
+    this.$router.push({ name: 'boards' });
   }
 }
 </script>
