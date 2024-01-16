@@ -41,14 +41,8 @@ import axios from '../../../utils/axios';
 import { mapGetters } from 'vuex';
 
 export default {
-  props: {
-    users: {
-      type: Object,
-      default: {},
-    },
-  },
   computed: {
-    ...mapGetters('columns', ['boardId'])
+    ...mapGetters('columns', ['boardId', 'users'])
   },
   data() {
     return {

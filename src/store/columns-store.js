@@ -5,6 +5,7 @@ export default {
   state: {
     columns: [],
     boardId: null,
+    users: null,
     isOpenEditTaskModal: false,
     curentTaskId: null,
     curentStatusId: null,
@@ -24,6 +25,9 @@ export default {
     setStatusId: (state, statusId) => {
       state.curentStatusId = statusId;
     },
+    setUsers: (state, usersData) => {
+      state.users = usersData;
+    },
     closeEditTaskModal: (state) => {
       state.isOpenEditTaskModal = false;
     },
@@ -38,9 +42,20 @@ export default {
           commit('setColumns', columnsData)
         })
         .catch((err) => {
-          console.log(err)
+          console.log(err.response.data.cause)
         })
-    }
+    },
+    getUsers({ commit }, boardId){
+      return axios
+        .get(`boards/${boardId}/users`)
+        .then((response)=>{
+          const usersData = response.data
+          commit('setUsers', usersData)
+        })
+        .catch((err)=>{
+          alert(err.response.data.cause)
+        })
+    },
   },
 
   getters: {
@@ -49,6 +64,9 @@ export default {
     },
     columns(state) {
       return state.columns;
+    },
+    users(state) {
+      return state.users
     },
     isOpenEditTaskModal(state) {
       return state.isOpenEditTaskModal;

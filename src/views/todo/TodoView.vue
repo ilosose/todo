@@ -19,7 +19,7 @@
       <div>{{ user.email }}</div>
       <button @click="deleteUser(user.id)">Удалить</button>
     </div>
-    <button >Добавить пользователя</button>
+    <button @click="openAddUserModal">Добавить пользователя</button>
   </div>
   
 
@@ -46,11 +46,15 @@
     @add-task="addTaskData"
     @close-modal="closeAddTaskModal"
   />
+
+  <the-add-user 
+    v-if="isAddUser"
+    @close-modal="closeAddUserModal"
+  />
+
   <the-admin-modal
     v-if="isAdminModal"
-    :users="users"
     @close-admin-modal="closeAdminModal"
-    @user-search="mutchAdminModal"
   />
 
   <the-edit-task 
@@ -66,6 +70,7 @@ import TheAddColumn from "../../components/todo/modals/TheAddColumn.vue";
 import TheEditColumn from "../../components/todo/modals/TheEditColumn.vue";
 import TheEditTask from "../../components/todo/modals/TheEditTask.vue";
 import TheAdminModal from "@/components/todo/modals/TheAdminModal.vue";
+import TheAddUser from "../../components/todo/modals/TheAddUser.vue"
 import { mapActions, mapGetters } from "vuex";
 import axios from "../../utils/axios";
 
@@ -77,16 +82,18 @@ export default {
     TheEditTask,
     KanbanColumn,
     TheAdminModal,
+    TheAddUser,
   },
 
   data() {
     return {
-      users: [],
       isAdminModal: false,
       isAddTaskModalOpen: false,
       isAddColumnModalOpen: false,
       isEditColumnModalOpen: false,
+      isAddUser: false,
       curentColumnId: null,
+      userMatch: [],
     };
   },
 
@@ -96,13 +103,14 @@ export default {
       "curentTaskId",
       "curentStatusId",
       "isOpenEditTaskModal",
+      "users",
     ]),
   },
 
   methods: {
     ...mapActions(["resetLocalStorage"]),
 
-    ...mapActions("columns", ["getColumns"]),
+    ...mapActions("columns", ["getColumns", "getUsers"]),
 
     async resetLocalStorageButton() {
       await this.$router.push({ name: "registration" });
@@ -128,6 +136,14 @@ export default {
       this.curentColumnId = columnId;
     },
 
+    openAdminModal() {
+      this.isAdminModal = true;
+    },
+
+    openAddUserModal() {
+      this.isAddUser = true;
+    },
+
     closeAddTaskModal() {
       this.isAddTaskModalOpen = false;
     },
@@ -140,24 +156,12 @@ export default {
       this.isEditColumnModalOpen = false;
     },
 
-    closeAdminModal(){
+    closeAdminModal() {
       this.isAdminModal = false;
     },
 
-    async openAdminModal() {
-      this.isAdminModal = true;
-      
-    },
-
-   async mutchAdminModal(){
-    await axios
-      .get(`boards/${this.boardId}/users`)
-      .then((response)=>{
-        this.users = response.data
-      })
-      .catch((err)=>{
-        alert(err.response.data.cause)
-      })
+    closeAddUserModal() {
+      this.isAddUser = false;
     },
 
     async addColumn(newColumn) {
@@ -251,14 +255,12 @@ export default {
         .catch((err) => {
           console.log(err.response.data.cause)
         })
-
-      
     }
   },
 
   async mounted() {
     await this.$store.commit("columns/setBoardId", this.$route.params.boardId);
-    await this.mutchAdminModal();
+    await this.getUsers(this.boardId);
     await this.getColumns(this.boardId);
   },
 };
