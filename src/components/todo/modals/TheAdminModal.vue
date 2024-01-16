@@ -92,10 +92,6 @@ export default {
     submitAdmin() {
 <<<<<<< HEAD
       this.$emit('user-search', {...this.usersearch});  
-      this.resetform()
-=======
-      this.$emit("user-search", { ...this.usersearch });
->>>>>>> develop
     },
 
     closemodal() {
