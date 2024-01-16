@@ -11,13 +11,13 @@
     <div class="task-item__info">
       <div class="task-item__complexity complexity">
         <span
-          v-for="dot in this.getComplexityDot(task.createdAt)"
+          v-for="dot in this.getComplexityDot(new Date(task.createdAt).toLocaleDateString())"
           :class="dot.tag"
           :key="dot.id"
           class="complexity__dot"
         ></span>
       </div>
-      <div class="task-item__client">{{ task.createdAt }}</div>
+      <div class="task-item__client">{{ new Date(task.createdAt).toLocaleDateString() }}</div>
     </div>
     <div>
       <button class="task-item__edit" @click.prevent="editTask(task.id, task.statusId)">Редактировать</button>
