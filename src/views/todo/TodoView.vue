@@ -1,27 +1,20 @@
 <template>
   <div class="nav">
-    <button @click="resetLocalStorageButton" class="nav__exit">
-      Выйти
-    </button>
-    <button
-      @click="this.$router.push({ name: 'boards' })"
-      class="nav__go-back"
-    >
-      Страница досок
-    </button>
-    <button @click.prevent="openAddColunmModal" class="nav__add-column">
-      Добавить статус
-    </button>
-    <button class="management" @click.prevent="openAdminModal">Управление</button>
-  </div>
-  <div class="box">
-    <div v-for="user in users" :key="user.id">
-      <div>{{ user.email }}</div>
-      <button @click="deleteUser(user.id)">Удалить</button>
+    <div class="box">
+      <div v-for="user in users" :key="user.id" class="users__box">
+        <div class="userEmail">{{ user.email }}</div>
+        <button class="Add_button_style" @click="openAddUserModal">Добавить</button>
+          <button class="delete_button_style" @click="deleteUser(user.id)">Удалить</button>
+      </div>
     </div>
-    <button @click="openAddUserModal">Добавить пользователя</button>
+      <div >
+      <div class="buttos__support">
+      <button @click="this.$router.push({ name: 'boards' })" class="nav__go-back">Страница досок</button>
+      <button @click.prevent="openAddColunmModal" class="nav__add-column">Добавить статус</button>
+      <button class="management" @click.prevent="openAdminModal">Управление</button>
+    </div>
+    </div>
   </div>
-  
 
   <kanban-column
     @add-task="openAddTaskModal"
@@ -47,21 +40,11 @@
     @close-modal="closeAddTaskModal"
   />
 
-  <the-add-user 
-    v-if="isAddUser"
-    @close-modal="closeAddUserModal"
-  />
+  <the-add-user v-if="isAddUser" @close-modal="closeAddUserModal" />
 
-  <the-admin-modal
-    v-if="isAdminModal"
-    @close-admin-modal="closeAdminModal"
-  />
+  <the-admin-modal v-if="isAdminModal" @close-admin-modal="closeAdminModal" />
 
-  <the-edit-task 
-    v-if="isOpenEditTaskModal" 
-    @edit-task="editTask" 
-  />
-
+  <the-edit-task v-if="isOpenEditTaskModal" @edit-task="editTask" />
 </template>
 <script>
 import TheAddTask from "../../components/todo/modals/TheAddTask.vue";
@@ -70,7 +53,7 @@ import TheAddColumn from "../../components/todo/modals/TheAddColumn.vue";
 import TheEditColumn from "../../components/todo/modals/TheEditColumn.vue";
 import TheEditTask from "../../components/todo/modals/TheEditTask.vue";
 import TheAdminModal from "@/components/todo/modals/TheAdminModal.vue";
-import TheAddUser from "../../components/todo/modals/TheAddUser.vue"
+import TheAddUser from "../../components/todo/modals/TheAddUser.vue";
 import { mapActions, mapGetters } from "vuex";
 import axios from "../../utils/axios";
 
@@ -172,11 +155,9 @@ export default {
 
       this.closeAddColumnModal();
 
-      await axios
-        .post(`boards/${this.boardId}/statuses`, { formData })
-        .catch((err) => {
-          alert(err.response.data.cause);
-        });
+      await axios.post(`boards/${this.boardId}/statuses`, { formData }).catch((err) => {
+        alert(err.response.data.cause);
+      });
 
       await this.getColumns(this.boardId);
     },
@@ -207,11 +188,9 @@ export default {
 
       this.closeAddTaskModal();
 
-      await axios
-        .post(`boards/${this.boardId}/tasks`, { formData })
-        .catch((err) => {
-          alert(err.response.data.catch);
-        });
+      await axios.post(`boards/${this.boardId}/tasks`, { formData }).catch((err) => {
+        alert(err.response.data.catch);
+      });
 
       await this.getColumns(this.boardId);
     },
@@ -250,12 +229,10 @@ export default {
     },
 
     async deleteUser(userId) {
-      await axios
-        .delete(`boards/${this.boardId}/users/${userId}`)
-        .catch((err) => {
-          console.log(err.response.data.cause)
-        })
-    }
+      await axios.delete(`boards/${this.boardId}/users/${userId}`).catch((err) => {
+        console.log(err.response.data.cause);
+      });
+    },
   },
 
   async mounted() {
@@ -267,60 +244,117 @@ export default {
 </script>
 
 <style scoped>
-.nav__add-column{
-  padding: 5px;
-  padding-inline: 10px;
-  margin-right: 15px;
-  background: #d5ccff;
-  border-radius: 5px;
+.box {
+  background-color: lightgrey;
+  box-shadow: 2px 5px 5px rgb(111, 111, 111);
+  padding: 15px;
+  margin-left: 10px;
+  border-radius: 10px;
+  border: solid 1px black;
 }
-.nav__add-column:hover{
-  padding: 5px;
-  padding-inline: 10px;
-  margin-right: 15px;
-  background: #13c4bb;
-  border-radius: 5px;
+.nav__add-column {
+  background-color: #eeeeee;
+  box-shadow: 0 2px 2px rgb(111, 111, 111);
+  font-family: "Andale Mono", monospace;
+  border: 1px solid black;
+  padding: 10px;
+  border-radius: 10px;
+  color: black;
+  font-size: 15px;
+  margin-right: 10px;
 }
-.management{
-  padding: 5px;
-  padding-inline: 10px;
-  margin-right: 15px;
-  background: #d5ccff;
-  border-radius: 5px;
+.nav__add-column:hover {
+  background: gainsboro;
+  transform : translate(0, 1px);
+  cursor: pointer;
 }
-.management:hover{
-  padding: 5px;
-  padding-inline: 10px;
-  margin-right: 15px;
-  background: #13c4bb;
-  border-radius: 5px;
+.management {
+  background-color: #eeeeee;
+  box-shadow: 0 2px 2px rgb(111, 111, 111);
+  font-family: "Andale Mono", monospace;
+  border: 1px solid black;
+  padding: 10px;
+  border-radius: 10px;
+  color: black;
+  font-size: 15px;
+}
+.management:hover {
+  background: gainsboro;
+  transform : translate(0, 1px);
+  cursor: pointer;
 }
 .nav {
+justify-content:space-between;
   display: flex;
-  justify-content: end;
   margin-top: 10px;
   margin-right: 40px;
-  padding: 5px;
 }
-
-.nav__exit {
-  padding: 5px;
-  padding-inline: 10px;
-  margin-right: 15px;
-  background: #d5ccff;
-  border-radius: 5px;
-}
-
 .nav__go-back {
-  padding: 5px;
-  padding-inline: 10px;
-  background: #d5ccff;
-  border-radius: 5px;
+  background-color: #eeeeee;
+  box-shadow: 0 2px 2px rgb(111, 111, 111);
+  font-family: "Andale Mono", monospace;
+  border: 1px solid black;
+  padding: 10px;
+  border-radius: 10px;
+  color: black;
+  font-size: 15px;
+  margin-right: 10px;
 }
 
-.nav__exit:hover,
 .nav__go-back:hover {
-  background: #13c4bb;
+  background: gainsboro;
+  transform : translate(0, 1px);
+  cursor: pointer;
+}
+.buttos__support{
+  margin-top: 70px;
+  align-items: center;
+}
+.users__box{
+  background-color: ghostwhite;
+  padding: 5px;
+  border: solid 1px black;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  box-shadow: 2px 5px 5px rgb(111, 111, 111);
+}
+.userEmail{
+  color: black;
+  font-weight: 700;
+  text-decoration: underline;
+  margin-bottom: 6px;
+  padding: 5px;
+}
+.Add_button_style{
+  background-color: #eeeeee;
+  box-shadow: 0 2px 2px rgb(111, 111, 111);
+  font-family: "Andale Mono", monospace;
+  border: 1px solid black;
+  padding: 5px;
+  border-radius: 10px;
+  color: black;
+  font-size: 15px;
+  margin-right: 10px;
+}
+.Add_button_style:hover{
+  background: gainsboro;
+  transform : translate(0, 1px);
+  cursor: pointer;
+}
+.delete_button_style{
+  background-color: #eeeeee;
+  box-shadow: 0 2px 2px rgb(111, 111, 111);
+  font-family: "Andale Mono", monospace;
+  border: 1px solid black;
+  padding: 5px;
+  border-radius: 10px;
+  color: black;
+  font-size: 15px;
+  margin-bottom: 5px;
+}
+.delete_button_style:hover{
+  background: gainsboro;
+  transform : translate(0, 1px);
   cursor: pointer;
 }
 </style>

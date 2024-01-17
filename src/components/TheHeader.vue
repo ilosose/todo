@@ -10,7 +10,7 @@
           alt="header__icon--add"
           class="header__icon header__icon--add"
         />
-        <div class="header__user-icon">{{ userIcon }}</div>
+        <button @click.prevent="resetLocalStorageButton" class="exit">Выйти</button>
       </div>
     </div>
     <div class="table"></div>
@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 
 export default {
   data() {
@@ -28,9 +29,16 @@ export default {
   },
 
   methods:{
+    ...mapActions(['resetLocalStorage']),
+
     openWindow(){
       this.$store.commit('boards/openModal');
-    }
+    },
+
+    async resetLocalStorageButton() {
+        await this.resetLocalStorage();
+        await this.$router.push({ name: 'registration' })
+      },
   },
     
   computed: {
@@ -47,6 +55,8 @@ header {
 }
 
 .header__container {
+  background-color: gainsboro;
+  box-shadow: 3px 3px 10px black;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -54,6 +64,7 @@ header {
 }
 
 .header__title {
+  color: black;
   font-weight: 300;
 }
 
@@ -63,20 +74,24 @@ header {
   gap: 15px;
 }
 
-.header__user-icon {
-  width: 40px;
-  height: 40px;
-  background-color: #d9d9d9;
-  border-radius: 50%;
-  color: #333;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-}
+  .exit:hover {
+    background-color:#dddddd;
+  transform : translate(0, 1px);
+    cursor: pointer;
+  }
+  .exit{
+    background-color: #eeeeee;
+    box-shadow: 0 2px 2px rgb(111, 111, 111);
+    transition: background-color .4s;
+    font-family: 'Andale Mono', monospace;
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 10px;
+    color: black;
+  }
 
 .header__icon:hover {
   cursor: pointer;
-  opacity: 0.5;
+  opacity: 0.4;
 }
 </style>

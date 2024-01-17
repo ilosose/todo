@@ -75,7 +75,13 @@ export default {
 };
 </script>
 <style scope>
+.registration-form{
+  background-color: gainsboro;
+  padding: 10px;
+  border-radius: 10px;
+}
 .EerrorPassword{
+  padding-left: 10px;
   color: red;
   padding-bottom: 10px;
   font-weight: 600;
@@ -87,12 +93,13 @@ export default {
   align-items: center;
   width: 100vw;
   height: 100vh;
-  background: #2B1887;
+  background: transparent;
 
   }
 
   .registration__title {
-    color: #f4f2ff;
+    color: black;
+    font-family: 'Andale Mono', monospace;
     text-align: center;
     font-size: 50px;
     font-style: normal;
@@ -109,7 +116,8 @@ export default {
   }
 
   .registration-form__label {
-    color: #f4f2ff;
+    font-family: 'Andale Mono', monospace;
+    color: black;
     margin-left: 15px;
     text-align: start;
     font-size: 15px;
@@ -119,8 +127,8 @@ export default {
 
   .registration-form__input {
     border-radius: 10px;
-    background: #D5CCFF;
-    border: none;
+    background: ghostwhite;
+    border: solid 2px grey;
     padding: 10px 25px;
     width: 100%;
     height: 45px;
@@ -132,24 +140,30 @@ export default {
     height: 45px;
     margin-bottom: 10px;
     border-radius: 10px;
-    background: #5D5FEF;
+    background: gainsboro;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.30);
-    color: #f4f2ff;
+    color: black;
+    font-weight: 600;
+    font-family: 'Andale Mono', monospace;
     border:solid 2px black;
   }
 
   .registration-form__submit:hover {
-    background: rgba(rgb(101, 41, 212), green, blue, alpha);
+    background-color: whitesmoke;
+    transform : translate(0, 1px);
     cursor: pointer;
   }
 
   .registration-form__redirect {
     font-weight: 600;
-    color: lightsteelblue;
+    padding-top: 10px;
+    color: slategray;
+    font-family: 'Andale Mono', monospace;
   }
 
   .registration-form__redirect:hover {
-    color: whitesmoke;
+    color: black;
+    transform : translate(0, 1px);
     cursor: pointer;
   }
 </style>

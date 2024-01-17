@@ -15,5 +15,11 @@
 </script>
 
 <style>
+.footer{
+  background-color: gainsboro;
+  color: black;
+  text-decoration: underline;
+  box-shadow: -1px -2px 20px black;
+}
 
 </style>
