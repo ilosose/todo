@@ -79,9 +79,9 @@ export default {
     },
 
     handleTaskDrop(event, statusId) {
-        event.preventDefault();
-        const taskId = event.dataTransfer.getData("text/plain");
-        this.$emit("task-droped", Number(taskId), statusId);
+      event.preventDefault();
+      const taskId = event.dataTransfer.getData("text/plain");
+      this.$emit("task-droped", Number(taskId), statusId);
     },
 
     startDrag(event, targetStatusName, targetStatusId) {

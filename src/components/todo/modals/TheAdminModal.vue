@@ -14,25 +14,25 @@
         </div>
         <div class="hideContent accordions" :ref="'hideContent-' + user.id">
           <div class="content">
-            <input class="switcher__input" @click="permissionsManageBoard(user.id)" :ref="user.id + 1" type="checkbox" :id="user.id + 1" />
-            <label class="switcher__label" :for="user.id + 1"></label>
+            <input class="switcher__input" @click="permissionsManageBoard(user.id)" :ref="user.id + 789" type="checkbox" :id="user.id + 789" />
+            <label class="switcher__label" :for="user.id + 789"></label>
             <p @click="close(user.id)">Управление досками</p>
           </div>
           <div class="content">
-            <input class="switcher__input" @click="permissionsManegeStatuses(user.id)" :ref="user.id + 2" type="checkbox" :id="user.id + 2" />
-            <label class="switcher__label" :for="user.id + 2"></label>
+            <input class="switcher__input" @click="permissionsManegeStatuses(user.id)" :ref="user.id + 123" type="checkbox" :id="user.id + 123" />
+            <label class="switcher__label" :for="user.id + 123"></label>
             <p @click="close(user.id)">Управление статусами</p>
           </div>
           <div class="content">
-            <input class="switcher__input" @click="permissionsManageUsers(user.id)" :ref="user.id + 3" type="checkbox" :id="user.id + 3" />
-            <label class="switcher__label" :for="user.id + 3"></label>
+            <input class="switcher__input" @click="permissionsManageUsers(user.id)" :ref="user.id + 321" type="checkbox" :id="user.id + 321" />
+            <label class="switcher__label" :for="user.id + 321"></label>
             <p @click="close(user.id)">Управление пользователями</p>
           </div>
         </div>
       </div>
       <div class="buttons">
           <button type="button" class="cancel-button" @click="closemodal">Закрыть</button>
-          <button type="submit" @click="submitAdmin">Применить</button>
+          <button type="submit" @click="submitAdmin">Поиск</button>
         </div>
     </div>
   </div>
@@ -71,40 +71,28 @@ export default {
 
     async permissionsManageBoard(userId) {
 
-      const checkbox = this.$refs[userId + 1]
+      const checkbox = this.$refs[userId + 789]
       if(checkbox[0].checked == true) {
         await axios
           .put(`boards/${this.boardId}/users/${userId}/permissions/manage-board`)
-          .then((res) => {
-            console.log('set Bord Manage1')
-          })
           .catch((err) => {
             console.log(err.response.data.cause)
           })
 
         await axios
           .put(`boards/${this.boardId}/users/${userId}/permissions/delete-board`)
-          .then((res) => {
-            console.log('set Bord Manage2')
-          })
           .catch((err) => {
             console.log(err.response.data.cause)
           })
       } else {
         await axios
           .delete(`boards/${this.boardId}/users/${userId}/permissions/delete-board`)
-          .then((res) => {
-            console.log('delete Board Manage1')
-          })
           .catch((err) => {
             console.log(err.response.data.cause)
           })
 
         await axios
           .delete(`boards/${this.boardId}/users/${userId}/permissions/manage-board`)
-          .then((res) => {
-            console.log('delete Board Manage2')
-          })
           .catch((err) => {
             console.log(err.response.data.cause)
           })
@@ -113,40 +101,28 @@ export default {
     },
 
     async permissionsManegeStatuses(userId) {
-      const checkbox = this.$refs[userId + 2]
+      const checkbox = this.$refs[userId + 123]
       if(checkbox[0].checked == true) {
         await axios
           .put(`boards/${this.boardId}/users/${userId}/permissions/manage-board-statuses`)
-          .then((res) => {
-            console.log('set Status Manage1')
-          })
           .catch((err) => {
             console.log(err.response.data.cause)
           })
 
         await axios
           .put(`boards/${this.boardId}/users/${userId}/permissions/delete-board-statuses`)
-          .then((res) => {
-            console.log('set Status Manage2')
-          })
           .catch((err) => {
             console.log(err.response.data.cause)
           })
       } else {
         await axios
           .delete(`boards/${this.boardId}/users/${userId}/permissions/delete-board-statuses`)
-          .then((res) => {
-            console.log('delete Status Manage1')
-          })
           .catch((err) => {
             console.log(err.response.data.cause)
           })
 
         await axios
           .delete(`boards/${this.boardId}/users/${userId}/permissions/manage-board-statuses`)
-          .then((res) => {
-            console.log('delete Status Manage2')
-          })
           .catch((err) => {
             console.log(err.response.data.cause)
           })
@@ -155,27 +131,20 @@ export default {
     },
 
     async permissionsManageUsers(userId) {
-      const checkbox = this.$refs[userId + 3]
+      const checkbox = this.$refs[userId + 321]
       if(checkbox[0].checked == true) {
         await axios
           .put(`boards/${this.boardId}/users/${userId}/permissions/manage-board-users`)
-          .then((res) => {
-            console.log('set User Manage')
-          })
           .catch((err) => {
             console.log(err.response.data.cause)
           })
       } else {
         await axios
           .delete(`boards/${this.boardId}/users/${userId}/permissions/manage-board-users`)
-          .then((res) => {
-            console.log('delete User Manage')
-          })
           .catch((err) => {
             console.log(err.response.data.cause)
           })
       }
-      
     },
 
     open(userId) {

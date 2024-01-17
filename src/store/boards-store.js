@@ -28,7 +28,7 @@ export default {
         .get(`user/${userId}/boards`)
         .then((res) => {
           const boardsData = res.data;
-          commit('setBoards', boardsData)
+          commit('setBoards', boardsData);
         })
         .catch((err) => {
           console.log(err);

@@ -37,7 +37,7 @@ export default {
 </script>
 
 <style scoped>
-.modal {
+  .modal {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -53,9 +53,9 @@ export default {
     padding-top: 10px;
   }
   .title__modal{
-position: absolute;
-color: whitesmoke;
-margin-bottom: 400px;
+    position: absolute;
+    color: whitesmoke;
+    margin-bottom: 400px;
   }
   .modal__container {
     display: flex;
@@ -73,11 +73,10 @@ margin-bottom: 400px;
     gap: 15px;
   }
   ::placeholder{
-padding-top: 5px;
+    padding-top: 5px;
   }
 
   input[type="text"],
-  input[type="date"],
   textarea {
     padding: 10px;
     border: 1px solid #ddd;
@@ -101,15 +100,6 @@ padding-top: 5px;
   
   button[type="submit"]:hover {
     background-color: rgb(25, 116, 78);
-  }
-  
-  .close-modal {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    text-decoration: none;
-    color: rgb(0, 0, 0);
-    font-size: 24px;
   }
 
   .cancel-button {

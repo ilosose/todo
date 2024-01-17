@@ -110,15 +110,6 @@ button[type="submit"]:hover {
   background-color: darkblue;
 }
 
-.close-window {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  text-decoration: none;
-  color: black;
-  font-size: 24px;
-}
-
 .cancel-btn {
   padding: 10px 20px;
   background-color: rgb(255, 0, 64);

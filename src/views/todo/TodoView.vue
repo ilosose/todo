@@ -4,15 +4,15 @@
       <div v-for="user in users" :key="user.id" class="users__box">
         <div class="userEmail">{{ user.email }}</div>
         <button class="Add_button_style" @click="openAddUserModal">Добавить</button>
-          <button class="delete_button_style" @click="deleteUser(user.id)">Удалить</button>
+        <button class="delete_button_style" @click="deleteUser(user.id)">Удалить</button>
       </div>
     </div>
-      <div >
+    <div>
       <div class="buttos__support">
-      <button @click="this.$router.push({ name: 'boards' })" class="nav__go-back">Страница досок</button>
-      <button @click.prevent="openAddColunmModal" class="nav__add-column">Добавить статус</button>
-      <button class="management" @click.prevent="openAdminModal">Управление</button>
-    </div>
+        <button @click="this.$router.push({ name: 'boards' })" class="nav__go-back">Страница досок</button>
+        <button @click.prevent="openAddColunmModal" class="nav__add-column">Добавить статус</button>
+        <button class="management" @click.prevent="openAdminModal">Управление</button>
+      </div>
     </div>
   </div>
 
@@ -232,6 +232,7 @@ export default {
       await axios.delete(`boards/${this.boardId}/users/${userId}`).catch((err) => {
         console.log(err.response.data.cause);
       });
+      await this.getUsers(this.boardId)
     },
   },
 
@@ -284,7 +285,7 @@ export default {
   cursor: pointer;
 }
 .nav {
-justify-content:space-between;
+  justify-content:space-between;
   display: flex;
   margin-top: 10px;
   margin-right: 40px;
