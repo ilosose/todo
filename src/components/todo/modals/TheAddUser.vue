@@ -32,6 +32,23 @@ data() {
   }
 },
 
+watch: {
+  async name(input) {
+    if(input.length >= 5) {
+      await axios
+        .get(`users/match?email=${this.name}`)
+        .then((res) => {
+          console.log(this.name)
+          console.log(res.data)
+          this.users = res.data
+        })
+        .catch((err) => {
+          console.log(err.response.data.cause)
+        })
+    }  
+  }
+},
+
 computed: {
   ...mapGetters('columns', ['boardId'])
 },
