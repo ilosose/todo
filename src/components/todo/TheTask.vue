@@ -11,13 +11,13 @@
     <div class="task-item__info">
       <div class="task-item__complexity complexity">
         <span
-          v-for="dot in this.getComplexityDot(new Date(task.createdAt).toLocaleDateString())"
+          v-for="dot in this.getComplexityDot(new Date(task.plannedCompletionAt))"
           :class="dot.tag"
           :key="dot.id"
           class="complexity__dot"
         ></span>
       </div>
-      <div class="task-item__client">{{ new Date(task.createdAt).toLocaleDateString() }}</div>
+      <div class="task-item__client">{{ new Date(task.plannedCompletionAt).toLocaleDateString() }}</div>
     </div>
     <div>
       <button class="task-item__edit" @click.prevent="editTask(task.id, task.statusId)">Редактировать</button>
@@ -45,9 +45,9 @@ export default {
   methods: {
     ...mapActions("columns", ["getColumns"]),
 
-    getComplexityDot(createdAt) {
+    getComplexityDot(plannedCompletionAt) {
       const currentDate = new Date();
-      const inputTime = new Date(createdAt);
+      const inputTime = new Date(plannedCompletionAt);
       const timeDiff = inputTime.getTime() - currentDate.getTime();
       const daysDiff = Math.ceil(timeDiff / (1000 * 3000 * 14));
 

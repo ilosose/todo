@@ -2,10 +2,10 @@
   <div class="modal" >
     <div class="modal__container">
       <form @submit.prevent="submitAdmin">
-        <input type="text" v-model="usersearch.name" placeholder="Поиск пользователя" />
+        <input type="text" v-model="name" placeholder="Поиск пользователя" />
       </form>
       <div v-for="user in users" :key="user.id">
-        <div class="accordion" >
+        <div class="accordion">
           <input class="email__users" type="radio " name="radio-a" id="user"  checked  />
           <label class="accordion-label" @click="open(user.id)"  for="user">
             <div class="ava">{{ user.id }}</div>
@@ -14,16 +14,17 @@
         </div>
         <div class="hideContent accordions" :ref="'hideContent-' + user.id">
           <div class="content">
-            <input class="switcher__input" v-model="manageBoard" :value="user.id" type="checkbox" :id="user.id + 1" />
+            <input class="switcher__input" @click="permissionsManageBoard(user.id)" :ref="user.id + 1" type="checkbox" :id="user.id + 1" />
             <label class="switcher__label" :for="user.id + 1"></label>
             <p @click="close(user.id)">Управление досками</p>
           </div>
           <div class="content">
-            <input class="switcher__input" v-model="manegeStatuses" :value="user.id" type="checkbox" :id="user.id + 2" />
+            <input class="switcher__input" @click="permissionsManegeStatuses(user.id)" :ref="user.id + 2" type="checkbox" :id="user.id + 2" />
             <label class="switcher__label" :for="user.id + 2"></label>
             <p @click="close(user.id)">Управление статусами</p>
-          </div><div class="content">
-            <input class="switcher__input" v-model="manageUsers" :value="user.id" type="checkbox" :id="user.id + 3" />
+          </div>
+          <div class="content">
+            <input class="switcher__input" @click="permissionsManageUsers(user.id)" :ref="user.id + 3" type="checkbox" :id="user.id + 3" />
             <label class="switcher__label" :for="user.id + 3"></label>
             <p @click="close(user.id)">Управление пользователями</p>
           </div>
@@ -38,7 +39,7 @@
 </template>
 <script>
 import axios from '../../../utils/axios';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   computed: {
@@ -46,167 +47,138 @@ export default {
   },
   data() {
     return {
-      usersearch: {
-        name: '',
-      },
-      popapan: true,
-      manageBoard: [],
-      manegeStatuses: [],
-      manageUsers: [],
-      curentUserId: ''
+      name: '',
     };
-  },
-  watch: {
-    manageBoard(userId) {
-      console.log(userId)
-        this.curentUserId = userId
-        this.setPermissionsManageBoard(userId);
-      if(userId.length == 0) {
-        this.deletePermissionsManageBoard(this.curentUserId);
-        this.curentUserId = ''
-      }
-    },
-    manegeStatuses(userId) {
-      if(userId.length == 1) {
-        this.curentUserId = userId
-        this.setPermissionsManegeStatuses(userId);
-      }
-      if(userId.length == 0) {
-        this.deletePermissionsManegeStatuses(this.curentUserId);
-        this.curentUserId = ''
-      }
-    },
-    manageUsers(userId) {
-      if(userId.length == 1) {
-        this.curentUserId = userId
-        this.setPermissionsManageUsers(userId);
-      }
-      if(userId.length == 0) {
-        this.deletePermissionsManageUsers(this.curentUserId);
-        this.curentUserId = ''
-      }
-    },
   },
 
   methods: {
+    ...mapActions('columns', ['getUsers']),
+
     submitAdmin() {
-      this.$emit('user-search', {...this.usersearch}); 
+      const inputUser = this.users.filter((e) =>  { return e.name === this.name || e.email === this.name } )
+      this.$store.commit('columns/setUsers', inputUser)
     },
 
-    closemodal() {
+    async closemodal() {
       this.$emit("close-admin-modal");
       this.resetform();
+      await this.getUsers(this.boardId)
     },
 
     resetform() {
-      this.usersearch = { name: "" };
+      this.usersearch = { name: '' };
     },
 
-    async setPermissionsManageBoard(userId) {
-      await axios
-        .put(`boards/${this.boardId}/users/${userId}/permissions/delete-board`)
-        .then((res) => {
-          console.log('set Bord Manage1')
-        })
-        .catch((err) => {
-          alert(err.response.data.cause)
-        })
+    async permissionsManageBoard(userId) {
 
-      await axios
-        .put(`boards/${this.boardId}/users/${userId}/permissions/manage-board`)
-        .then((res) => {
-          console.log('set Bord Manage2')
-        })
-        .catch((err) => {
-          alert(err.response.data.cause)
-        })
+      const checkbox = this.$refs[userId + 1]
+      if(checkbox[0].checked == true) {
+        await axios
+          .put(`boards/${this.boardId}/users/${userId}/permissions/manage-board`)
+          .then((res) => {
+            console.log('set Bord Manage1')
+          })
+          .catch((err) => {
+            console.log(err.response.data.cause)
+          })
+
+        await axios
+          .put(`boards/${this.boardId}/users/${userId}/permissions/delete-board`)
+          .then((res) => {
+            console.log('set Bord Manage2')
+          })
+          .catch((err) => {
+            console.log(err.response.data.cause)
+          })
+      } else {
+        await axios
+          .delete(`boards/${this.boardId}/users/${userId}/permissions/delete-board`)
+          .then((res) => {
+            console.log('delete Board Manage1')
+          })
+          .catch((err) => {
+            console.log(err.response.data.cause)
+          })
+
+        await axios
+          .delete(`boards/${this.boardId}/users/${userId}/permissions/manage-board`)
+          .then((res) => {
+            console.log('delete Board Manage2')
+          })
+          .catch((err) => {
+            console.log(err.response.data.cause)
+          })
+      }
+      
     },
 
-    async setPermissionsManegeStatuses(userId) {
-      await axios
-        .put(`boards/${this.boardId}/users/${userId}/permissions/delete-board-statuses`)
-        .then((res) => {
-          console.log('set Status Manage1')
-        })
-        .catch((err) => {
-          alert(err.response.data.cause)
-        })
+    async permissionsManegeStatuses(userId) {
+      const checkbox = this.$refs[userId + 2]
+      if(checkbox[0].checked == true) {
+        await axios
+          .put(`boards/${this.boardId}/users/${userId}/permissions/manage-board-statuses`)
+          .then((res) => {
+            console.log('set Status Manage1')
+          })
+          .catch((err) => {
+            console.log(err.response.data.cause)
+          })
 
-      await axios
-        .put(`boards/${this.boardId}/users/${userId}/permissions/manage-board-statuses`)
-        .then((res) => {
-          console.log('set Status Manage2')
-        })
-        .catch((err) => {
-          alert(err.response.data.cause)
-        })
+        await axios
+          .put(`boards/${this.boardId}/users/${userId}/permissions/delete-board-statuses`)
+          .then((res) => {
+            console.log('set Status Manage2')
+          })
+          .catch((err) => {
+            console.log(err.response.data.cause)
+          })
+      } else {
+        await axios
+          .delete(`boards/${this.boardId}/users/${userId}/permissions/delete-board-statuses`)
+          .then((res) => {
+            console.log('delete Status Manage1')
+          })
+          .catch((err) => {
+            console.log(err.response.data.cause)
+          })
+
+        await axios
+          .delete(`boards/${this.boardId}/users/${userId}/permissions/manage-board-statuses`)
+          .then((res) => {
+            console.log('delete Status Manage2')
+          })
+          .catch((err) => {
+            console.log(err.response.data.cause)
+          })
+      }
+        
     },
 
-    async setPermissionsManageUsers(userId) {
-      await axios
-        .put(`boards/${this.boardId}/users/${userId}/permissions`)
-        .then((res) => {
-          console.log('set User Manage')
-        })
-        .catch((err) => {
-          alert(err.response.data.cause)
-        })
+    async permissionsManageUsers(userId) {
+      const checkbox = this.$refs[userId + 3]
+      if(checkbox[0].checked == true) {
+        await axios
+          .put(`boards/${this.boardId}/users/${userId}/permissions/manage-board-users`)
+          .then((res) => {
+            console.log('set User Manage')
+          })
+          .catch((err) => {
+            console.log(err.response.data.cause)
+          })
+      } else {
+        await axios
+          .delete(`boards/${this.boardId}/users/${userId}/permissions/manage-board-users`)
+          .then((res) => {
+            console.log('delete User Manage')
+          })
+          .catch((err) => {
+            console.log(err.response.data.cause)
+          })
+      }
+      
     },
 
-    async deletePermissionsManageBoard(userId) {
-      await axios
-        .delete(`boards/${this.boardId}/users/${userId}/permissions/delete-board`)
-        .then((res) => {
-          console.log('delete Board Manage1')
-        })
-        .catch((err) => {
-          alert(err.response.data.cause)
-        })
-
-      await axios
-        .delete(`boards/${this.boardId}/users/${userId}/permissions/manage-board`)
-        .then((res) => {
-          console.log('delete Board Manage2')
-        })
-        .catch((err) => {
-          alert(err.response.data.cause)
-        })
-    },
-
-    async deletePermissionsManegeStatuses(userId) {
-      await axios
-        .delete(`boards/${this.boardId}/users/${userId}/permissions/delete-board-statuses`)
-        .then((res) => {
-          console.log('delete Status Manage1')
-        })
-        .catch((err) => {
-          alert(err.response.data.cause)
-        })
-
-      await axios
-        .delete(`boards/${this.boardId}/users/${userId}/permissions/manage-board-statuses`)
-        .then((res) => {
-          console.log('delete Status Manage2')
-        })
-        .catch((err) => {
-          alert(err.response.data.cause)
-        })
-    },
-
-    async deletePermissionsManageUsers(userId) {
-      await axios
-        .delete(`boards/${this.boardId}/users/${userId}/permissions/manage-board-users`)
-        .then((res) => {
-          console.log('delete User Manage')
-        })
-        .catch((err) => {
-          alert(err.response.data.cause)
-        })
-    },
-
-
-
-    async open(userId) {
+    open(userId) {
       const bodyElement = this.$refs['hideContent-'+ userId]
       bodyElement.forEach(element => {
         element.style.transition = 'all 0.5s'
