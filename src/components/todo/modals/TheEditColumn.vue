@@ -37,7 +37,7 @@ export default {
 </script>
 
 <style scoped>
-.modal {
+  .modal {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -77,7 +77,6 @@ export default {
   }
 
   input[type="text"],
-  input[type="date"],
   textarea {
     padding: 10px;
     border: 1px solid #ddd;
@@ -101,15 +100,6 @@ export default {
   
   button[type="submit"]:hover {
     background-color: rgb(25, 116, 78);
-  }
-  
-  .close-modal {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    text-decoration: none;
-    color: rgb(0, 0, 0);
-    font-size: 24px;
   }
 
   .cancel-button {

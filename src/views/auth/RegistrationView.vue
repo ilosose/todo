@@ -51,7 +51,12 @@ export default {
     },
 
     async submit() {
-      if(this.formRegistration.name != '' && this.formRegistration.email != '' && this.formRegistration.email != '', this.formRegistration.password != '' && this.formRegistration.confermPassword != '') {
+      if(this.formRegistration.name != '' && 
+        this.formRegistration.email != '' && 
+        this.formRegistration.email != '' && 
+        this.formRegistration.password != '' && 
+        this.formRegistration.confermPassword != '') {
+
         const formData = {
           ...this.formRegistration
         }
@@ -80,21 +85,20 @@ export default {
   padding: 10px;
   border-radius: 10px;
 }
-.EerrorPassword{
-  padding-left: 10px;
-  color: red;
-  padding-bottom: 10px;
-  font-weight: 600;
-}
+  .EerrorPassword{
+    padding-left: 10px;
+    color: red;
+    padding-bottom: 10px;
+    font-weight: 600;
+  }
   .registration {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
-  background: transparent;
-
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background: transparent;
   }
 
   .registration__title {

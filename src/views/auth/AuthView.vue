@@ -63,11 +63,11 @@ import axios from '../../utils/axios';
 </script>
 
 <style scoped>
-.auth-form{
-  background-color: gainsboro;
-  padding: 10px;
-  border-radius: 10px;
-}
+  .auth-form{
+    background-color: gainsboro;
+    padding: 10px;
+    border-radius: 10px;
+  }
 
   .auth {
     display: flex;

@@ -92,36 +92,36 @@ export default {
 <style scoped>
 .task-item__edit{
   background-color: #eeeeee;
-    box-shadow: 0 2px 2px rgb(111, 111, 111);
-    transition: background-color .4s;
-    font-family: 'Andale Mono', monospace;
-    border: 1px solid black;
-    padding: 10px;
-    border-radius: 10px;
-    float: right;
-    margin-left: 5px;
-    color: black;
+  box-shadow: 0 2px 2px rgb(111, 111, 111);
+  transition: background-color .4s;
+  font-family: 'Andale Mono', monospace;
+  border: 1px solid black;
+  padding: 10px;
+  border-radius: 10px;
+  float: right;
+  margin-left: 5px;
+  color: black;
 }
 .task-item__edit:hover{
   background-color:#dddddd;
   transform : translate(0, 1px);
-    cursor: pointer;
+  cursor: pointer;
 }
 .task-item__delete {
   background-color: #eeeeee;
-    box-shadow: 0 2px 2px rgb(111, 111, 111);
-    transition: background-color .4s;
-    font-family: 'Andale Mono', monospace;
-    border: 1px solid black;
-    padding: 10px;
-    border-radius: 10px;
-    float: right;
-    color: black;
+  box-shadow: 0 2px 2px rgb(111, 111, 111);
+  transition: background-color .4s;
+  font-family: 'Andale Mono', monospace;
+  border: 1px solid black;
+  padding: 10px;
+  border-radius: 10px;
+  float: right;
+  color: black;
 }
 .task-item__delete:hover{
-     background-color:#dddddd;
+  background-color:#dddddd;
   transform : translate(0, 1px);
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .task-item {

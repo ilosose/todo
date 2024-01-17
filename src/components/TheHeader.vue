@@ -76,7 +76,7 @@ header {
 
   .exit:hover {
     background-color:#dddddd;
-  transform : translate(0, 1px);
+    transform : translate(0, 1px);
     cursor: pointer;
   }
   .exit{

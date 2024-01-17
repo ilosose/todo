@@ -3,10 +3,6 @@ export default {
   state: {
     isAuthenticated: false,
   },
-
-  mutations: {},
-
-  actions: {},
   
   getters: {
     isAuthenticated(state) {

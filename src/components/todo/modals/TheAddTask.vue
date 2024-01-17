@@ -82,7 +82,7 @@
     gap: 15px;
   }
   ::placeholder{
-padding-top: 5px;
+    padding-top: 5px;
   }
 
   input[type="text"],
@@ -110,15 +110,6 @@ padding-top: 5px;
   
   button[type="submit"]:hover {
     background-color: rgb(25, 116, 78);
-  }
-  
-  .close-modal {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    text-decoration: none;
-    color: rgb(0, 0, 0);
-    font-size: 24px;
   }
 
   .cancel-button {

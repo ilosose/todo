@@ -39,22 +39,22 @@ export default {
       return axios
         .get(`boards/${boardId}/tasks`)
         .then((res) => {
-          const columnsData = res.data
-          commit('setColumns', columnsData)
+          const columnsData = res.data;
+          commit('setColumns', columnsData);
         })
         .catch((err) => {
-          router.push({ name: 'boards' })
+          router.push({ name: 'boards' });
         })
     },
     getUsers({ commit }, boardId){
       return axios
         .get(`boards/${boardId}/users`)
         .then((response)=>{
-          const usersData = response.data
-          commit('setUsers', usersData)
+          const usersData = response.data;
+          commit('setUsers', usersData);
         })
         .catch((err)=>{
-          alert(err.response.data.cause)
+          alert(err.response.data.cause);
         })
     },
   },
@@ -67,7 +67,7 @@ export default {
       return state.columns;
     },
     users(state) {
-      return state.users
+      return state.users;
     },
     isOpenEditTaskModal(state) {
       return state.isOpenEditTaskModal;

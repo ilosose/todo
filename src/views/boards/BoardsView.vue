@@ -4,7 +4,7 @@
       v-if="isEditModal"
       @edit-board="editBoard"
       @close-edit-modal="closeEditModal"
-     />
+    />
     <column-board @edit-board="openEditModal"/>
 </template>
 <script>

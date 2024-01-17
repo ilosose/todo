@@ -5,7 +5,7 @@
       <input type="text"  required v-model="name" placeholder="Поиск Пользователя"/>
       <div class="buttons">
         <button type="button" class="cancel-button" @click="$emit('close-modal')">Отмена</button> 
-        <button type="submit">Создать</button>
+        <button type="submit">Найти</button>
       </div>
       <div class="content" v-if="users">
       <div v-for="user in users.items" :key="user.id">
@@ -37,8 +37,6 @@ watch: {
       await axios
         .get(`users/match?email=${this.name}`)
         .then((res) => {
-          console.log(this.name)
-          console.log(res.data)
           this.users = res.data
         })
         .catch((err) => {
@@ -58,8 +56,6 @@ methods: {
       await axios
         .get(`users/match?email=${this.name}`)
         .then((res) => {
-          console.log(this.name)
-          console.log(res.data)
           this.users = res.data
         })
         .catch((err) => {
@@ -75,6 +71,9 @@ methods: {
     }
     await axios
       .post(`boards/${this.boardId}/users`, {formData})
+      .then((res) => {
+        alert('Пользователь добавлен!')
+      })
       .catch((err) => {
         console.log(err.response.data.cause)
       })
