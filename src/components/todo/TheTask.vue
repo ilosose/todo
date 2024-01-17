@@ -90,30 +90,54 @@ export default {
 </script>
 
 <style scoped>
+.task-item__edit{
+  background-color: #eeeeee;
+    box-shadow: 0 2px 2px rgb(111, 111, 111);
+    transition: background-color .4s;
+    font-family: 'Andale Mono', monospace;
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 10px;
+    float: right;
+    margin-left: 5px;
+    color: black;
+}
+.task-item__edit:hover{
+  background-color:#dddddd;
+  transform : translate(0, 1px);
+    cursor: pointer;
+}
 .task-item__delete {
-  color: white;
-  background: #e42c5f;
-  border-radius: 5px;
-  border: none;
-  float: right;
-  padding: 8px;
+  background-color: #eeeeee;
+    box-shadow: 0 2px 2px rgb(111, 111, 111);
+    transition: background-color .4s;
+    font-family: 'Andale Mono', monospace;
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 10px;
+    float: right;
+    color: black;
 }
 .task-item__delete:hover{
-  background-color: #c21949;
+     background-color:#dddddd;
+  transform : translate(0, 1px);
+    cursor: pointer;
 }
 
 .task-item {
-  background-color: #f4f2ff;
+  background-color: ghostwhite;
   border-radius: 10px;
   padding: 10px 20px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 5px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 100%;
 }
 
 .task-item__info {
+  background-color: #dddddd;
+  border-radius: 5px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -132,7 +156,7 @@ export default {
   background-color: #d9d9d9;
   border-radius: 0px 10px 10px 24px;
   display: inline-block;
-  margin-right: 5px;
+  margin-left: 7px;
 }
 
 .complexity__dot--medium {
@@ -164,8 +188,11 @@ export default {
 }
 
 .task-item__client {
-  font-size: 14px;
-  color: #4f46e5;
+  font-size: 16px;
+  font-weight: 700;
+  margin-right: 10px;
+  text-decoration: line-through;
+  color: black;
   text-align: center;
 }
 </style>

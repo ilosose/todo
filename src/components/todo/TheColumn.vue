@@ -156,11 +156,12 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  gap: 24px;
+  gap: 12px;
   flex: 1 0 0;
   padding: 14px;
   border-radius: 12px;
-  background-color: #d5ccff;
+  background-color: gainsboro;
+  box-shadow: 0 5px 5px rgb(111, 111, 111);
 }
 .kanban__header {
   display: flex;
@@ -176,10 +177,13 @@ export default {
 }
 
 .kanban__title {
-  color: #2b1887;
-  font-size: 16px;
+  color: black;
+  font-size: 25px;
   font-style: normal;
-  font-weight: 600;
+  padding-left: 10px;
+  font-family: 'Andale Mono', monospace;
+  text-decoration: underline;
+  font-weight: 900;
   line-height: normal;
 }
 .kanban__icon--add:hover {
